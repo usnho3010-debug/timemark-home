@@ -9,11 +9,27 @@
 
 <style>
 
-{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
+/* ===== COLOR SYSTEM (đồng bộ buy.html) ===== */
+:root{
+--bg-main:#0b0b0b;
+--bg-card:#111111;
+--bg-hover:#1a1a1a;
+--border:#222222;
+--text:#ffffff;
+--text-sub:#aaaaaa;
+--primary:#ffd700;
+}
+
+{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Inter",sans-serif;
+}
 
 body{
-background:#0b0b0b; / nền giống buy.html /
-color:#fff;
+background:var(--bg-main);
+color:var(--text);
 }
 
 / ===== NAVBAR ===== /
@@ -25,15 +41,15 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:18px 40px;
-background:#111;
-border-bottom:1px solid #222;
+background:var(--bg-card);
+border-bottom:1px solid var(--border);
 z-index:999;
 }
 
 .logo{
 font-size:22px;
 font-weight:700;
-color:#ffd700;
+color:var(--primary);
 }
 
 .menu{
@@ -43,13 +59,13 @@ gap:24px;
 
 .menu a{
 text-decoration:none;
-color:#ccc;
+color:var(--text-sub);
 font-weight:500;
 transition:0.25s;
 }
 
 .menu a:hover{
-color:#ffd700;
+color:var(--primary);
 }
 
 / ===== HERO ===== /
@@ -69,11 +85,11 @@ margin-bottom:14px;
 }
 
 .hero span{
-color:#ffd700;
+color:var(--primary);
 }
 
 .hero p{
-color:#aaa;
+color:var(--text-sub);
 margin-bottom:30px;
 max-width:520px;
 }
@@ -95,7 +111,7 @@ transition:0.25s;
 }
 
 .btn-primary{
-background:#ffd700;
+background:var(--primary);
 color:#000;
 }
 
@@ -104,13 +120,13 @@ transform:translateY(-3px);
 }
 
 .btn-dark{
-background:#1a1a1a;
-border:1px solid #2a2a2a;
-color:#fff;
+background:var(--bg-card);
+border:1px solid var(--border);
+color:var(--text);
 }
 
 .btn-dark:hover{
-background:#222;
+background:var(--bg-hover);
 transform:translateY(-3px);
 }
 
@@ -133,32 +149,32 @@ gap:22px;
 
 .feature-card{
 width:260px;
-background:#111;
+background:var(--bg-card);
 padding:26px;
 border-radius:14px;
-border:1px solid #222;
+border:1px solid var(--border);
 transition:0.25s;
 }
 
 .feature-card:hover{
-border-color:#ffd700;
+border-color:var(--primary);
 transform:translateY(-5px);
 }
 
 .feature-card h3{
-color:#ffd700;
+color:var(--primary);
 margin-bottom:10px;
 }
 
 .feature-card p{
-color:#aaa;
+color:var(--text-sub);
 }
 
 / ===== FOOTER ===== /
 .footer{
 padding:40px 20px;
 text-align:center;
-border-top:1px solid #222;
+border-top:1px solid var(--border);
 color:#777;
 }
 
@@ -222,7 +238,7 @@ color:#777;
 
 <!-- FOOTER -->
 <div class="footer">
-© 2026 Timemark.io.vn
+© 2026 Timemark.io.vn — All Rights Reserved
 </div>
 
 </body>

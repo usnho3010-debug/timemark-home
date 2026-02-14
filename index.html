@@ -1,31 +1,312 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Timemark</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Timemark LEGEND MODE</title>
 
-  <!-- Redirect ngay lập tức -->
-  <meta http-equiv="refresh" content="0; url=https://app.timemark.io.vn">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <script>
-    // Redirect nhanh hơn trên mọi trình duyệt
-    window.location.replace("https://app.timemark.io.vn");
-  </script>
+<style>
 
-  <style>
-    body{
-      font-family:Arial;
-      background:#0b1d3a;
-      color:#fff;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-  </style>
+{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
+body{background:#030303;color:white;overflow-x:hidden;}
+
+/ ===== BACKGROUND GLOW ===== /
+body::before{
+content:"";
+position:fixed;
+top:-300px;
+left:-300px;
+width:700px;
+height:700px;
+background:radial-gradient(circle,#ffd70022,transparent 70%);
+filter:blur(120px);
+animation:moveGlow 14s linear infinite;
+z-index:-1;
+}
+
+@keyframes moveGlow{
+0%{transform:translate(0,0);}
+50%{transform:translate(250px,120px);}
+100%{transform:translate(0,0);}
+}
+
+/ ===== NAVBAR ===== /
+.navbar{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 50px;
+transition:0.3s;
+z-index:999;
+}
+
+.navbar.scrolled{
+background:#080808;
+border-bottom:1px solid #222;
+}
+
+.logo{
+font-size:22px;
+font-weight:700;
+color:#ffd700;
+text-shadow:0 0 12px rgba(255,215,0,0.6);
+}
+
+.menu a{
+margin-left:22px;
+text-decoration:none;
+color:#ddd;
+font-weight:500;
+transition:0.25s;
+}
+.menu a:hover{color:#ffd700;}
+
+.menu-toggle{display:none;font-size:24px;cursor:pointer;}
+
+/ ===== HERO ===== /
+.hero{
+min-height:90vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:120px 20px 60px;
+}
+
+.hero h1{
+font-size:54px;
+margin-bottom:15px;
+}
+
+.hero span{
+color:#ffd700;
+text-shadow:0 0 20px rgba(255,215,0,0.9);
+}
+
+.hero p{
+color:#aaa;
+margin-bottom:35px;
+font-size:18px;
+}
+
+/ BUTTONS /
+.buttons{
+display:flex;
+flex-wrap:wrap;
+gap:16px;
+justify-content:center;
+}
+
+.btn{
+padding:16px 30px;
+border-radius:14px;
+font-weight:600;
+text-decoration:none;
+transition:0.25s;
+}
+
+.btn-primary{
+background:#ffd700;
+color:black;
+box-shadow:0 0 30px rgba(255,215,0,0.6);
+}
+.btn-primary:hover{
+transform:translateY(-4px);
+box-shadow:0 0 45px rgba(255,215,0,1);
+}
+
+.btn-dark{
+background:#101010;
+border:1px solid #2a2a2a;
+color:#fff;
+}
+.btn-dark:hover{background:#1a1a1a;transform:translateY(-4px);}
+
+/ ===== DASHBOARD PREVIEW ===== /
+.preview{
+padding:80px 20px;
+display:flex;
+justify-content:center;
+}
+
+.dashboard{
+width:900px;
+max-width:95%;
+background:rgba(20,20,20,0.6);
+backdrop-filter:blur(15px);
+border:1px solid #2a2a2a;
+border-radius:20px;
+box-shadow:0 0 40px rgba(255,215,0,0.15);
+overflow:hidden;
+}
+
+.dashboard-header{
+background:#0f0f0f;
+padding:15px 20px;
+border-bottom:1px solid #222;
+color:#ffd700;
+font-weight:600;
+}
+
+.dashboard-body{
+padding:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.widget{
+background:#0b0b0b;
+padding:20px;
+border-radius:14px;
+border:1px solid #1f1f1f;
+transition:0.3s;
+}
+
+.widget:hover{
+border-color:#ffd700;
+box-shadow:0 0 20px rgba(255,215,0,0.25);
+}
+
+.widget h3{
+color:#ffd700;
+margin-bottom:8px;
+}
+
+.widget p{
+color:#aaa;
+}
+
+/ ===== FEATURES ===== /
+.section{
+padding:100px 30px;
+text-align:center;
+}
+
+.card-wrap{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:25px;
+margin-top:40px;
+}
+
+.card{
+width:260px;
+padding:28px;
+border-radius:18px;
+background:#0b0b0b;
+border:1px solid #1f1f1f;
+}
+
+.card h3{color:#ffd700;margin-bottom:10px;}
+.card p{color:#aaa;}
+
+.footer{
+padding:30px;
+text-align:center;
+border-top:1px solid #222;
+color:#666;
+}
+
+/ MOBILE */
+@media(max-width:768px){
+.menu-toggle{display:block;}
+.menu{display:none;}
+.hero h1{font-size:36px;}
+.navbar{padding:15px 20px;}
+}
+
+</style>
 </head>
 
 <body>
-  Đang chuyển đến Timemark...
+
+<div class="navbar" id="nav">
+<div class="logo">Timemark</div>
+
+<div class="menu">
+<a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
+<a href="https://app.timemark.io.vn">Tải App</a>
+<a href="https://bom.so/timemarkvn">Hướng dẫn</a>
+</div>
+
+<div class="menu-toggle">☰</div>
+</div>
+
+<section class="hero">
+<h1>Hệ thống <span>Timemark</span></h1>
+<p>Landing LEGEND MODE – Có dashboard preview như SaaS thật</p>
+
+<div class="buttons">
+<a class="btn btn-primary" href="https://app.timemark.io.vn/buy.html">Mua Key</a>
+<a class="btn btn-dark" href="https://app.timemark.io.vn">Tải App</a>
+</div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="preview">
+<div class="dashboard">
+
+<div class="dashboard-header">
+Timemark Dashboard Preview
+</div>
+
+<div class="dashboard-body">
+
+<div class="widget">
+<h3>Key Status</h3>
+<p>Active</p>
+</div>
+
+<div class="widget">
+<h3>Thiết bị</h3>
+<p>1 / 2 Devices</p>
+</div>
+
+<div class="widget">
+<h3>Ngày hết hạn</h3>
+<p>07 ngày</p>
+</div>
+
+<div class="widget">
+<h3>Server Time</h3>
+<p>Live Sync</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Tại sao nên chọn Timemark?</h2>
+
+<div class="card-wrap">
+
+<div class="card"><h3>Tự động hoàn toàn</h3><p>Tạo key và gửi mail ngay.</p></div>
+<div class="card"><h3>Bảo mật cao</h3><p>Xác thực trực tiếp từ server.</p></div>
+<div class="card"><h3>Thiết kế cao cấp</h3><p>Landing chuẩn SaaS quốc tế.</p></div>
+
+</div>
+</section>
+
+<div class="footer">
+© 2026 Timemark.io.vn - LEGEND MODE
+</div>
+
+<script>
+window.addEventListener("scroll",()=>{
+const nav=document.getElementById("nav");
+if(window.scrollY>50){nav.classList.add("scrolled");}
+else{nav.classList.remove("scrolled");}
+});
+</script>
+
 </body>
 </html>

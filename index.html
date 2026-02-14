@@ -3,34 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Timemark LEGEND MODE</title>
+<title>Timemark Landing</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 {margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
-body{background:#030303;color:white;overflow-x:hidden;}
-
-/ ===== BACKGROUND GLOW ===== /
-body::before{
-content:"";
-position:fixed;
-top:-300px;
-left:-300px;
-width:700px;
-height:700px;
-background:radial-gradient(circle,#ffd70022,transparent 70%);
-filter:blur(120px);
-animation:moveGlow 14s linear infinite;
-z-index:-1;
-}
-
-@keyframes moveGlow{
-0%{transform:translate(0,0);}
-50%{transform:translate(250px,120px);}
-100%{transform:translate(0,0);}
-}
+body{background:#050505;color:#fff;overflow-x:hidden;}
 
 / ===== NAVBAR ===== /
 .navbar{
@@ -40,33 +20,25 @@ width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 50px;
-transition:0.3s;
+padding:18px 40px;
+background:rgba(10,10,10,0.7);
+backdrop-filter:blur(12px);
+border-bottom:1px solid #222;
 z-index:999;
 }
 
-.navbar.scrolled{
-background:#080808;
-border-bottom:1px solid #222;
-}
+.logo{font-size:22px;font-weight:700;color:#ffd700;}
 
-.logo{
-font-size:22px;
-font-weight:700;
-color:#ffd700;
-text-shadow:0 0 12px rgba(255,215,0,0.6);
-}
+.menu{display:flex;gap:22px;}
 
 .menu a{
-margin-left:22px;
 text-decoration:none;
-color:#ddd;
+color:#ccc;
 font-weight:500;
 transition:0.25s;
 }
-.menu a:hover{color:#ffd700;}
 
-.menu-toggle{display:none;font-size:24px;cursor:pointer;}
+.menu a:hover{color:#ffd700;}
 
 / ===== HERO ===== /
 .hero{
@@ -79,54 +51,50 @@ text-align:center;
 padding:120px 20px 60px;
 }
 
-.hero h1{
-font-size:54px;
-margin-bottom:15px;
-}
+.hero h1{font-size:48px;margin-bottom:12px;}
+.hero span{color:#ffd700;text-shadow:0 0 18px rgba(255,215,0,0.8);}
+.hero p{color:#aaa;margin-bottom:30px;max-width:520px;}
 
-.hero span{
-color:#ffd700;
-text-shadow:0 0 20px rgba(255,215,0,0.9);
-}
-
-.hero p{
-color:#aaa;
-margin-bottom:35px;
-font-size:18px;
-}
-
-/ BUTTONS /
+/ ===== BUTTONS ===== /
 .buttons{
 display:flex;
+gap:14px;
 flex-wrap:wrap;
-gap:16px;
 justify-content:center;
 }
 
 .btn{
-padding:16px 30px;
-border-radius:14px;
+padding:14px 26px;
+border-radius:999px;
 font-weight:600;
 text-decoration:none;
 transition:0.25s;
+display:inline-flex;
+align-items:center;
+justify-content:center;
 }
 
 .btn-primary{
 background:#ffd700;
-color:black;
-box-shadow:0 0 30px rgba(255,215,0,0.6);
+color:#000;
+box-shadow:0 8px 20px rgba(255,215,0,0.25);
 }
+
 .btn-primary:hover{
-transform:translateY(-4px);
-box-shadow:0 0 45px rgba(255,215,0,1);
+transform:translateY(-3px);
+box-shadow:0 12px 28px rgba(255,215,0,0.5);
 }
 
 .btn-dark{
-background:#101010;
+background:#111;
 border:1px solid #2a2a2a;
 color:#fff;
 }
-.btn-dark:hover{background:#1a1a1a;transform:translateY(-4px);}
+
+.btn-dark:hover{
+background:#1a1a1a;
+transform:translateY(-3px);
+}
 
 / ===== DASHBOARD PREVIEW ===== /
 .preview{
@@ -138,18 +106,16 @@ justify-content:center;
 .dashboard{
 width:900px;
 max-width:95%;
-background:rgba(20,20,20,0.6);
-backdrop-filter:blur(15px);
-border:1px solid #2a2a2a;
+background:#0b0b0b;
+border:1px solid #1f1f1f;
 border-radius:20px;
-box-shadow:0 0 40px rgba(255,215,0,0.15);
 overflow:hidden;
+box-shadow:0 0 35px rgba(255,215,0,0.15);
 }
 
 .dashboard-header{
 background:#0f0f0f;
-padding:15px 20px;
-border-bottom:1px solid #222;
+padding:16px 20px;
 color:#ffd700;
 font-weight:600;
 }
@@ -162,65 +128,71 @@ gap:20px;
 }
 
 .widget{
-background:#0b0b0b;
+background:#080808;
 padding:20px;
 border-radius:14px;
 border:1px solid #1f1f1f;
-transition:0.3s;
 }
 
-.widget:hover{
-border-color:#ffd700;
-box-shadow:0 0 20px rgba(255,215,0,0.25);
-}
+.widget h3{color:#ffd700;margin-bottom:8px;}
+.widget p{color:#aaa;}
 
-.widget h3{
-color:#ffd700;
-margin-bottom:8px;
-}
-
-.widget p{
-color:#aaa;
-}
-
-/ ===== FEATURES ===== /
-.section{
-padding:100px 30px;
+/ ===== FEATURES SECTION ===== /
+.features{
+padding:100px 20px;
 text-align:center;
 }
 
-.card-wrap{
+.features h2{
+font-size:30px;
+margin-bottom:40px;
+}
+
+.feature-grid{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:25px;
-margin-top:40px;
+gap:24px;
 }
 
-.card{
+.feature-card{
 width:260px;
-padding:28px;
-border-radius:18px;
 background:#0b0b0b;
+padding:26px;
+border-radius:18px;
 border:1px solid #1f1f1f;
+transition:0.25s;
 }
 
-.card h3{color:#ffd700;margin-bottom:10px;}
-.card p{color:#aaa;}
+.feature-card:hover{
+border-color:#ffd700;
+transform:translateY(-6px);
+box-shadow:0 0 25px rgba(255,215,0,0.2);
+}
 
+.feature-card h3{
+color:#ffd700;
+margin-bottom:10px;
+}
+
+.feature-card p{
+color:#aaa;
+}
+
+/ ===== FOOTER ===== /
 .footer{
-padding:30px;
+padding:40px 20px;
 text-align:center;
 border-top:1px solid #222;
-color:#666;
+color:#777;
+margin-top:60px;
 }
 
-/ MOBILE */
+/ ===== MOBILE ===== */
 @media(max-width:768px){
-.menu-toggle{display:block;}
-.menu{display:none;}
-.hero h1{font-size:36px;}
-.navbar{padding:15px 20px;}
+.hero h1{font-size:32px;}
+.navbar{padding:14px 18px;}
+.menu{gap:14px;font-size:14px;}
 }
 
 </style>
@@ -228,21 +200,21 @@ color:#666;
 
 <body>
 
-<div class="navbar" id="nav">
+<!-- NAVBAR -->
+<div class="navbar">
 <div class="logo">Timemark</div>
 
 <div class="menu">
-<a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
 <a href="https://app.timemark.io.vn">Tải App</a>
+<a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
 <a href="https://bom.so/timemarkvn">Hướng dẫn</a>
 </div>
-
-<div class="menu-toggle">☰</div>
 </div>
 
+<!-- HERO -->
 <section class="hero">
 <h1>Hệ thống <span>Timemark</span></h1>
-<p>Landing LEGEND MODE – Có dashboard preview như SaaS thật</p>
+<p>Công cụ quản lý thời gian và kích hoạt key tự động – thiết kế chuẩn SaaS chuyên nghiệp.</p>
 
 <div class="buttons">
 <a class="btn btn-primary" href="https://app.timemark.io.vn/buy.html">Mua Key</a>
@@ -259,54 +231,41 @@ Timemark Dashboard Preview
 </div>
 
 <div class="dashboard-body">
-
-<div class="widget">
-<h3>Key Status</h3>
-<p>Active</p>
+<div class="widget"><h3>Key Status</h3><p>Active</p></div>
+<div class="widget"><h3>Thiết bị</h3><p>1 / 2 Devices</p></div>
+<div class="widget"><h3>Ngày hết hạn</h3><p>07 ngày</p></div>
+<div class="widget"><h3>Server Time</h3><p>Live Sync</p></div>
 </div>
 
-<div class="widget">
-<h3>Thiết bị</h3>
-<p>1 / 2 Devices</p>
-</div>
-
-<div class="widget">
-<h3>Ngày hết hạn</h3>
-<p>07 ngày</p>
-</div>
-
-<div class="widget">
-<h3>Server Time</h3>
-<p>Live Sync</p>
-</div>
-
-</div>
 </div>
 </section>
 
-<section class="section">
+<!-- FEATURES -->
+<section class="features">
 <h2>Tại sao nên chọn Timemark?</h2>
 
-<div class="card-wrap">
+<div class="feature-grid">
+<div class="feature-card">
+<h3>Tự động hoàn toàn</h3>
+<p>Tạo key và gửi mail ngay sau thanh toán.</p>
+</div>
 
-<div class="card"><h3>Tự động hoàn toàn</h3><p>Tạo key và gửi mail ngay.</p></div>
-<div class="card"><h3>Bảo mật cao</h3><p>Xác thực trực tiếp từ server.</p></div>
-<div class="card"><h3>Thiết kế cao cấp</h3><p>Landing chuẩn SaaS quốc tế.</p></div>
+<div class="feature-card">
+<h3>Quản lý thiết bị</h3>
+<p>Kiểm soát số lượng thiết bị sử dụng theo từng key.</p>
+</div>
 
+<div class="feature-card">
+<h3>Bảo mật cao</h3>
+<p>Xác thực trực tiếp từ server Apps Script.</p>
+</div>
 </div>
 </section>
 
+<!-- FOOTER -->
 <div class="footer">
-© 2026 Timemark.io.vn - LEGEND MODE
+© 2026 Timemark.io.vn — All Rights Reserved
 </div>
-
-<script>
-window.addEventListener("scroll",()=>{
-const nav=document.getElementById("nav");
-if(window.scrollY>50){nav.classList.add("scrolled");}
-else{nav.classList.remove("scrolled");}
-});
-</script>
 
 </body>
 </html>

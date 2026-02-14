@@ -8,7 +8,6 @@
 
 <style>
 
-/* ===== RESET ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
@@ -48,52 +47,66 @@ font-weight:bold;
 opacity:.9;
 }
 
-/* ICON MENU */
 .menu-toggle{
 display:none;
 font-size:26px;
 cursor:pointer;
 }
 
-/* ===== MOBILE DRAWER ===== */
+/* ===== OVERLAY ===== */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+backdrop-filter:blur(3px);
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:998;
+}
+
+.overlay.show{
+opacity:1;
+pointer-events:auto;
+}
+
+/* ===== MOBILE DRAWER NEW DESIGN ===== */
 .drawer{
 position:fixed;
 top:0;
-right:-260px;
+right:-300px;
 width:260px;
 height:100%;
-background:rgba(20,20,40,0.95);
-backdrop-filter:blur(14px);
-padding:30px 20px;
+background:rgba(20,20,50,0.85);
+backdrop-filter:blur(18px);
+padding:80px 18px;
 display:flex;
 flex-direction:column;
-gap:18px;
+gap:14px;
 transition:.35s;
-z-index:1000;
+z-index:999;
 }
 
 .drawer.show{
 right:0;
 }
 
+/* MENU CARD STYLE */
 .drawer a{
+display:block;
+padding:14px;
+border-radius:14px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.15);
 color:#fff;
 text-decoration:none;
 font-weight:bold;
-font-size:16px;
+transition:.25s;
 }
 
-/* OVERLAY */
-.overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.4);
-display:none;
-z-index:998;
-}
-
-.overlay.show{
-display:block;
+.drawer a:hover{
+background:rgba(255,255,255,0.2);
+transform:translateX(4px);
 }
 
 /* ===== HERO ===== */
@@ -130,11 +143,8 @@ font-weight:bold;
 text-decoration:none;
 display:inline-block;
 transition:.25s;
-position:relative;
-overflow:hidden;
 }
 
-/* MUA KEY */
 .btn-primary{
 background:linear-gradient(135deg,#ff6a00,#ff9800);
 color:#fff;
@@ -146,7 +156,6 @@ transform:translateY(-4px) scale(1.04);
 box-shadow:0 12px 30px rgba(255,120,0,.6);
 }
 
-/* BẮT ĐẦU NGAY */
 .btn-dark{
 background:rgba(255,255,255,0.12);
 border:1px solid rgba(255,255,255,0.3);
@@ -221,9 +230,8 @@ font-size:28px;
 
 <div class="drawer" id="drawer">
 <a href="https://app.timemark.io.vn">⚡ Bắt đầu ngay</a>
-<a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
-<a href="guide.html">Hướng dẫn</a>
-
+<a href="https://app.timemark.io.vn/buy.html">🛒 Mua Key</a>
+<a href="guide.html">📘 Hướng dẫn</a>
 </div>
 
 <div class="navbar">
@@ -233,7 +241,6 @@ font-size:28px;
 <a href="https://app.timemark.io.vn">Bắt đầu ngay</a>
 <a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
 <a href="guide.html">Hướng dẫn</a>
-
 </div>
 
 <div class="menu-toggle" id="menuBtn" onclick="toggleMenu()">☰</div>
@@ -271,7 +278,6 @@ font-size:28px;
 <div class="footer">© 2026 Timemark.io.vn</div>
 
 <script>
-
 function toggleMenu(){
 const drawer=document.getElementById("drawer");
 const overlay=document.getElementById("overlay");
@@ -279,10 +285,8 @@ const btn=document.getElementById("menuBtn");
 
 drawer.classList.toggle("show");
 overlay.classList.toggle("show");
-
 btn.textContent = drawer.classList.contains("show") ? "✕" : "☰";
 }
-
 </script>
 
 </body>

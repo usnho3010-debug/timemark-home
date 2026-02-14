@@ -9,17 +9,6 @@
 
 <style>
 
-/* ===== COLOR SYSTEM (đồng bộ buy.html) ===== */
-:root{
---bg-main:#0b0b0b;
---bg-card:#111111;
---bg-hover:#1a1a1a;
---border:#222222;
---text:#ffffff;
---text-sub:#aaaaaa;
---primary:#ffd700;
-}
-
 {
 margin:0;
 padding:0;
@@ -27,9 +16,11 @@ box-sizing:border-box;
 font-family:"Inter",sans-serif;
 }
 
+/ ===== BACKGROUND GIỐNG BUY.HTML ===== /
 body{
-background:var(--bg-main);
-color:var(--text);
+color:#fff;
+background:linear-gradient(135deg,#1d0f6b,#4b1fa3,#2a0c7a);
+min-height:100vh;
 }
 
 / ===== NAVBAR ===== /
@@ -40,32 +31,31 @@ width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 40px;
-background:var(--bg-card);
-border-bottom:1px solid var(--border);
+padding:18px 24px;
+background:rgba(20,10,60,0.6);
+backdrop-filter:blur(10px);
 z-index:999;
 }
 
 .logo{
 font-size:22px;
 font-weight:700;
-color:var(--primary);
+letter-spacing:1px;
 }
 
 .menu{
 display:flex;
-gap:24px;
+gap:18px;
 }
 
 .menu a{
 text-decoration:none;
-color:var(--text-sub);
+color:#ddd;
 font-weight:500;
-transition:0.25s;
 }
 
 .menu a:hover{
-color:var(--primary);
+color:#fff;
 }
 
 / ===== HERO ===== /
@@ -80,17 +70,14 @@ padding:120px 20px 60px;
 }
 
 .hero h1{
-font-size:46px;
-margin-bottom:14px;
-}
-
-.hero span{
-color:var(--primary);
+font-size:42px;
+margin-bottom:12px;
+letter-spacing:1px;
 }
 
 .hero p{
-color:var(--text-sub);
-margin-bottom:30px;
+color:#e0e0e0;
+margin-bottom:28px;
 max-width:520px;
 }
 
@@ -104,85 +91,88 @@ justify-content:center;
 
 .btn{
 padding:14px 28px;
-border-radius:12px;
+border-radius:14px;
 font-weight:600;
 text-decoration:none;
 transition:0.25s;
 }
 
+/ NÚT CAM GIỐNG BUY /
 .btn-primary{
-background:var(--primary);
-color:#000;
+background:linear-gradient(90deg,#ff7a00,#ff9900);
+color:#fff;
+box-shadow:0 6px 18px rgba(255,120,0,0.4);
 }
 
 .btn-primary:hover{
 transform:translateY(-3px);
+box-shadow:0 10px 24px rgba(255,120,0,0.6);
 }
 
+/ NÚT PHỤ /
 .btn-dark{
-background:var(--bg-card);
-border:1px solid var(--border);
-color:var(--text);
+background:rgba(255,255,255,0.1);
+border:1px solid rgba(255,255,255,0.2);
+color:#fff;
 }
 
 .btn-dark:hover{
-background:var(--bg-hover);
+background:rgba(255,255,255,0.2);
 transform:translateY(-3px);
 }
 
 / ===== FEATURES ===== /
 .features{
-padding:80px 20px;
+padding:60px 20px 80px;
 text-align:center;
 }
 
 .features h2{
-margin-bottom:40px;
+margin-bottom:36px;
 }
 
 .feature-grid{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:22px;
+gap:20px;
 }
 
 .feature-card{
 width:260px;
-background:var(--bg-card);
-padding:26px;
-border-radius:14px;
-border:1px solid var(--border);
+padding:24px;
+border-radius:18px;
+background:rgba(255,255,255,0.05);
+border:2px solid #28e0a7;
+backdrop-filter:blur(10px);
 transition:0.25s;
 }
 
 .feature-card:hover{
-border-color:var(--primary);
-transform:translateY(-5px);
+transform:translateY(-6px);
 }
 
 .feature-card h3{
-color:var(--primary);
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .feature-card p{
-color:var(--text-sub);
+color:#ddd;
+font-size:14px;
 }
 
 / ===== FOOTER ===== /
 .footer{
-padding:40px 20px;
 text-align:center;
-border-top:1px solid var(--border);
-color:#777;
+padding:30px;
+color:#ccc;
+border-top:1px solid rgba(255,255,255,0.1);
 }
 
-/ ===== MOBILE ===== */
+/ MOBILE */
 @media(max-width:768px){
-.hero h1{font-size:32px;}
-.navbar{padding:14px 18px;}
-.menu{gap:14px;font-size:14px;}
+.hero h1{font-size:30px;}
+.menu{font-size:14px;}
 }
 
 </style>
@@ -192,10 +182,10 @@ color:#777;
 
 <!-- NAVBAR -->
 <div class="navbar">
-<div class="logo">Timemark</div>
+<div class="logo">🚀 TIMEMARK</div>
 
 <div class="menu">
-<a href="https://app.timemark.io.vn">Tải App</a>
+<a href="https://app.timemark.io.vn">Bắt đầu ngay</a>
 <a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
 <a href="https://bom.so/timemarkvn">Hướng dẫn</a>
 </div>
@@ -203,12 +193,12 @@ color:#777;
 
 <!-- HERO -->
 <section class="hero">
-<h1>Hệ thống <span>Timemark</span></h1>
-<p>Công cụ quản lý thời gian và kích hoạt key tự động. Giao diện đơn giản, sử dụng nhanh chóng.</p>
+<h1>TIMEMARK PREMIUM</h1>
+<p>Công cụ quản lý thời gian và kích hoạt key tự động. Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.</p>
 
 <div class="buttons">
 <a class="btn btn-primary" href="https://app.timemark.io.vn/buy.html">Mua Key</a>
-<a class="btn btn-dark" href="https://app.timemark.io.vn">Tải App</a>
+<a class="btn btn-dark" href="https://app.timemark.io.vn">⚡ Bắt đầu ngay</a>
 </div>
 </section>
 
@@ -219,26 +209,25 @@ color:#777;
 <div class="feature-grid">
 
 <div class="feature-card">
-<h3>Tự động hoàn toàn</h3>
+<h3>⚡ Kích hoạt tự động</h3>
 <p>Thanh toán xong hệ thống gửi key ngay lập tức.</p>
 </div>
 
 <div class="feature-card">
-<h3>Bảo mật cao</h3>
+<h3>🔒 Bảo mật cao</h3>
 <p>Xác thực trực tiếp từ server Apps Script.</p>
 </div>
 
 <div class="feature-card">
-<h3>Dễ sử dụng</h3>
-<p>Thiết kế tối giản, phù hợp cho mọi người dùng.</p>
+<h3>🚀 Sử dụng nhanh</h3>
+<p>Không cần cài đặt, mở là dùng ngay.</p>
 </div>
 
 </div>
 </section>
 
-<!-- FOOTER -->
 <div class="footer">
-© 2026 Timemark.io.vn — All Rights Reserved
+© 2026 Timemark.io.vn
 </div>
 
 </body>

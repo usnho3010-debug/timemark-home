@@ -9,18 +9,14 @@
 <style>
 
 /* ===== RESET ===== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
-/* ===== BACKGROUND (ĐỒNG BỘ BUY.HTML) ===== */
 body{
 font-family:Arial, sans-serif;
 background:linear-gradient(135deg,#0b1d3a,#4a00e0,#8e2de2);
 color:#fff;
 min-height:100vh;
+overflow-x:hidden;
 }
 
 /* ===== NAVBAR ===== */
@@ -28,27 +24,76 @@ min-height:100vh;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 22px;
+padding:18px 20px;
 background:rgba(255,255,255,0.05);
 backdrop-filter:blur(14px);
+position:relative;
+z-index:999;
 }
 
 .logo{
 font-size:20px;
 font-weight:bold;
-letter-spacing:1px;
+}
+
+.menu{
+display:flex;
+gap:18px;
 }
 
 .menu a{
 color:#fff;
 text-decoration:none;
-margin-left:18px;
 font-weight:bold;
 opacity:.9;
 }
 
-.menu a:hover{
-opacity:1;
+/* ICON MENU */
+.menu-toggle{
+display:none;
+font-size:26px;
+cursor:pointer;
+}
+
+/* ===== MOBILE DRAWER ===== */
+.drawer{
+position:fixed;
+top:0;
+right:-260px;
+width:260px;
+height:100%;
+background:rgba(20,20,40,0.95);
+backdrop-filter:blur(14px);
+padding:30px 20px;
+display:flex;
+flex-direction:column;
+gap:18px;
+transition:.35s;
+z-index:1000;
+}
+
+.drawer.show{
+right:0;
+}
+
+.drawer a{
+color:#fff;
+text-decoration:none;
+font-weight:bold;
+font-size:16px;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+display:none;
+z-index:998;
+}
+
+.overlay.show{
+display:block;
 }
 
 /* ===== HERO ===== */
@@ -80,14 +125,16 @@ flex-wrap:wrap;
 
 .btn{
 padding:12px 26px;
-border-radius:10px;
+border-radius:12px;
 font-weight:bold;
 text-decoration:none;
 display:inline-block;
 transition:.25s;
+position:relative;
+overflow:hidden;
 }
 
-/* NÚT CAM GIỐNG MUA NGAY */
+/* MUA KEY */
 .btn-primary{
 background:linear-gradient(135deg,#ff6a00,#ff9800);
 color:#fff;
@@ -95,10 +142,11 @@ box-shadow:0 8px 18px rgba(0,0,0,.3);
 }
 
 .btn-primary:hover{
-transform:translateY(-3px);
+transform:translateY(-4px) scale(1.04);
+box-shadow:0 12px 30px rgba(255,120,0,.6);
 }
 
-/* NÚT GLASS */
+/* BẮT ĐẦU NGAY */
 .btn-dark{
 background:rgba(255,255,255,0.12);
 border:1px solid rgba(255,255,255,0.3);
@@ -106,11 +154,11 @@ color:#fff;
 }
 
 .btn-dark:hover{
-background:rgba(255,255,255,0.2);
-transform:translateY(-3px);
+transform:translateY(-4px);
+box-shadow:0 0 20px rgba(180,120,255,.7);
 }
 
-/* ===== FEATURE CARDS (STYLE BUY.HTML) ===== */
+/* ===== FEATURES ===== */
 .features{
 max-width:900px;
 margin:50px auto;
@@ -133,29 +181,34 @@ transition:.3s;
 }
 
 .card:hover{
-transform:translateY(-8px);
+transform:translateY(-10px) scale(1.03);
 }
 
 .basic{border:2px solid #00e676;}
 .pro{border:2px solid #00b0ff;}
 .premium{border:2px solid #ff00ff;}
 
-.card h3{
-margin-bottom:10px;
-font-size:18px;
-}
-
-.card p{
-opacity:.85;
-font-size:14px;
-}
-
-/* ===== FOOTER ===== */
 .footer{
 text-align:center;
 margin:40px 0;
 opacity:.7;
-font-size:14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+
+.menu{
+display:none;
+}
+
+.menu-toggle{
+display:block;
+}
+
+.hero h1{
+font-size:28px;
+}
+
 }
 
 </style>
@@ -164,7 +217,13 @@ font-size:14px;
 
 <body>
 
-<!-- NAVBAR -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<div class="drawer" id="drawer">
+<a href="https://app.timemark.io.vn">⚡ Bắt đầu ngay</a>
+<a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
+<a href="https://bom.so/timemarkvn">Hướng dẫn</a>
+</div>
 
 <div class="navbar">
 <div class="logo">🚀 TIMEMARK</div>
@@ -172,26 +231,22 @@ font-size:14px;
 <div class="menu">
 <a href="https://app.timemark.io.vn">Bắt đầu ngay</a>
 <a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
-<a href="https://bom.so/timemarkvn">Hướng dẫn</a>
-</div>
+<a href="guide.html">Hướng dẫn</a>
+
 </div>
 
-<!-- HERO -->
+<div class="menu-toggle" id="menuBtn" onclick="toggleMenu()">☰</div>
+</div>
 
 <div class="hero">
 <h1>🚀 TIMEMARK PREMIUM</h1>
-<p>
-Công cụ quản lý thời gian và kích hoạt key tự động.
-Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.
-</p>
+<p>Công cụ quản lý thời gian và kích hoạt key tự động. Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.</p>
 
 <div class="buttons">
 <a class="btn btn-primary" href="https://app.timemark.io.vn/buy.html">MUA KEY</a>
 <a class="btn btn-dark" href="https://app.timemark.io.vn">⚡ BẮT ĐẦU NGAY</a>
 </div>
 </div>
-
-<!-- FEATURES -->
 
 <div class="features">
 
@@ -212,9 +267,22 @@ Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.
 
 </div>
 
-<div class="footer">
-© 2026 Timemark.io.vn — Premium System
-</div>
+<div class="footer">© 2026 Timemark.io.vn</div>
+
+<script>
+
+function toggleMenu(){
+const drawer=document.getElementById("drawer");
+const overlay=document.getElementById("overlay");
+const btn=document.getElementById("menuBtn");
+
+drawer.classList.toggle("show");
+overlay.classList.toggle("show");
+
+btn.textContent = drawer.classList.contains("show") ? "✕" : "☰";
+}
+
+</script>
 
 </body>
 </html>

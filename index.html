@@ -221,6 +221,33 @@ font-size:28px;
 }
 
 }
+/* ===== ZALO FLOAT BUTTON ===== */
+.zalo-float{
+position:fixed;
+bottom:20px;
+right:20px;
+background:linear-gradient(135deg,#0068ff,#00a2ff);
+color:#fff;
+padding:14px 18px;
+border-radius:50px;
+font-weight:bold;
+text-decoration:none;
+box-shadow:0 10px 25px rgba(0,100,255,.5);
+z-index:9999;
+animation:zaloPulse 2.2s infinite;
+transition:.25s;
+}
+
+.zalo-float:hover{
+transform:translateY(-4px) scale(1.05);
+box-shadow:0 14px 35px rgba(0,120,255,.8);
+}
+
+@keyframes zaloPulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.06);}
+100%{transform:scale(1);}
+}
 
 </style>
 
@@ -290,6 +317,10 @@ overlay.classList.toggle("show");
 btn.textContent = drawer.classList.contains("show") ? "✕" : "☰";
 }
 </script>
+<!-- ZALO FLOAT BUTTON -->
+<a href="https://zalo.me/0837685798" class="zalo-float" target="_blank">
+💬 Zalo
+</a>
 
 </body>
 </html>

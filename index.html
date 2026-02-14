@@ -3,14 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Timemark Landing</title>
+<title>Timemark</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 {margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
-body{background:#050505;color:#fff;overflow-x:hidden;}
+
+body{
+background:#0b0b0b; / nền giống buy.html /
+color:#fff;
+}
 
 / ===== NAVBAR ===== /
 .navbar{
@@ -21,15 +25,21 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:18px 40px;
-background:rgba(10,10,10,0.7);
-backdrop-filter:blur(12px);
+background:#111;
 border-bottom:1px solid #222;
 z-index:999;
 }
 
-.logo{font-size:22px;font-weight:700;color:#ffd700;}
+.logo{
+font-size:22px;
+font-weight:700;
+color:#ffd700;
+}
 
-.menu{display:flex;gap:22px;}
+.menu{
+display:flex;
+gap:24px;
+}
 
 .menu a{
 text-decoration:none;
@@ -38,7 +48,9 @@ font-weight:500;
 transition:0.25s;
 }
 
-.menu a:hover{color:#ffd700;}
+.menu a:hover{
+color:#ffd700;
+}
 
 / ===== HERO ===== /
 .hero{
@@ -51,9 +63,20 @@ text-align:center;
 padding:120px 20px 60px;
 }
 
-.hero h1{font-size:48px;margin-bottom:12px;}
-.hero span{color:#ffd700;text-shadow:0 0 18px rgba(255,215,0,0.8);}
-.hero p{color:#aaa;margin-bottom:30px;max-width:520px;}
+.hero h1{
+font-size:46px;
+margin-bottom:14px;
+}
+
+.hero span{
+color:#ffd700;
+}
+
+.hero p{
+color:#aaa;
+margin-bottom:30px;
+max-width:520px;
+}
 
 / ===== BUTTONS ===== /
 .buttons{
@@ -64,87 +87,40 @@ justify-content:center;
 }
 
 .btn{
-padding:14px 26px;
-border-radius:999px;
+padding:14px 28px;
+border-radius:12px;
 font-weight:600;
 text-decoration:none;
 transition:0.25s;
-display:inline-flex;
-align-items:center;
-justify-content:center;
 }
 
 .btn-primary{
 background:#ffd700;
 color:#000;
-box-shadow:0 8px 20px rgba(255,215,0,0.25);
 }
 
 .btn-primary:hover{
 transform:translateY(-3px);
-box-shadow:0 12px 28px rgba(255,215,0,0.5);
 }
 
 .btn-dark{
-background:#111;
+background:#1a1a1a;
 border:1px solid #2a2a2a;
 color:#fff;
 }
 
 .btn-dark:hover{
-background:#1a1a1a;
+background:#222;
 transform:translateY(-3px);
 }
 
-/ ===== DASHBOARD PREVIEW ===== /
-.preview{
-padding:80px 20px;
-display:flex;
-justify-content:center;
-}
-
-.dashboard{
-width:900px;
-max-width:95%;
-background:#0b0b0b;
-border:1px solid #1f1f1f;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 0 35px rgba(255,215,0,0.15);
-}
-
-.dashboard-header{
-background:#0f0f0f;
-padding:16px 20px;
-color:#ffd700;
-font-weight:600;
-}
-
-.dashboard-body{
-padding:30px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
-
-.widget{
-background:#080808;
-padding:20px;
-border-radius:14px;
-border:1px solid #1f1f1f;
-}
-
-.widget h3{color:#ffd700;margin-bottom:8px;}
-.widget p{color:#aaa;}
-
-/ ===== FEATURES SECTION ===== /
+/ ===== FEATURES ===== /
 .features{
-padding:100px 20px;
+padding:80px 20px;
 text-align:center;
 }
 
 .features h2{
-font-size:30px;
 margin-bottom:40px;
 }
 
@@ -152,22 +128,21 @@ margin-bottom:40px;
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:24px;
+gap:22px;
 }
 
 .feature-card{
 width:260px;
-background:#0b0b0b;
+background:#111;
 padding:26px;
-border-radius:18px;
-border:1px solid #1f1f1f;
+border-radius:14px;
+border:1px solid #222;
 transition:0.25s;
 }
 
 .feature-card:hover{
 border-color:#ffd700;
-transform:translateY(-6px);
-box-shadow:0 0 25px rgba(255,215,0,0.2);
+transform:translateY(-5px);
 }
 
 .feature-card h3{
@@ -185,7 +160,6 @@ padding:40px 20px;
 text-align:center;
 border-top:1px solid #222;
 color:#777;
-margin-top:60px;
 }
 
 / ===== MOBILE ===== */
@@ -214,29 +188,11 @@ margin-top:60px;
 <!-- HERO -->
 <section class="hero">
 <h1>Hệ thống <span>Timemark</span></h1>
-<p>Công cụ quản lý thời gian và kích hoạt key tự động – thiết kế chuẩn SaaS chuyên nghiệp.</p>
+<p>Công cụ quản lý thời gian và kích hoạt key tự động. Giao diện đơn giản, sử dụng nhanh chóng.</p>
 
 <div class="buttons">
 <a class="btn btn-primary" href="https://app.timemark.io.vn/buy.html">Mua Key</a>
 <a class="btn btn-dark" href="https://app.timemark.io.vn">Tải App</a>
-</div>
-</section>
-
-<!-- DASHBOARD PREVIEW -->
-<section class="preview">
-<div class="dashboard">
-
-<div class="dashboard-header">
-Timemark Dashboard Preview
-</div>
-
-<div class="dashboard-body">
-<div class="widget"><h3>Key Status</h3><p>Active</p></div>
-<div class="widget"><h3>Thiết bị</h3><p>1 / 2 Devices</p></div>
-<div class="widget"><h3>Ngày hết hạn</h3><p>07 ngày</p></div>
-<div class="widget"><h3>Server Time</h3><p>Live Sync</p></div>
-</div>
-
 </div>
 </section>
 
@@ -245,26 +201,28 @@ Timemark Dashboard Preview
 <h2>Tại sao nên chọn Timemark?</h2>
 
 <div class="feature-grid">
-<div class="feature-card">
-<h3>Tự động hoàn toàn</h3>
-<p>Tạo key và gửi mail ngay sau thanh toán.</p>
-</div>
 
 <div class="feature-card">
-<h3>Quản lý thiết bị</h3>
-<p>Kiểm soát số lượng thiết bị sử dụng theo từng key.</p>
+<h3>Tự động hoàn toàn</h3>
+<p>Thanh toán xong hệ thống gửi key ngay lập tức.</p>
 </div>
 
 <div class="feature-card">
 <h3>Bảo mật cao</h3>
 <p>Xác thực trực tiếp từ server Apps Script.</p>
 </div>
+
+<div class="feature-card">
+<h3>Dễ sử dụng</h3>
+<p>Thiết kế tối giản, phù hợp cho mọi người dùng.</p>
+</div>
+
 </div>
 </section>
 
 <!-- FOOTER -->
 <div class="footer">
-© 2026 Timemark.io.vn — All Rights Reserved
+© 2026 Timemark.io.vn
 </div>
 
 </body>

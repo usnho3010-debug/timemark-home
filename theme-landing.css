@@ -140,12 +140,16 @@ justify-content:center;
 
 .drawer{
 position:fixed;
--webkit-overflow-scrolling:touch;
 top:0;
 left:-260px;
 width:260px;
 height:100%;
-background:#01040f;
+
+/* ⭐ FIX IOS SAFARI */
+background:rgba(1,4,15,0.98);
+-webkit-backdrop-filter:blur(18px);
+backdrop-filter:blur(18px);
+
 padding:80px 20px;
 display:flex;
 flex-direction:column;
@@ -153,7 +157,10 @@ gap:18px;
 transition:.35s;
 z-index:1001;
 border-right:1px solid var(--neon);
+
+transform:translateZ(0); /* ⭐ FIX RENDER LAYER */
 }
+
 
 .drawer.show{left:0;}
 
@@ -610,4 +617,14 @@ animation:blinkCursor .8s infinite;
 0%,100%{opacity:1}
 50%{opacity:0}
 }
+.drawer a{
+color:var(--energy);
+text-decoration:none;
+font-weight:600;
+}
+
+.drawer a:visited{
+color:var(--energy);
+}
+
 

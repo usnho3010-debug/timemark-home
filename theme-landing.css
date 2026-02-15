@@ -1,205 +1,166 @@
 /* ===================================================
-TIMEMARK LANDING THEME
-DÙNG CHO: timemark.io.vn (trang chủ)
+🚨 TIMEMARK SUPER CORE MAX MODE
+AI CORE • ULTRA REACTOR • SCI-FI HUD
 =================================================== */
 
-/* ===== ROOT COLOR SYSTEM ===== */
 :root{
---tm-bg:linear-gradient(135deg,#0b1d3a,#4a00e0,#8e2de2);
---tm-orange:linear-gradient(135deg,#ff6a00,#ff9800);
---tm-glass:rgba(255,255,255,.08);
+
+--bg1:#01020a;
+--bg2:#040618;
+--bg3:#070b25;
+
+--neon:#00f0ff;
+--ultra:#ff1744;
+--energy:#00ffd5;
+
+--text:#ffffff;
+--muted:rgba(255,255,255,.65);
+
 }
 
-/* ===== BODY ===== */
-body{
+/* ================= BASE ================= */
+
+*{
 margin:0;
-font-family:Arial, sans-serif;
-background:var(--tm-bg);
-color:#fff;
+padding:0;
+box-sizing:border-box;
+font-family:"Orbitron","Segoe UI",sans-serif;
+letter-spacing:.6px;
+}
+
+body{
+color:var(--text);
 min-height:100vh;
 overflow-x:hidden;
+
+background:
+radial-gradient(circle at 20% -10%,rgba(0,240,255,.25),transparent 40%),
+radial-gradient(circle at 80% 0%,rgba(255,23,68,.2),transparent 40%),
+linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
 }
 
-/* ===== NAVBAR ===== */
+/* GRID HUD */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+linear-gradient(rgba(0,240,255,.08) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,240,255,.08) 1px,transparent 1px);
+background-size:60px 60px;
+opacity:.15;
+pointer-events:none;
+z-index:0;
+}
+
+/* SCAN LINE */
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:linear-gradient(180deg,transparent,rgba(0,240,255,.1),transparent);
+animation:scanMove 5s linear infinite;
+pointer-events:none;
+z-index:0;
+}
+
+@keyframes scanMove{
+0%{transform:translateY(-100%)}
+100%{transform:translateY(100%)}
+}
+
+/* ================= NAVBAR ================= */
+
 .navbar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 20px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(14px);
-position:relative;
-z-index:999;
+padding:18px 32px;
+background:rgba(0,0,0,.8);
+backdrop-filter:blur(18px);
+border-bottom:1px solid var(--neon);
+z-index:900;
+}
+
+/* ENERGY LINE */
+.navbar::after{
+content:"";
+position:absolute;
+bottom:-1px;
+left:0;
+height:2px;
+width:100%;
+background:linear-gradient(90deg,transparent,var(--neon),transparent);
+animation:energyLine 3s linear infinite;
+}
+
+@keyframes energyLine{
+0%{transform:translateX(-100%)}
+100%{transform:translateX(100%)}
 }
 
 .logo{
-font-size:20px;
-font-weight:bold;
+font-weight:900;
+color:#fff;
+text-shadow:
+0 0 12px var(--neon),
+0 0 25px var(--ultra);
 }
 
 .menu{
 display:flex;
-gap:18px;
+gap:26px;
 }
 
 .menu a{
-color:#fff;
+color:var(--muted);
 text-decoration:none;
-font-weight:bold;
-opacity:.9;
+transition:.25s;
 }
 
-/* ===== MOBILE MENU ===== */
+.menu a:hover{
+color:var(--neon);
+text-shadow:0 0 10px var(--neon);
+}
+
 .menu-toggle{
 display:none;
-font-size:26px;
+font-size:22px;
 cursor:pointer;
 }
+
+/* ================= DRAWER ================= */
 
 .drawer{
 position:fixed;
 top:0;
-right:-300px;
+left:-260px;
 width:260px;
 height:100%;
-background:rgba(20,20,50,0.9);
-backdrop-filter:blur(18px);
-padding:80px 18px;
+background:#01040f;
+padding:80px 20px;
 display:flex;
 flex-direction:column;
-gap:14px;
+gap:18px;
 transition:.35s;
-z-index:999;
+z-index:1001;
+border-right:1px solid var(--neon);
 }
 
-.drawer.show{
-right:0;
-}
+.drawer.show{left:0;}
 
-.drawer a{
-display:block;
-padding:14px;
-border-radius:14px;
-background:var(--tm-glass);
-border:1px solid rgba(255,255,255,0.15);
-color:#fff;
-text-decoration:none;
-font-weight:bold;
-transition:.25s;
-}
-
-.drawer a:hover{
-background:rgba(255,255,255,0.2);
-transform:translateX(4px);
-}
-
-/* ===== HERO ===== */
-.hero{
-text-align:center;
-padding:60px 20px 30px;
-}
-
-.hero h1{
-font-size:36px;
-margin-bottom:12px;
-}
-
-.hero p{
-opacity:.85;
-max-width:520px;
-margin:auto;
-line-height:1.6;
-}
-
-/* ===== BUTTON SYSTEM ===== */
-.buttons{
-margin-top:30px;
-display:flex;
-justify-content:center;
-gap:16px;
-flex-wrap:wrap;
-}
-
-.btn{
-padding:14px 30px;
-border-radius:14px;
-font-weight:bold;
-text-decoration:none;
-display:inline-block;
-transition:.25s;
-}
-
-/* ⭐ PRIMARY CTA */
-.btn-start{
-background:var(--tm-orange);
-color:#fff;
-box-shadow:0 12px 28px rgba(255,120,0,.6);
-transform:scale(1.05);
-}
-
-.btn-start:hover{
-transform:translateY(-4px) scale(1.1);
-box-shadow:0 16px 45px rgba(255,140,0,.9);
-}
-
-/* SECONDARY BUTTON */
-.btn-buy{
-background:rgba(255,255,255,0.12);
-border:1px solid rgba(255,255,255,0.3);
-color:#fff;
-}
-
-.btn-buy:hover{
-background:rgba(255,255,255,0.2);
-}
-
-/* ===== FEATURES CARD ===== */
-.features{
-max-width:900px;
-margin:50px auto;
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
-padding:0 20px;
-}
-
-.card{
-width:260px;
-border-radius:18px;
-padding:22px;
-background:var(--tm-glass);
-backdrop-filter:blur(16px);
-box-shadow:0 20px 40px rgba(0,0,0,.4);
-text-align:center;
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-10px) scale(1.03);
-}
-
-.basic{border:2px solid #00e676;}
-.pro{border:2px solid #00b0ff;}
-.premium{border:2px solid #ff00ff;}
-
-/* ===== FOOTER ===== */
-.footer{
-text-align:center;
-margin:40px 0;
-opacity:.7;
-}
-
-/* ===== OVERLAY ===== */
 .overlay{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(3px);
+background:rgba(0,0,0,.85);
 opacity:0;
 pointer-events:none;
 transition:.3s;
-z-index:998;
+z-index:1000;
 }
 
 .overlay.show{
@@ -207,19 +168,349 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
+/* ================= HERO CORE REACTOR ================= */
 
-.menu{
-display:none;
+.hero{
+text-align:center;
+padding:190px 20px 140px;
+position:relative;
+z-index:2;
 }
 
-.menu-toggle{
-display:block;
+/* CORE ENERGY RING */
+.hero::before{
+content:"";
+position:absolute;
+left:50%;
+top:40px;
+transform:translateX(-50%);
+width:700px;
+height:700px;
+border-radius:50%;
+border:2px solid rgba(0,240,255,.25);
+box-shadow:0 0 80px rgba(0,240,255,.4);
+animation:coreSpin 18s linear infinite;
+z-index:-1;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+left:50%;
+top:40px;
+transform:translateX(-50%);
+width:520px;
+height:520px;
+border-radius:50%;
+border:2px solid rgba(255,23,68,.25);
+animation:coreSpinReverse 14s linear infinite;
+z-index:-1;
+}
+
+@keyframes coreSpin{
+from{transform:translateX(-50%) rotate(0)}
+to{transform:translateX(-50%) rotate(360deg)}
+}
+
+@keyframes coreSpinReverse{
+from{transform:translateX(-50%) rotate(360deg)}
+to{transform:translateX(-50%) rotate(0)}
 }
 
 .hero h1{
-font-size:28px;
+font-size:60px;
+font-weight:900;
+text-shadow:
+0 0 20px var(--neon),
+0 0 50px var(--ultra),
+0 0 120px var(--neon);
+}
+
+.hero p{
+margin-top:18px;
+opacity:.85;
+font-size:18px;
+max-width:560px;
+margin-left:auto;
+margin-right:auto;
+}
+
+/* ================= SUPER ENERGY BUTTON ================= */
+
+.buttons{margin-top:34px;}
+
+/* ================= SUPER ENERGY BUTTON FIXED ================= */
+
+.btnMain{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+margin:12px;
+padding:20px 44px;
+font-weight:800;
+text-decoration:none;
+color:#fff;
+background:#001824;
+border-radius:3px;
+border:1px solid var(--neon);
+position:relative;
+overflow:hidden;
+isolation:isolate; /* ⭐ chống layer đè click */
+box-shadow:0 0 20px rgba(0,240,255,.6);
+cursor:pointer;
+}
+
+/* ENERGY BORDER chạy bên trong, không đè click */
+.btnMain::before{
+content:"";
+position:absolute;
+inset:-2px;
+border-radius:3px;
+background:linear-gradient(90deg,transparent,var(--neon),transparent);
+animation:borderRun 3s linear infinite;
+opacity:.35;
+z-index:-1; /* ⭐ cực quan trọng */
+pointer-events:none;
+}
+
+.btnMain:hover{
+transform:translateY(-5px) scale(1.05);
+box-shadow:
+0 0 40px var(--neon),
+0 0 80px rgba(255,23,68,.6);
+}
+
+
+.btnSub{
+display:inline-block;
+padding:20px 40px;
+border-radius:3px;
+border:1px solid var(--ultra);
+text-decoration:none;
+color:#fff;
+background:rgba(255,23,68,.08);
+}
+
+/* ================= FEATURES ================= */
+
+.features{
+max-width:1150px;
+margin:80px auto;
+padding:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:28px;
+}
+
+.card{
+background:linear-gradient(160deg,#02050f,#050a24);
+border-radius:4px;
+padding:30px;
+border:1px solid rgba(0,240,255,.3);
+position:relative;
+overflow:hidden;
+transition:.3s;
+}
+
+/* SCAN LIGHT */
+.card::before{
+content:"";
+position:absolute;
+top:-100%;
+left:0;
+width:100%;
+height:200%;
+background:linear-gradient(180deg,transparent,rgba(0,240,255,.25),transparent);
+transition:.4s;
+}
+
+.card:hover::before{
+top:100%;
+}
+
+.card:hover{
+transform:translateY(-12px) scale(1.03);
+box-shadow:0 0 50px rgba(0,240,255,.5);
+}
+
+.card h3{
+color:var(--neon);
+margin-bottom:8px;
+}
+
+/* ================= GUIDE ================= */
+
+.guideBox{
+margin-top:20px;
+background:#010514;
+border-radius:4px;
+padding:30px;
+border:1px solid rgba(0,240,255,.35);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+text-align:center;
+opacity:.4;
+padding:90px 0;
+}
+
+/* ================= FLOAT ================= */
+
+.zalo-float{
+position:fixed;
+right:20px;
+bottom:90px;
+padding:14px 18px;
+border-radius:4px;
+background:#0068ff;
+color:#fff;
+text-decoration:none;
+z-index:9999;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+.menu{display:none;}
+.menu-toggle{display:block;}
+
+.hero{
+padding:130px 16px 90px;
+}
+
+.hero h1{
+font-size:36px;
+}
+
+.btnMain,
+.btnSub{
+width:100%;
 }
 
 }
+/* ===================================================
+⚡️ CORE PULSE SYSTEM
+=================================================== */
+
+/* HERO HEARTBEAT */
+.hero::pulse{
+content:"";
+}
+
+.hero{
+animation:coreHeartbeat 3.6s ease-in-out infinite;
+}
+
+@keyframes coreHeartbeat{
+0%{transform:scale(1)}
+50%{transform:scale(1.02)}
+100%{transform:scale(1)}
+}
+
+/* ENERGY WAVE FROM BUTTON */
+.energyWave{
+position:absolute;
+border-radius:50%;
+border:2px solid rgba(0,240,255,.6);
+animation:waveExpand .7s ease-out forwards;
+pointer-events:none;
+}
+
+@keyframes waveExpand{
+0%{
+opacity:.9;
+transform:scale(.2);
+}
+100%{
+opacity:0;
+transform:scale(2.8);
+}
+}
+
+/* CARD SYNC PULSE */
+.card{
+animation:cardBreath 4s ease-in-out infinite;
+}
+
+@keyframes cardBreath{
+0%{box-shadow:0 0 0 rgba(0,240,255,0)}
+50%{box-shadow:0 0 20px rgba(0,240,255,.2)}
+100%{box-shadow:0 0 0 rgba(0,240,255,0)}
+}
+/* ===================================================
+👁 GOD INTERFACE LAYER
+=================================================== */
+
+/* RADAR CORE BACKGROUND */
+body::radar{
+content:"";
+}
+
+body .radarCore{
+position:fixed;
+left:50%;
+top:50%;
+width:900px;
+height:900px;
+border-radius:50%;
+border:1px solid rgba(0,240,255,.15);
+transform:translate(-50%,-50%);
+animation:radarSpin 40s linear infinite;
+pointer-events:none;
+z-index:0;
+}
+
+body .radarCore::before{
+content:"";
+position:absolute;
+inset:60px;
+border-radius:50%;
+border:1px solid rgba(255,23,68,.15);
+}
+
+@keyframes radarSpin{
+from{transform:translate(-50%,-50%) rotate(0)}
+to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+/* NAVBAR GOD SCAN */
+.navbar::godline{
+content:"";
+}
+
+.navbar::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:linear-gradient(90deg,transparent,rgba(0,240,255,.12),transparent);
+animation:navScan 6s linear infinite;
+pointer-events:none;
+}
+
+@keyframes navScan{
+0%{transform:translateX(-100%)}
+100%{transform:translateX(100%)}
+}
+
+/* HERO HUD LINES */
+.hero .hudLine{
+position:absolute;
+height:2px;
+width:120px;
+background:linear-gradient(90deg,transparent,var(--neon),transparent);
+opacity:.5;
+pointer-events:none;
+animation:hudMove 6s linear infinite;
+}
+
+@keyframes hudMove{
+0%{transform:translateX(-200px)}
+100%{transform:translateX(200px)}
+}
+

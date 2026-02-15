@@ -513,4 +513,97 @@ animation:hudMove 6s linear infinite;
 0%{transform:translateX(-200px)}
 100%{transform:translateX(200px)}
 }
+/* ===================================================
+🔥 TIMEMARK TRUST HUD (FAKE SYSTEM)
+=================================================== */
+
+.counter-box,
+.history-box{
+margin-top:28px;
+padding:14px 18px;
+display:inline-block;
+border-radius:3px;
+
+background:linear-gradient(160deg,#02050f,#050a24);
+border:1px solid rgba(0,240,255,.35);
+
+font-size:14px;
+letter-spacing:.8px;
+color:var(--energy);
+
+box-shadow:
+0 0 20px rgba(0,240,255,.25),
+inset 0 0 12px rgba(0,240,255,.08);
+
+position:relative;
+overflow:hidden;
+}
+
+/* ENERGY SCAN giống CARD */
+.counter-box::before,
+.history-box::before{
+content:"";
+position:absolute;
+top:-120%;
+left:0;
+width:100%;
+height:240%;
+background:linear-gradient(180deg,transparent,rgba(0,240,255,.25),transparent);
+animation:trustScan 5s linear infinite;
+pointer-events:none;
+}
+
+@keyframes trustScan{
+0%{top:-120%}
+100%{top:120%}
+}
+/* ===================================================
+👁 GOD HUD TICKER MODE (FINAL FIX)
+=================================================== */
+
+.ai-ticker{
+position:fixed;
+top:72px;                 /* nằm dưới navbar */
+left:0;
+width:100%;
+height:34px;
+overflow:hidden;
+
+z-index:1200;             /* ⭐ cao hơn navbar */
+pointer-events:auto;
+
+background:rgba(0,0,0,.75);
+border-bottom:1px solid rgba(0,240,255,.35);
+backdrop-filter:blur(10px);
+}
+
+.ai-track{
+position:absolute;
+top:0;
+left:0;   /* ⭐ FIX QUAN TRỌNG */
+
+
+color:var(--energy);
+font-size:13px;
+font-weight:600;
+line-height:34px;
+
+text-shadow:
+0 0 6px var(--neon),
+0 0 14px rgba(0,240,255,.4);
+
+will-change:transform;
+}
+
+/* GOD HUD CURSOR BLINK */
+.ai-track::after{
+content:"▌";
+margin-left:4px;
+animation:blinkCursor .8s infinite;
+}
+
+@keyframes blinkCursor{
+0%,100%{opacity:1}
+50%{opacity:0}
+}
 

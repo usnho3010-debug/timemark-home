@@ -72,6 +72,8 @@ z-index:0;
 /* ================= NAVBAR ================= */
 
 .navbar{
+-webkit-backdrop-filter:blur(18px); /* ⭐ FIX IOS */
+transform:translateZ(0);
 position:fixed;
 top:0;
 left:0;
@@ -128,15 +130,17 @@ text-shadow:0 0 10px var(--neon);
 }
 
 .menu-toggle{
-display:none;
-font-size:22px;
-cursor:pointer;
+line-height:1;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 /* ================= DRAWER ================= */
 
 .drawer{
 position:fixed;
+-webkit-overflow-scrolling:touch;
 top:0;
 left:-260px;
 width:260px;

@@ -1,101 +1,120 @@
-/* =========================================
-👁 TIMEMARK GOD INTERFACE ENGINE
-Radar + HUD + Core Sync
-========================================= */
+document.addEventListener("DOMContentLoaded",()=>{
 
-/* CURSOR CORE */
-(()=>{
-const glow=document.createElement("div");
-glow.className="cursorGlow";
-glow.style.pointerEvents="none";
-document.body.appendChild(glow);
+const hero    = document.querySelector(".hero");
+const ticker  = document.getElementById("fakeHistory");
+const counter = document.getElementById("fakeCounter");
 
-document.addEventListener("mousemove",(e)=>{
-glow.style.left=e.clientX+"px";
-glow.style.top=e.clientY+"px";
-});
-})();
 
-/* RADAR CORE CREATE */
-(()=>{
-const radar=document.createElement("div");
-radar.className="radarCore";
-document.body.appendChild(radar);
-})();
+/* ===================================================
+🤖 GOD HUD TICKER – FINAL STABLE
+=================================================== */
+if(ticker){
 
-/* HERO PARALLAX */
-(()=>{
-const hero=document.querySelector(".hero");
-if(!hero) return;
+const fakeNames=[
+"Nguyễn V.","Anh T.","Minh K.","Phúc L.",
+"Huy N.","Tuấn P.","Long D.","Khang V.",
+"Nam T.","Đạt Q.","User***"
+];
 
-window.addEventListener("scroll",()=>{
-hero.style.transform=`translateY(${window.scrollY*0.06}px)`;
-});
-})();
+const fakeActions=[
+"kích hoạt thành công",
+"vừa mua gói 7 ngày",
+"đã gia hạn key",
+"kết nối hệ thống",
+"thiết bị đã xác thực"
+];
 
-/* HERO HUD LINES */
-(()=>{
-const hero=document.querySelector(".hero");
-if(!hero) return;
+let pos = document.body.offsetWidth;
 
-for(let i=0;i<4;i++){
-const line=document.createElement("div");
-line.className="hudLine";
-line.style.top=(120+i*40)+"px";
-line.style.left="-100px";
-hero.appendChild(line);
-}
-})();
+/* ===== RANDOM MESSAGE ===== */
+function randomMessage(){
 
-/* PETAL LIGHT */
-(()=>{
-function createPetal(){
-const p=document.createElement("div");
-p.className="petal";
-p.innerText="✦";
-p.style.left=Math.random()*100+"vw";
-p.style.animationDuration=(14+Math.random()*6)+"s";
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),18000);
+const name   = fakeNames[Math.floor(Math.random()*fakeNames.length)];
+const action = fakeActions[Math.floor(Math.random()*fakeActions.length)];
+
+return `🟢 ${name} ${action}`;
 }
 
-setInterval(()=>{
-if(document.hidden) return;
-createPetal();
-},2600);
-})();
+/* ===== TYPE EFFECT (KHÔNG KHÓA ANIMATE) ===== */
+function typeText(text){
 
-/* SPARK + CORE WAVE */
-(()=>{
-const buttons=document.querySelectorAll(".btnMain");
+ticker.innerHTML="";
+let i=0;
 
-buttons.forEach(btn=>{
+const typer=setInterval(()=>{
 
-btn.addEventListener("mousemove",(e)=>{
-const s=document.createElement("div");
-s.className="spark";
-btn.appendChild(s);
+ticker.innerHTML += text.charAt(i);
+i++;
 
-const rect=btn.getBoundingClientRect();
-s.style.left=(e.clientX-rect.left)+"px";
-s.style.top=(e.clientY-rect.top)+"px";
+if(i>=text.length){
+clearInterval(typer);
+}
 
-setTimeout(()=>s.remove(),500);
+},25);
+
+}
+
+function newMessage(){
+
+typeText(randomMessage());
+pos=document.body.offsetWidth;
+
+}
+
+newMessage();
+
+/* ===== ANIMATE LUÔN CHẠY ===== */
+function animate(){
+
+pos -= 1.8; // ⭐ tốc độ mới (mượt hơn)
+
+ticker.style.transform=`translate3d(${pos}px,0,0)`;
+
+if(pos < -ticker.offsetWidth-40){
+newMessage();
+}
+
+requestAnimationFrame(animate);
+}
+
+animate();
+
+}
+
+
+/* ===================================================
+🔥 SMART DAILY COUNTER (AUTO GROW)
+=================================================== */
+
+if(counter){
+
+const startDate = new Date("2026-01-01"); // ⭐ ngày bắt đầu
+const baseValue = 1200;                   // ⭐ số key ban đầu
+const dailyGrow = 18;                     // ⭐ mỗi ngày tăng bao nhiêu
+
+const today = new Date();
+
+const diffDays = Math.floor(
+ (today - startDate) / (1000*60*60*24)
+);
+
+let target = baseValue + (diffDays * dailyGrow);
+
+let current = 0;
+
+const runCounter=setInterval(()=>{
+
+current += Math.ceil(target/80);
+
+if(current>=target){
+current=target;
+clearInterval(runCounter);
+}
+
+counter.innerText=current;
+
+},20);
+
+}
+
 });
-
-btn.addEventListener("mouseenter",()=>{
-const wave=document.createElement("div");
-wave.className="energyWave";
-btn.appendChild(wave);
-
-wave.style.width=btn.offsetWidth+"px";
-wave.style.height=btn.offsetWidth+"px";
-wave.style.left="50%";
-wave.style.top="50%";
-wave.style.transform="translate(-50%,-50%)";
-
-setTimeout(()=>wave.remove(),700);
-});
-
-});
-})();

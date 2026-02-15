@@ -7,6 +7,25 @@
 
 <link rel="stylesheet" href="theme-landing.css?v=3">
 </head>
+<script>
+document.querySelectorAll(".demoImg").forEach(img=>{
+img.addEventListener("click",()=>{
+const viewer=document.createElement("div");
+viewer.style.cssText=`
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.9);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+`;
+viewer.innerHTML=`<img src="${img.src}" style="max-width:90%;max-height:90%;">`;
+viewer.onclick=()=>viewer.remove();
+document.body.appendChild(viewer);
+});
+});
+</script>
 
 <body>
 
@@ -38,10 +57,13 @@
 <div class="hero">
 
 <h1>🚀 TIMEMARK PREMIUM</h1>
-
+<h2>Giải Pháp Hoàn Hảo Cho Dân Thị Trường </h2>
+<h3>Mã ảnh xác thực 100% trên app Timemark</h3>
 <p>
-Công cụ quản lý thời gian và kích hoạt key tự động.
-Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.
+Công cụ check-in mọi vị trí bạn muốn đến.
+</p>
+<p>
+Vị trí, thời gian chỉnh hoàn toàn thủ công.
 </p>
 
 <div class="buttons">
@@ -51,6 +73,22 @@ Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.
 
 <div class="counter-box">
 🔥 <span id="fakeCounter">0</span> key đã được kích hoạt thành công
+</div>
+
+</div>
+<!-- ======================
+DEMO GALLERY
+====================== -->
+<div class="demoSection">
+
+<h2>👁 Ảnh Demo Hệ Thống</h2>
+
+<div class="demoGrid">
+
+<img src="images/demo1.jpg" class="demoImg" alt="demo 1">
+<img src="images/demo2.jpg" class="demoImg" alt="demo 2">
+<img src="images/demo3.jpg" class="demoImg" alt="demo 3">
+
 </div>
 
 </div>

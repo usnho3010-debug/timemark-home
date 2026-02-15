@@ -1,262 +1,20 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>🚀 TIMEMARK</title>
-<link rel="stylesheet" href="theme-landing.css?v=1">
 
-
-<style>
-
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-font-family:Arial, sans-serif;
-background:linear-gradient(135deg,#0b1d3a,#4a00e0,#8e2de2);
-color:#fff;
-min-height:100vh;
-overflow-x:hidden;
-}
-
-/* NAVBAR */
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 20px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(14px);
-position:relative;
-z-index:999;
-}
-
-.logo{
-font-size:20px;
-font-weight:bold;
-}
-
-.menu{
-display:flex;
-gap:18px;
-}
-
-.menu a{
-color:#fff;
-text-decoration:none;
-font-weight:bold;
-opacity:.9;
-}
-
-.menu-toggle{
-display:none;
-font-size:26px;
-cursor:pointer;
-}
-
-/* OVERLAY */
-.overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(3px);
-opacity:0;
-pointer-events:none;
-transition:.3s;
-z-index:998;
-}
-
-.overlay.show{
-opacity:1;
-pointer-events:auto;
-}
-
-/* MOBILE MENU PRO UX */
-.drawer{
-position:fixed;
-top:0;
-right:-300px;
-width:260px;
-height:100%;
-background:rgba(20,20,50,0.9);
-backdrop-filter:blur(18px);
-padding:80px 18px;
-display:flex;
-flex-direction:column;
-gap:14px;
-transition:.35s;
-z-index:999;
-}
-
-.drawer.show{
-right:0;
-}
-
-.drawer a{
-display:block;
-padding:14px;
-border-radius:14px;
-background:rgba(255,255,255,0.08);
-border:1px solid rgba(255,255,255,0.15);
-color:#fff;
-text-decoration:none;
-font-weight:bold;
-transition:.25s;
-}
-
-.drawer a:hover{
-background:rgba(255,255,255,0.2);
-transform:translateX(4px);
-}
-
-/* HERO */
-.hero{
-text-align:center;
-padding:60px 20px 30px;
-}
-
-.hero h1{
-font-size:36px;
-margin-bottom:12px;
-}
-
-.hero p{
-opacity:.85;
-max-width:520px;
-margin:auto;
-line-height:1.6;
-}
-
-/* BUTTONS */
-.buttons{
-margin-top:30px;
-display:flex;
-justify-content:center;
-gap:16px;
-flex-wrap:wrap;
-}
-
-.btn{
-padding:14px 30px;
-border-radius:14px;
-font-weight:bold;
-text-decoration:none;
-display:inline-block;
-transition:.25s;
-}
-
-/* ⭐ PRIMARY CAM - BẮT ĐẦU NGAY */
-.btn-start{
-background:linear-gradient(135deg,#ff6a00,#ff9800);
-color:#fff;
-box-shadow:0 12px 28px rgba(255,120,0,.6);
-transform:scale(1.08);
-}
-
-.btn-start:hover{
-transform:translateY(-4px) scale(1.12);
-box-shadow:0 16px 45px rgba(255,140,0,.9);
-}
-
-/* SECONDARY - MUA KEY */
-.btn-buy{
-background:rgba(255,255,255,0.12);
-border:1px solid rgba(255,255,255,0.3);
-color:#fff;
-}
-
-.btn-buy:hover{
-background:rgba(255,255,255,0.2);
-}
-
-/* FEATURES */
-.features{
-max-width:900px;
-margin:50px auto;
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
-padding:0 20px;
-}
-
-.card{
-width:260px;
-border-radius:18px;
-padding:22px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(16px);
-box-shadow:0 20px 40px rgba(0,0,0,.4);
-text-align:center;
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-10px) scale(1.03);
-}
-
-.basic{border:2px solid #00e676;}
-.pro{border:2px solid #00b0ff;}
-.premium{border:2px solid #ff00ff;}
-
-.footer{
-text-align:center;
-margin:40px 0;
-opacity:.7;
-}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-
-.menu{
-display:none;
-}
-
-.menu-toggle{
-display:block;
-}
-
-.hero h1{
-font-size:28px;
-}
-
-}
-/* ===== ZALO FLOAT BUTTON ===== */
-.zalo-float{
-position:fixed;
-bottom:20px;
-right:20px;
-background:linear-gradient(135deg,#0068ff,#00a2ff);
-color:#fff;
-padding:14px 18px;
-border-radius:50px;
-font-weight:bold;
-text-decoration:none;
-box-shadow:0 10px 25px rgba(0,100,255,.5);
-z-index:9999;
-animation:zaloPulse 2.2s infinite;
-transition:.25s;
-}
-
-.zalo-float:hover{
-transform:translateY(-4px) scale(1.05);
-box-shadow:0 14px 35px rgba(0,120,255,.8);
-}
-
-@keyframes zaloPulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.06);}
-100%{transform:scale(1);}
-}
-
-</style>
+<!-- GLOBAL THEME -->
+<link rel="stylesheet" href="theme-landing.css?v=2">
 
 </head>
 
 <body>
 
+<!-- ======================
+OVERLAY + DRAWER
+====================== -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <div class="drawer" id="drawer">
@@ -265,7 +23,11 @@ box-shadow:0 14px 35px rgba(0,120,255,.8);
 <a href="guide.html">📘 Hướng dẫn</a>
 </div>
 
+<!-- ======================
+NAVBAR
+====================== -->
 <div class="navbar">
+
 <div class="logo">🚀 TIMEMARK</div>
 
 <div class="menu">
@@ -275,18 +37,31 @@ box-shadow:0 14px 35px rgba(0,120,255,.8);
 </div>
 
 <div class="menu-toggle" id="menuBtn" onclick="toggleMenu()">☰</div>
+
 </div>
 
+<!-- ======================
+HERO
+====================== -->
 <div class="hero">
+
 <h1>🚀 TIMEMARK PREMIUM</h1>
-<p>Công cụ quản lý thời gian và kích hoạt key tự động. Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.</p>
+
+<p>
+Công cụ quản lý thời gian và kích hoạt key tự động.
+Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.
+</p>
 
 <div class="buttons">
-<a class="btn btn-start" href="https://app.timemark.io.vn">⚡ BẮT ĐẦU NGAY</a>
-<a class="btn btn-buy" href="https://app.timemark.io.vn/buy.html">MUA KEY</a>
-</div>
+<a class="btnMain" href="https://app.timemark.io.vn">⚡ BẮT ĐẦU NGAY</a>
+<a class="btnSub" href="https://app.timemark.io.vn/buy.html">MUA KEY</a>
 </div>
 
+</div>
+
+<!-- ======================
+FEATURES
+====================== -->
 <div class="features">
 
 <div class="card basic">
@@ -306,23 +81,41 @@ box-shadow:0 14px 35px rgba(0,120,255,.8);
 
 </div>
 
-<div class="footer">© 2026 Timemark.io.vn</div>
+<!-- ======================
+FOOTER
+====================== -->
+<div class="footer">
+© 2026 Timemark.io.vn
+</div>
 
+<!-- ======================
+ZALO FLOAT
+====================== -->
+<a href="https://zalo.me/0837685798" class="zalo-float" target="_blank">
+💬 Zalo
+</a>
+
+<!-- ======================
+MENU SCRIPT (CORE LOGIC)
+====================== -->
 <script>
 function toggleMenu(){
+
 const drawer=document.getElementById("drawer");
 const overlay=document.getElementById("overlay");
 const btn=document.getElementById("menuBtn");
 
 drawer.classList.toggle("show");
 overlay.classList.toggle("show");
-btn.textContent = drawer.classList.contains("show") ? "✕" : "☰";
+
+btn.textContent =
+drawer.classList.contains("show") ? "✕" : "☰";
+
 }
 </script>
-<!-- ZALO FLOAT BUTTON -->
-<a href="https://zalo.me/0837685798" class="zalo-float" target="_blank">
-💬 Zalo
-</a>
+
+<!-- GLOBAL EFFECT ENGINE -->
+<script src="landing-effects.js"></script>
 
 </body>
 </html>

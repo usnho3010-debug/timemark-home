@@ -5,16 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>🚀 TIMEMARK</title>
 
-<!-- GLOBAL THEME -->
-<link rel="stylesheet" href="theme-landing.css?v=2">
-
+<link rel="stylesheet" href="theme-landing.css?v=3">
 </head>
 
 <body>
 
-<!-- ======================
-OVERLAY + DRAWER
-====================== -->
 <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <div class="drawer" id="drawer">
@@ -23,11 +18,7 @@ OVERLAY + DRAWER
 <a href="guide.html">📘 Hướng dẫn</a>
 </div>
 
-<!-- ======================
-NAVBAR
-====================== -->
 <div class="navbar">
-
 <div class="logo">🚀 TIMEMARK</div>
 
 <div class="menu">
@@ -37,12 +28,13 @@ NAVBAR
 </div>
 
 <div class="menu-toggle" id="menuBtn" onclick="toggleMenu()">☰</div>
-
 </div>
 
-<!-- ======================
-HERO
-====================== -->
+<!-- 🤖 AI HUD TICKER -->
+<div class="ai-ticker">
+<div class="ai-track" id="fakeHistory"></div>
+</div>
+
 <div class="hero">
 
 <h1>🚀 TIMEMARK PREMIUM</h1>
@@ -57,11 +49,12 @@ Trải nghiệm hệ thống nhanh chóng và chuyên nghiệp.
 <a class="btnSub" href="https://app.timemark.io.vn/buy.html">MUA KEY</a>
 </div>
 
+<div class="counter-box">
+🔥 <span id="fakeCounter">0</span> key đã được kích hoạt thành công
 </div>
 
-<!-- ======================
-FEATURES
-====================== -->
+</div>
+
 <div class="features">
 
 <div class="card basic">
@@ -81,23 +74,14 @@ FEATURES
 
 </div>
 
-<!-- ======================
-FOOTER
-====================== -->
 <div class="footer">
 © 2026 Timemark.io.vn
 </div>
 
-<!-- ======================
-ZALO FLOAT
-====================== -->
 <a href="https://zalo.me/0837685798" class="zalo-float" target="_blank">
 💬 Zalo
 </a>
 
-<!-- ======================
-MENU SCRIPT (CORE LOGIC)
-====================== -->
 <script>
 function toggleMenu(){
 
@@ -114,8 +98,9 @@ drawer.classList.contains("show") ? "✕" : "☰";
 }
 </script>
 
-<!-- GLOBAL EFFECT ENGINE -->
-<script src="landing-effects.js"></script>
+<script src="landing-effects.js?v=100"></script>
+
+
 
 </body>
 </html>

@@ -1,712 +1,695 @@
-/* ===================================================
-🚨 TIMEMARK SUPER CORE MAX MODE
-AI CORE • ULTRA REACTOR • SCI-FI HUD
-=================================================== */
-
-:root{
-
---bg1:#01020a;
---bg2:#040618;
---bg3:#070b25;
-
---neon:#00f0ff;
---ultra:#ff1744;
---energy:#00ffd5;
-
---text:#ffffff;
---muted:rgba(255,255,255,.65);
-
-}
-
-/* ================= BASE ================= */
-
+/* RESET */
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Orbitron","Segoe UI",sans-serif;
-letter-spacing:.6px;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-color:var(--text);
-min-height:100vh;
-overflow-x:hidden;
-
-background:
-radial-gradient(circle at 20% -10%,rgba(0,240,255,.25),transparent 40%),
-radial-gradient(circle at 80% 0%,rgba(255,23,68,.2),transparent 40%),
-linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,255,255,0.12), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(138,43,226,0.12), transparent 40%),
+    #0a0a0a;
+  color:#fff;
+  overflow-x:hidden;
 }
 
-/* GRID HUD */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-linear-gradient(rgba(0,240,255,.08) 1px,transparent 1px),
-linear-gradient(90deg,rgba(0,240,255,.08) 1px,transparent 1px);
-background-size:60px 60px;
-opacity:.15;
-pointer-events:none;
-z-index:0;
-}
-
-/* SCAN LINE */
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background:linear-gradient(180deg,transparent,rgba(0,240,255,.1),transparent);
-animation:scanMove 5s linear infinite;
-pointer-events:none;
-z-index:0;
-}
-
-@keyframes scanMove{
-0%{transform:translateY(-100%)}
-100%{transform:translateY(100%)}
-}
-
-/* ================= NAVBAR ================= */
-
+/* NAVBAR */
 .navbar{
--webkit-backdrop-filter:blur(18px); /* ⭐ FIX IOS */
-transform:translateZ(0);
-position:fixed;
-top:0;
-left:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 32px;
-background:rgba(0,0,0,.8);
-backdrop-filter:blur(18px);
-border-bottom:1px solid var(--neon);
-z-index:900;
-}
+  position:sticky;
+  top:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 30px;
 
-/* ENERGY LINE */
-.navbar::after{
-content:"";
-position:absolute;
-bottom:-1px;
-left:0;
-height:2px;
-width:100%;
-background:linear-gradient(90deg,transparent,var(--neon),transparent);
-animation:energyLine 3s linear infinite;
-}
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 
-@keyframes energyLine{
-0%{transform:translateX(-100%)}
-100%{transform:translateX(100%)}
+  background:rgba(10,10,10,0.7);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  z-index:100;
 }
 
 .logo{
-font-weight:900;
-color:#fff;
-text-shadow:
-0 0 12px var(--neon),
-0 0 25px var(--ultra);
+  font-weight:700;
+  font-size:20px;
 }
+
+/* ===== MENU PRO UI ===== */
 
 .menu{
-display:flex;
-gap:26px;
+  position:fixed;
+  top:0;
+  right:0;
+
+  width:50%;
+  max-width:320px;
+  height:100%;
+
+  /* 🌫 glass effect */
+  background:rgba(20,20,40,0.75);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+
+  padding:80px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+
+  transform:translateX(100%);
+  transition:transform 0.4s cubic-bezier(.77,0,.18,1);
+
+  z-index:9999;
+
+  border-left:1px solid rgba(255,255,255,0.08);
+  box-shadow:-20px 0 60px rgba(0,0,0,0.8);
 }
 
+/* mở menu */
+.menu.active{
+  transform:translateX(0);
+}
+
+/* ===== ITEM ===== */
 .menu a{
-color:var(--muted);
-text-decoration:none;
-transition:.25s;
+  display:block;
+  padding:16px;
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+
+  color:#eaeaff;
+  text-decoration:none;
+  font-weight:500;
+
+  opacity:0;
+  transform:translateX(20px);
+
+  transition:all 0.3s ease;
 }
 
+/* 🌟 animation xuất hiện từng item */
+.menu.active a{
+  opacity:1;
+  transform:translateX(0);
+}
+
+/* delay từng item */
+.menu.active a:nth-child(2){ transition-delay:0.1s; }
+.menu.active a:nth-child(3){ transition-delay:0.2s; }
+.menu.active a:nth-child(4){ transition-delay:0.3s; }
+.menu.active a:nth-child(5){ transition-delay:0.4s; }
+
+/* hover */
 .menu a:hover{
-color:var(--neon);
-text-shadow:0 0 10px var(--neon);
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  color:#000;
+
+  transform:translateX(8px);
+  box-shadow:0 0 20px rgba(0,255,255,0.6);
 }
 
-.menu-toggle{
-line-height:1;
-display:flex;
-align-items:center;
-justify-content:center;
+/* 🎯 ACTIVE ITEM (bạn thêm class="active" vào link) */
+.menu a.active{
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  color:#000;
+  box-shadow:0 0 15px rgba(0,255,255,0.5);
 }
 
-/* ================= DRAWER ================= */
+/* ===== CLOSE BUTTON ===== */
+.menu-close{
+  position:absolute;
+  top:20px;
+  right:20px;
 
-.drawer{
-position:fixed;
--webkit-overflow-scrolling:touch;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:#01040f;
-padding:80px 20px;
-display:flex;
-flex-direction:column;
-gap:18px;
-transition:.35s;
-z-index:1001;
-border-right:1px solid var(--neon);
+  font-size:22px;
+  color:#fff;
+
+  cursor:pointer;
+
+  opacity:0.7;
+  transition:0.25s;
 }
 
-.drawer.show{left:0;}
-
-.overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.85);
-opacity:0;
-pointer-events:none;
-transition:.3s;
-z-index:1000;
+.menu-close:hover{
+  opacity:1;
+  transform:rotate(90deg) scale(1.2);
 }
 
-.overlay.show{
-opacity:1;
-pointer-events:auto;
+/* ===== OVERLAY (xịn hơn) ===== */
+.menu-overlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(3px);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:0.3s;
+
+  z-index:1500;
 }
 
-/* ================= HERO CORE REACTOR ================= */
+.menu-overlay.active{
+  opacity:1;
+  pointer-events:auto;
+}
 
+/* HERO */
 .hero{
-text-align:center;
-padding:190px 20px 140px;
-position:relative;
-z-index:2;
-}
-
-/* CORE ENERGY RING */
-.hero::before{
-content:"";
-position:absolute;
-left:50%;
-top:40px;
-transform:translateX(-50%);
-width:700px;
-height:700px;
-border-radius:50%;
-border:2px solid rgba(0,240,255,.25);
-box-shadow:0 0 80px rgba(0,240,255,.4);
-animation:coreSpin 18s linear infinite;
-z-index:-1;
-}
-
-.hero::after{
-content:"";
-position:absolute;
-left:50%;
-top:40px;
-transform:translateX(-50%);
-width:520px;
-height:520px;
-border-radius:50%;
-border:2px solid rgba(255,23,68,.25);
-animation:coreSpinReverse 14s linear infinite;
-z-index:-1;
-}
-
-@keyframes coreSpin{
-from{transform:translateX(-50%) rotate(0)}
-to{transform:translateX(-50%) rotate(360deg)}
-}
-
-@keyframes coreSpinReverse{
-from{transform:translateX(-50%) rotate(360deg)}
-to{transform:translateX(-50%) rotate(0)}
+  text-align:center;
+  padding:140px 20px 100px;
 }
 
 .hero h1{
-font-size:60px;
-font-weight:900;
-text-shadow:
-0 0 20px var(--neon),
-0 0 50px var(--ultra),
-0 0 120px var(--neon);
+  font-size:60px;
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
 .hero p{
-margin-top:18px;
-opacity:.85;
-font-size:18px;
-max-width:560px;
-margin-left:auto;
-margin-right:auto;
+  color:#aaa;
+  margin:20px 0 30px;
 }
 
-/* ================= SUPER ENERGY BUTTON ================= */
-
-.buttons{margin-top:34px;}
-
-/* ================= SUPER ENERGY BUTTON FIXED ================= */
+/* BUTTON */
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
 
 .btnMain{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-margin:12px;
-padding:20px 44px;
-font-weight:800;
-text-decoration:none;
-color:#fff;
-background:#001824;
-border-radius:3px;
-border:1px solid var(--neon);
-position:relative;
-overflow:hidden;
-isolation:isolate; /* ⭐ chống layer đè click */
-box-shadow:0 0 20px rgba(0,240,255,.6);
-cursor:pointer;
-}
-
-/* ENERGY BORDER chạy bên trong, không đè click */
-.btnMain::before{
-content:"";
-position:absolute;
-inset:-2px;
-border-radius:3px;
-background:linear-gradient(90deg,transparent,var(--neon),transparent);
-animation:borderRun 3s linear infinite;
-opacity:.35;
-z-index:-1; /* ⭐ cực quan trọng */
-pointer-events:none;
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  padding:14px 28px;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.3s;
 }
 
 .btnMain:hover{
-transform:translateY(-5px) scale(1.05);
-box-shadow:
-0 0 40px var(--neon),
-0 0 80px rgba(255,23,68,.6);
+  transform:translateY(-3px);
 }
-
 
 .btnSub{
-display:inline-block;
-padding:20px 40px;
-border-radius:3px;
-border:1px solid var(--ultra);
-text-decoration:none;
-color:#fff;
-background:rgba(255,23,68,.08);
+  border:1px solid #444;
+  padding:14px 26px;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
 }
 
-/* ================= FEATURES ================= */
-
-.features{
-max-width:1150px;
-margin:80px auto;
-padding:20px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:28px;
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:80px 20px;
 }
 
-.card{
-background:linear-gradient(160deg,#02050f,#050a24);
-border-radius:4px;
-padding:30px;
-border:1px solid rgba(0,240,255,.3);
-position:relative;
-overflow:hidden;
-transition:.3s;
+/* INTRO */
+.intro{
+  text-align:center;
 }
 
-/* SCAN LIGHT */
-.card::before{
-content:"";
-position:absolute;
-top:-100%;
-left:0;
-width:100%;
-height:200%;
-background:linear-gradient(180deg,transparent,rgba(0,240,255,.25),transparent);
-transition:.4s;
+.intro h2{
+  font-size:30px;
 }
 
-.card:hover::before{
-top:100%;
+.intro-desc{
+  color:#aaa;
+  margin:20px auto 40px;
+  max-width:600px;
 }
 
-.card:hover{
-transform:translateY(-12px) scale(1.03);
-box-shadow:0 0 50px rgba(0,240,255,.5);
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
 }
 
-.card h3{
-color:var(--neon);
-margin-bottom:8px;
+/* CARD */
+.intro-card{
+  background:#111;
+  padding:25px;
+  border-radius:16px;
+  transition:0.3s;
 }
 
-/* ================= GUIDE ================= */
-
-.guideBox{
-margin-top:20px;
-background:#010514;
-border-radius:4px;
-padding:30px;
-border:1px solid rgba(0,240,255,.35);
+.intro-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 20px rgba(0,255,255,0.3);
 }
 
-/* ================= FOOTER ================= */
+/* CTA */
+.cta{
+  text-align:center;
+}
 
+.cta h2{
+  margin-bottom:20px;
+}
+
+/* FOOTER */
 .footer{
-text-align:center;
-opacity:.4;
-padding:90px 0;
+  text-align:center;
+  padding:40px;
+  color:#666;
 }
 
-/* ================= FLOAT ================= */
+/* ZALO */
+.zalo-wrapper{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.4s;
+}
+
+.zalo-wrapper.show{
+  opacity:1;
+  transform:translateY(0);
+}
 
 .zalo-float{
-position:fixed;
-right:20px;
-bottom:90px;
-padding:14px 18px;
-border-radius:4px;
-background:#0068ff;
-color:#fff;
-text-decoration:none;
-z-index:9999;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(#00f0ff,#0084ff);
 }
 
-/* ================= MOBILE ================= */
+.zalo-float img{
+  width:30px;
+}
 
+/* MOBILE */
 @media(max-width:768px){
+  .hero h1{
+    font-size:38px;
+  }
 
-.menu{display:none;}
-.menu-toggle{display:block;}
+  .container{
+    padding:60px 15px;
+  }
+}
+/* ===== GUIDE PAGE STYLE ===== */
 
-.hero{
-padding:130px 16px 90px;
+.back-btn{
+  display:inline-block;
+  margin-bottom:20px;
+  color:#aaa;
+  text-decoration:none;
+  font-size:14px;
+  transition:0.2s;
 }
 
-.hero h1{
-font-size:36px;
+.back-btn:hover{
+  color:#00f0ff;
+  transform:translateX(-3px);
 }
 
-.btnMain,
-.btnSub{
-width:100%;
+/* TITLE */
+h1{
+  font-size:42px;
+  margin-bottom:10px;
+
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-}
-/* ===================================================
-⚡️ CORE PULSE SYSTEM
-=================================================== */
-
-/* HERO HEARTBEAT */
-.hero::pulse{
-content:"";
+.subtitle{
+  color:#aaa;
+  margin-bottom:40px;
 }
 
-.hero{
-animation:coreHeartbeat 3.6s ease-in-out infinite;
+/* SECTION */
+.section{
+  margin-bottom:50px;
 }
 
-@keyframes coreHeartbeat{
-0%{transform:scale(1)}
-50%{transform:scale(1.02)}
-100%{transform:scale(1)}
+.section h2{
+  margin-bottom:15px;
 }
 
-/* ENERGY WAVE FROM BUTTON */
-.energyWave{
-position:absolute;
-border-radius:50%;
-border:2px solid rgba(0,240,255,.6);
-animation:waveExpand .7s ease-out forwards;
-pointer-events:none;
-}
-
-@keyframes waveExpand{
-0%{
-opacity:.9;
-transform:scale(.2);
-}
-100%{
-opacity:0;
-transform:scale(2.8);
-}
-}
-
-/* CARD SYNC PULSE */
+/* GRID CARD */
 .card{
-animation:cardBreath 4s ease-in-out infinite;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+
+  padding:20px;
+  border-radius:14px;
+
+  transition:0.3s;
 }
 
-@keyframes cardBreath{
-0%{box-shadow:0 0 0 rgba(0,240,255,0)}
-50%{box-shadow:0 0 20px rgba(0,240,255,.2)}
-100%{box-shadow:0 0 0 rgba(0,240,255,0)}
-}
-/* ===================================================
-👁 GOD INTERFACE LAYER
-=================================================== */
-
-/* RADAR CORE BACKGROUND */
-body::radar{
-content:"";
+/* hover card */
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 20px rgba(0,255,255,0.3);
 }
 
-body .radarCore{
-position:fixed;
-left:50%;
-top:50%;
-width:900px;
-height:900px;
-border-radius:50%;
-border:1px solid rgba(0,240,255,.15);
-transform:translate(-50%,-50%);
-animation:radarSpin 40s linear infinite;
-pointer-events:none;
-z-index:0;
+/* CTA riêng guide */
+.cta{
+  text-align:center;
+  margin-top:60px;
 }
 
-body .radarCore::before{
-content:"";
-position:absolute;
-inset:60px;
-border-radius:50%;
-border:1px solid rgba(255,23,68,.15);
+.cta h2{
+  margin-bottom:20px;
+}
+/* ===== COUNTER MARKETING ===== */
+
+.counter-box{
+  margin-top:30px;
+  text-align:center;
+
+  padding:18px 22px;
+  border-radius:16px;
+
+  /* 🔥 nổi bật hơn */
+  background:linear-gradient(90deg,rgba(0,240,255,0.08),rgba(138,43,226,0.08));
+  border:1px solid rgba(255,255,255,0.1);
+
+  display:inline-block;
+
+  box-shadow:0 0 25px rgba(0,255,255,0.15);
 }
 
-@keyframes radarSpin{
-from{transform:translate(-50%,-50%) rotate(0)}
-to{transform:translate(-50%,-50%) rotate(360deg)}
+/* dòng chính */
+.counter-main{
+  font-size:22px;
+  font-weight:700;
+
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-/* NAVBAR GOD SCAN */
-.navbar::godline{
-content:"";
+/* dòng phụ */
+.counter-sub{
+  font-size:13px;
+  color:#aaa;
+  margin-top:6px;
+}
+/* ===== DEMO SLIDER ===== */
+
+.demo-wrap{
+  margin-top:60px;
+  text-align:center;
 }
 
-.navbar::before{
-content:"";
-position:absolute;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:linear-gradient(90deg,transparent,rgba(0,240,255,.12),transparent);
-animation:navScan 6s linear infinite;
-pointer-events:none;
+/* slider */
+.demo-slider{
+  position:relative;
+  max-width:600px;
+  margin:auto;
+  overflow:hidden;
+  border-radius:16px;
 }
 
-@keyframes navScan{
-0%{transform:translateX(-100%)}
-100%{transform:translateX(100%)}
+/* ảnh */
+.demo-img{
+  width:100%;
+  display:none;
+
+  border-radius:16px;
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  transition:0.4s;
 }
 
-/* HERO HUD LINES */
-.hero .hudLine{
-position:absolute;
-height:2px;
-width:120px;
-background:linear-gradient(90deg,transparent,var(--neon),transparent);
-opacity:.5;
-pointer-events:none;
-animation:hudMove 6s linear infinite;
+.demo-img.active{
+  display:block;
 }
 
-@keyframes hudMove{
-0%{transform:translateX(-200px)}
-100%{transform:translateX(200px)}
+/* DOT */
+.demo-dots{
+  margin-top:15px;
+
+  display:flex;
+  justify-content:center;  /* 🔥 CĂN GIỮA */
+  align-items:center;
 }
-/* ===================================================
-🔥 TIMEMARK TRUST HUD (FAKE SYSTEM)
-=================================================== */
-
-.counter-box,
-.history-box{
-margin-top:28px;
-padding:14px 18px;
-display:inline-block;
-border-radius:3px;
-
-background:linear-gradient(160deg,#02050f,#050a24);
-border:1px solid rgba(0,240,255,.35);
-
-font-size:14px;
-letter-spacing:.8px;
-color:var(--energy);
-
-box-shadow:
-0 0 20px rgba(0,240,255,.25),
-inset 0 0 12px rgba(0,240,255,.08);
-
-position:relative;
-overflow:hidden;
+.demo-dots{
+  width:100%;
 }
 
-/* ENERGY SCAN giống CARD */
-.counter-box::before,
-.history-box::before{
-content:"";
-position:absolute;
-top:-120%;
-left:0;
-width:100%;
-height:240%;
-background:linear-gradient(180deg,transparent,rgba(0,240,255,.25),transparent);
-animation:trustScan 5s linear infinite;
-pointer-events:none;
+.dot{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  margin:0 4px;
+
+  border-radius:50%;
+  background:#555;
+
+  cursor:pointer;
+  transition:0.3s;
 }
 
-@keyframes trustScan{
-0%{top:-120%}
-100%{top:120%}
+.dot.active{
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  width:18px;
+  border-radius:10px;
 }
-/* ===================================================
-👁 GOD HUD TICKER MODE (FINAL FIX)
-=================================================== */
-
-.ai-ticker{
-position:fixed;
-top:72px;                 /* nằm dưới navbar */
-left:0;
-width:100%;
-height:34px;
-overflow:hidden;
-
-z-index:1200;             /* ⭐ cao hơn navbar */
-pointer-events:auto;
-
-background:rgba(0,0,0,.75);
-border-bottom:1px solid rgba(0,240,255,.35);
-backdrop-filter:blur(10px);
+.demo-img:hover{
+  transform:scale(1.03);
 }
+.demo-wrap{
+  margin-top:60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center; /* 🔥 đảm bảo tất cả ở giữa */
+}
+/* ===== TICKER SINGLE ===== */
 
-.ai-track{
-position:absolute;
-top:0;
-left:0;   /* ⭐ FIX QUAN TRỌNG */
+.ticker-wrap{
+  width:100%;
+  overflow:hidden;
 
+  padding:10px 0;
 
-color:var(--energy);
-font-size:13px;
-font-weight:600;
-line-height:34px;
+  background:rgba(255,255,255,0.03);
+  border-top:1px solid rgba(255,255,255,0.05);
+  border-bottom:1px solid rgba(255,255,255,0.05);
 
-text-shadow:
-0 0 6px var(--neon),
-0 0 14px rgba(0,240,255,.4);
-
-will-change:transform;
+  display:flex;
+  justify-content:center;
 }
 
-/* GOD HUD CURSOR BLINK */
-.ai-track::after{
-content:"▌";
-margin-left:4px;
-animation:blinkCursor .8s infinite;
+/* text */
+.ticker{
+  font-size:14px;
+  color:#aaa;
+
+  opacity:0;
+  transform:translateY(10px);
+
+  transition:all 0.4s ease;
 }
 
-@keyframes blinkCursor{
-0%,100%{opacity:1}
-50%{opacity:0}
+/* hiện */
+.ticker.show{
+  opacity:1;
+  transform:translateY(0);
 }
-/* ===================================================
-👁 DEMO GALLERY HUD
-=================================================== */
+/* ===== WELCOME POPUP FULL ===== */
 
-.demoSection{
-max-width:1100px;
-margin:100px auto;
-padding:20px;
-text-align:center;
-}
+.welcome-overlay{
+  position:fixed;
+  inset:0;
 
-.demoSection h2{
-color:var(--neon);
-margin-bottom:30px;
-text-shadow:0 0 15px var(--neon);
-}
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
 
-.demoGrid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:24px;
-}
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-.demoImg{
-width:100%;
-border-radius:4px;
-border:1px solid rgba(0,240,255,.35);
-box-shadow:0 0 20px rgba(0,240,255,.25);
-transition:.35s;
-cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+
+  transition:0.3s ease;
+
+  z-index:99999;
 }
 
-.demoImg:hover{
-transform:scale(1.05);
-box-shadow:
-0 0 40px var(--neon),
-0 0 80px rgba(255,23,68,.4);
+/* 🔥 HIỆN POPUP */
+.welcome-overlay.show{
+  opacity:1;
+  pointer-events:auto;
 }
 
-/* ===================================================
-📱 MOBILE FIX IOS + ANDROID (TIMEMARK)
-=================================================== */
+/* ===== BOX ===== */
+.welcome-box{
+  position:relative;
 
-html{
--webkit-text-size-adjust:100%;
+  width:90%;
+  max-width:380px;
+
+  padding:28px 22px;
+  border-radius:18px;
+
+  text-align:center;
+
+  background:linear-gradient(180deg,#14142a,#0f0f1f);
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.8);
+
+  transform:translateY(20px) scale(0.95);
+  transition:0.3s ease;
 }
 
-body{
-overflow-x:hidden;
-transform:translateZ(0);
+/* animation khi hiện */
+.welcome-overlay.show .welcome-box{
+  transform:translateY(0) scale(1);
 }
 
-/* IOS NAVBAR FIX */
-.navbar{
--webkit-backdrop-filter:blur(18px);
-backdrop-filter:blur(18px);
-transform:translateZ(0);
+/* ===== TITLE ===== */
+.welcome-box h2{
+  margin-bottom:10px;
+
+  font-size:20px;
+
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-.menu-toggle{
-display:flex;
-align-items:center;
-justify-content:center;
-line-height:1;
+/* ===== TEXT ===== */
+.welcome-box p{
+  font-size:14px;
+  color:#aaa;
+
+  margin-bottom:20px;
 }
 
-/* DRAWER FIX */
-.drawer{
--webkit-overflow-scrolling:touch;
-background:rgba(1,4,15,0.96);
--webkit-backdrop-filter:blur(18px);
-backdrop-filter:blur(18px);
-transform:translateZ(0);
+/* ===== BUTTON OK ===== */
+.welcome-ok{
+  padding:12px 24px;
+  border-radius:12px;
+
+  border:none;
+  cursor:pointer;
+
+  font-weight:600;
+
+  background:linear-gradient(90deg,#00f0ff,#8a2eff);
+  color:#000;
+
+  transition:0.3s;
 }
 
-.drawer a{
-color:var(--energy);
-text-decoration:none;
-font-weight:600;
+/* hover */
+.welcome-ok:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 15px rgba(0,255,255,0.5);
 }
 
-/* MOBILE HERO FIX */
-@media(max-width:768px){
+/* ===== CLOSE BUTTON ===== */
+.welcome-close{
+  position:absolute;
+  top:12px;
+  right:14px;
 
-.hero{
-transform:none !important;
-animation:none;
+  font-size:18px;
+  color:#fff;
+
+  cursor:pointer;
+
+  opacity:0.6;
+  transition:0.2s;
 }
 
-.demoSection{
-margin:60px auto;
-padding:16px;
+.welcome-close:hover{
+  opacity:1;
+  transform:scale(1.2);
+}
+/* ===== DESC ===== */
+.welcome-desc{
+  font-size:14px;
+  color:#ccc;
+  margin-bottom:15px;
 }
 
-.demoImg{
-border-radius:6px;
+/* ===== NOTE ===== */
+.popup-note{
+  text-align:left;
+  font-size:13px;
+  color:#aaa;
+
+  margin-bottom:15px;
+  padding:10px;
+
+  background:rgba(255,255,255,0.04);
+  border-radius:10px;
 }
 
+.popup-note ul{
+  margin-top:5px;
+  padding-left:18px;
 }
 
+/* ===== BANK ===== */
+.popup-bank{
+  text-align:left;
+  font-size:13px;
+
+  margin-bottom:15px;
+  padding:12px;
+
+  border-radius:12px;
+
+  background:linear-gradient(90deg,rgba(0,240,255,0.08),rgba(138,43,226,0.08));
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.popup-bank p{
+  margin:3px 0;
+}
+
+.bank-note{
+  margin-top:6px;
+  color:#00f0ff;
+}
+
+/* ===== BUTTON GROUP ===== */
+.welcome-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+
+/* nút phụ */
+.welcome-skip{
+  padding:12px 20px;
+  border-radius:12px;
+
+  border:1px solid #444;
+  background:transparent;
+  color:#aaa;
+
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.welcome-skip:hover{
+  color:#fff;
+  border-color:#888;
+}

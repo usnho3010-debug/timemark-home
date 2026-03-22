@@ -3,114 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>📘 Hướng dẫn - Timemark</title>
 
-<!-- GLOBAL THEME -->
-<link rel="stylesheet" href="theme-landing.css?v=3">
+<title>🚀 TIMEMARK</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme-landing.css?v=1002">
 
 </head>
 
 <body>
 
-<!-- ======================
-OVERLAY + DRAWER
-====================== -->
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-<div class="drawer" id="drawer">
-<a href="https://app.timemark.io.vn">⚡ Bắt đầu ngay</a>
-<a href="https://app.timemark.io.vn/buy.html">🛒 Mua Key</a>
-<a href="/">🏠 Trang chủ</a>
-</div>
-
-<!-- ======================
-NAVBAR
-====================== -->
+<!-- NAVBAR -->
 <div class="navbar">
-
-<div class="logo">🚀 TIMEMARK</div>
-
-<div class="menu">
-<a href="/">Trang chủ</a>
-<a href="https://app.timemark.io.vn">Bắt đầu ngay</a>
-<a href="https://app.timemark.io.vn/buy.html">Mua Key</a>
+  <div class="logo">🚀 TIMEMARK</div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 </div>
 
-<div class="menu-toggle" id="menuBtn" onclick="toggleMenu()">☰</div>
+<!-- 🔥 MENU PHẢI NẰM NGOÀI -->
+<div class="menu" id="menu">
+  <div class="menu-close" onclick="toggleMenu()">✕</div>
 
+  <a href="guide-page.html">Giới thiệu</a>
+  <a href="guide.html">Hướng dẫn</a>
+  <a href="https://app.timemark.io.vn">Bắt đầu</a>
+  <a href="https://app.timemark.io.vn/buy.html">Mua key</a>
 </div>
 
-<!-- ======================
-CONTENT WRAPPER
-====================== -->
-<div class="wrapper">
+<!-- HERO -->
+<section class="hero">
+  <h1>🚀 TIMEMARK</h1>
+  <p>CHỈNH SỬA NGÀY GIỜ VỊ TRÍ TRÊN ẢNH</p>
 
-<h2>📘 Hướng dẫn sử dụng Timemark</h2>
+  <div class="buttons">
+    <a class="btnMain" href="https://app.timemark.io.vn">⚡ BẮT ĐẦU</a>
+    <a class="btnSub" href="https://app.timemark.io.vn/buy.html">🛒 MUA KEY</a>
+  </div>
 
-<div class="guideBox">
+  <!-- COUNTER -->
+ <div class="counter-box">
+  <div class="counter-main">
+    🔥 <span id="fakeCounter">0</span>+ người đã kích hoạt
+  </div>
+  <div class="counter-sub">
+    ⚡ Đang tăng liên tục mỗi ngày
+  </div>
+</div>
+</section>
+<div class="ticker-wrap">
+  <div class="ticker" id="fakeTicker"></div>
+</div>
+<!-- INTRO -->
+<section class="intro container">
+  <h2>⚡ Giải pháp check-in thông minh</h2>
 
-<div class="step">
-<h3>🔹 Bước 1: Mua Key</h3>
-<p>Chọn gói bản quyền phù hợp và thanh toán bằng QR.</p>
-<a class="btnMain" href="https://app.timemark.io.vn/buy.html">Mua Key ngay</a>
+  <p class="intro-desc">
+    Timemark giúp bạn tạo ảnh check-in với vị trí và thời gian tùy chỉnh hoàn toàn,
+    đảm bảo xác thực chuẩn 100% trên hệ thống.
+  </p>
+
+  <div class="grid">
+    <div class="intro-card">
+      <h3>📍 Tùy chỉnh vị trí</h3>
+      <p>Check-in bất kỳ đâu chỉ trong vài giây.</p>
+    </div>
+
+    <div class="intro-card">
+      <h3>⏱ Tùy chỉnh thời gian</h3>
+      <p>Chủ động toàn bộ mốc thời gian.</p>
+    </div>
+
+    <div class="intro-card">
+      <h3>🔒 Xác thực 100%</h3>
+      <p>Ảnh hợp lệ trên hệ thống Timemark.</p>
+    </div>
+  </div>
+  
+</section>
+<div class="demo-slider" id="demoSlider">
+  <img src="images/demo1.jpg" class="demo-img active">
+  <img src="images/demo2.jpg" class="demo-img">
+  <img src="images/demo3.jpg" class="demo-img">
 </div>
 
-<div class="step">
-<h3>🔹 Bước 2: Nhận KEY qua Email</h3>
-<p>Sau khi thanh toán thành công, hệ thống sẽ gửi KEY về Gmail của bạn.</p>
-</div>
+<!-- DOT auto generate -->
+<div class="demo-dots" id="demoDots"></div>
 
-<div class="step">
-<h3>🔹 Bước 3: Mở Timemark</h3>
-<p>Nhấn vào nút bên dưới và nhập KEY để sử dụng.</p>
-<a class="btnMain" href="https://app.timemark.io.vn">⚡ Bắt đầu ngay</a>
-</div>
+<!-- CTA -->
+<section class="cta container">
+  <h2>Sẵn sàng sử dụng?</h2>
 
-<div class="step">
-<h3>🔹 Lưu ý</h3>
-<p>Mỗi KEY chỉ dùng cho 1 thiết bị.</p>
-</div>
+  <div class="buttons">
+    <a class="btnMain" href="https://app.timemark.io.vn">⚡ BẮT ĐẦU NGAY</a>
+    <a class="btnSub" href="https://app.timemark.io.vn/buy.html">🛒 MUA KEY</a>
+  </div>
+</section>
 
-</div>
-
-</div>
-
-<!-- ======================
-FOOTER
-====================== -->
+<!-- FOOTER -->
 <div class="footer">
-© 2026 Timemark.io.vn
+  © 2026 Timemark.io.vn
 </div>
 
-<!-- ======================
-ZALO FLOAT
-====================== -->
-<a href="https://zalo.me/0837685798" class="zalo-float" target="_blank">
-💬 Zalo
-</a>
+<!-- ZALO -->
+<div class="zalo-wrapper" id="zaloBox">
+  <div class="zalo-tooltip">💬 Hỗ trợ nhanh 24/7</div>
 
-<!-- ======================
-MENU SCRIPT
-====================== -->
+  <a href="https://zalo.me/0334690556" target="_blank" class="zalo-float">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg">
+  </a>
+</div>
+
+<!-- ✅ OVERLAY (CHỈ 1 CÁI DUY NHẤT) -->
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<!-- MENU SCRIPT -->
 <script>
 function toggleMenu(){
+  const menu = document.getElementById("menu");
+  const overlay = document.getElementById("menuOverlay");
 
-const drawer=document.getElementById("drawer");
-const overlay=document.getElementById("overlay");
-const btn=document.getElementById("menuBtn");
-
-drawer.classList.toggle("show");
-overlay.classList.toggle("show");
-
-btn.textContent =
-drawer.classList.contains("show") ? "✕" : "☰";
-
+  menu.classList.toggle("active");
+  overlay.classList.toggle("active");
 }
 </script>
 
-<!-- GLOBAL EFFECT ENGINE -->
+<!-- ZALO EFFECT -->
+<script>
+setTimeout(()=>{
+  document.getElementById("zaloBox")?.classList.add("show");
+},3000);
+</script>
+<div class="welcome-overlay" id="welcomeOverlay">
+
+  <div class="welcome-box">
+
+    <div class="welcome-close" onclick="closeWelcome()">✕</div>
+
+    <h2>🚀 Chào mừng đến với TIMEMARK</h2>
+
+    <p class="welcome-desc">
+      Công cụ giúp bạn tạo ảnh check-in nhanh chóng và chính xác.
+    </p>
+
+    <!-- 📌 LƯU Ý -->
+    <div class="popup-note">
+      <b>📌 Lưu ý:</b>
+      <ul>
+        <li>Key dùng ngay sau khi thanh toán</li>
+        <li>Không chia sẻ key</li>
+        <li>Hỗ trợ 24/7 nếu gặp lỗi</li>
+      </ul>
+    </div>
+
+    <!-- 💳 NGÂN HÀNG -->
+    <div class="popup-bank">
+      <b>💳 Thanh toán duy nhất:</b>
+      <p>Ngân hàng: <b>OCB</b></p>
+      <p>STK: <b>0837685798</b></p>
+      <p>Chủ TK: <b>Tran Thi Chuc Quynh</b></p>
+      
+    </div>
+
+    <!-- BUTTON -->
+    <div class="welcome-actions">
+      <button class="welcome-ok" onclick="closeWelcome()">
+        OK, tiếp tục 🚀
+      </button>
+
+      <button class="welcome-skip" onclick="skipWelcome()">
+        Không hiển thị lại
+      </button>
+    </div>
+
+  </div>
+
+</div>
+<!-- MAIN JS -->
 <script src="landing-effects.js"></script>
 
-</body>
-</html>
 
+</body>
+
+</html>

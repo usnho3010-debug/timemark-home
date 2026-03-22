@@ -124,8 +124,13 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 const welcome = document.getElementById("welcomeOverlay");
 
-/* nếu chưa tắt vĩnh viễn */
-if(!localStorage.getItem("hide_welcome")){
+if(!welcome) return;
+
+const now = Date.now();
+const savedTime = localStorage.getItem("hide_welcome_time");
+
+/* kiểm tra 24h */
+if(!savedTime || (now - savedTime > 24*60*60*1000)){
 
   setTimeout(()=>{
     welcome.classList.add("show");
@@ -138,10 +143,12 @@ window.closeWelcome = function(){
   welcome.classList.remove("show");
 }
 
-/* Không nhắc lại */
+/* Không hiển thị lại */
 window.skipWelcome = function(){
   welcome.classList.remove("show");
-  localStorage.setItem("hide_welcome","true");
+
+  /* lưu thời gian hiện tại */
+  localStorage.setItem("hide_welcome_time", Date.now());
 }
 
 });

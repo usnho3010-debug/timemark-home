@@ -2,424 +2,907 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="index,follow,max-image-preview:large">
-<meta name="description" content="Timemark là công cụ tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực. Dùng nhanh trên trình duyệt, phù hợp cho nhu cầu check-in linh hoạt.">
-<meta name="keywords" content="Timemark, tạo ảnh check-in, chỉnh ngày giờ trên ảnh, chỉnh vị trí trên ảnh, watermark check-in, ảnh xác thực, app check-in">
-<meta name="author" content="Timemark">
-<meta name="theme-color" content="#0a0a0a">
-
-<link rel="canonical" href="https://timemark.id.vn/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="theme-landing.css?v=1003">
+<title>Timemark Style Pro</title>
 
-<meta property="og:type" content="website">
-<meta property="og:locale" content="vi_VN">
-<meta property="og:site_name" content="Timemark">
-<meta property="og:title" content="Timemark - Công cụ tạo ảnh check-in có thời gian và vị trí">
-<meta property="og:description" content="Tạo ảnh check-in với thời gian, ngày tháng, vị trí, họ tên và watermark xác thực ngay trên trình duyệt.">
-<meta property="og:url" content="https://timemark.id.vn/">
-<meta property="og:image" content="https://timemark.id.vn/images/demo1.jpg">
-<meta property="og:image:alt" content="Ảnh demo giao diện tạo watermark check-in Timemark">
+<link rel="stylesheet" href="theme-app.css">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Timemark - Tạo ảnh check-in có thời gian và vị trí">
-<meta name="twitter:description" content="Công cụ tạo ảnh check-in có watermark, thời gian, vị trí và thông tin cá nhân ngay trên trình duyệt.">
-<meta name="twitter:image" content="https://timemark.id.vn/images/demo1.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f7fbff">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Timemark - Tạo ảnh check-in có thời gian, vị trí và watermark</title>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://timemark.id.vn/#organization",
-      "name": "Timemark",
-      "url": "https://timemark.id.vn/",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer support",
-        "url": "https://zalo.me/0559027234",
-        "availableLanguage": "vi"
-      }
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://timemark.id.vn/#website",
-      "name": "Timemark",
-      "url": "https://timemark.id.vn/",
-      "publisher": { "@id": "https://timemark.id.vn/#organization" },
-      "inLanguage": "vi-VN"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "@id": "https://timemark.id.vn/#app",
-      "name": "Timemark",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Web",
-      "url": "https://timemark.id.vn/app/",
-      "description": "Công cụ tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực.",
-      "offers": {
-        "@type": "Offer",
-        "url": "https://timemark.id.vn/app/buy.html",
-        "priceCurrency": "VND"
-      }
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://timemark.id.vn/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Timemark dùng để làm gì?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Timemark giúp tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực trực tiếp trên trình duyệt."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Timemark có dùng trên điện thoại được không?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Có. Timemark là ứng dụng web, có thể dùng trên trình duyệt điện thoại và máy tính."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Mỗi key Timemark dùng được cho mấy thiết bị?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Mỗi key được thiết kế để dùng cho một thiết bị nhằm bảo vệ bản quyền và hạn chế chia sẻ key."
-          }
-        }
-      ]
-    }
-  ]
-}
+<script>
+  // Khởi tạo Theme ngay từ đầu để tránh bị chớp màn hình (Flicker)
+  const savedTheme = localStorage.getItem('tm_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('tm_theme', newTheme);
+    document.getElementById('themeToggle').innerText = newTheme === 'light' ? '☀️' : '🌙';
+  }
 </script>
 </head>
 
 <body>
-<a class="skip-link" href="#main">Bỏ qua menu</a>
+<div class="bg"></div>
+<div id="loadingBlur" class="loadingBlur"></div>
+<div class="petals" id="petals"></div>
 
-<header class="site-header">
-  <nav class="navbar" aria-label="Điều hướng chính">
-    <a class="logo" href="/" aria-label="Timemark trang chủ">🚀 TIMEMARK</a>
-    <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Mở menu" aria-controls="menu">☰</button>
-  </nav>
+<div class="lock" id="lock">
+  <div class="lockBox">
+    <h3>🔐 Kích hoạt Timemark</h3>
+    <input id="keyInput" placeholder="Nhập key của bạn">
+    <button id="btnActivate" onclick="activate()">Kích hoạt</button>
 
-  <div class="menu" id="menu">
-    <button class="menu-close" type="button" onclick="toggleMenu()" aria-label="Đóng menu">✕</button>
-    <a href="guide-page.html">Giới thiệu</a>
-    <a href="guide.html">Hướng dẫn</a>
-    <a href="terms.html">Điều khoản</a>
-    <a href="app/">Bắt đầu</a>
-    <a href="app/buy.html">Mua key</a>
+    <button id="btnBuy" onclick="window.open('buy.html','_blank')">🛒 Mua key Timemark</button>
+
+    <p style="font-size:12px;">LƯU Ý: 1 key chỉ dùng cho 1 thiết bị</p>
   </div>
-</header>
-
-<main id="main">
-  <div class="top-offer" role="note">
-    <span>Ưu tiên mobile</span>
-    <b>Tạo ảnh check-in nhanh, rõ thông tin, tải về ngay</b>
-    <a href="app/">Mở app</a>
-  </div>
-
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-shell">
-      <div class="hero-content">
-        <p class="eyebrow">Công cụ tạo ảnh check-in trên trình duyệt</p>
-        <h1 id="hero-title">Tạo ảnh check-in có thời gian và vị trí trong vài giây</h1>
-        <p class="hero-copy">Timemark giúp bạn thêm giờ, ngày, địa chỉ, họ tên, logo và watermark xác thực lên ảnh. Giao diện tối ưu cho điện thoại, dùng nhanh ngay trên web.</p>
-
-        <div class="buttons" aria-label="Hành động chính">
-          <a class="btnMain" href="app/">⚡ Dùng app ngay</a>
-          <a class="btnSub" href="app/buy.html">🛒 Xem gói key</a>
-        </div>
-
-        <div class="hero-points" aria-label="Lợi ích nổi bật">
-          <span>Không cần cài app</span>
-          <span>Có GPS và nhập tay</span>
-          <span>Tải ảnh PNG</span>
-        </div>
-
-        <div class="counter-box" aria-label="Số người đã kích hoạt">
-          <div class="counter-main">🔥 <span id="fakeCounter">0</span>+ người đã kích hoạt</div>
-          <div class="counter-sub">Cập nhật liên tục mỗi ngày</div>
-        </div>
-      </div>
-
-      <div class="hero-preview" aria-label="Ảnh xem trước Timemark">
-        <div class="phone-frame app-mockup">
-          <div class="mock-status">
-            <span>09:41</span>
-            <span>Timemark</span>
-          </div>
-          <div class="mock-photo">
-            <div class="mock-watermark">
-              <strong>13:50</strong>
-              <span>02 Tháng 5, 2026</span>
-              <span>Q. 1, TP. Hồ Chí Minh</span>
-            </div>
-            <div class="mock-brand">Time<span>mark</span></div>
-          </div>
-          <div class="mock-panel">
-            <div>
-              <span>Ảnh check-in</span>
-              <b>Đã sẵn sàng</b>
-            </div>
-            <button type="button">Tạo ảnh</button>
-          </div>
-          <div class="preview-badge">Mobile optimized</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="ticker-wrap" aria-live="polite">
-    <div class="ticker" id="fakeTicker"></div>
-  </div>
-
-  <section class="trust-strip" aria-label="Lý do người dùng chọn Timemark">
-    <div><b>Web app</b><span>Dùng trực tiếp trên trình duyệt</span></div>
-    <div><b>Mobile-first</b><span>Tối ưu thao tác trên điện thoại</span></div>
-    <div><b>Watermark</b><span>Ảnh rõ thông tin và thương hiệu</span></div>
-  </section>
-
-  <section class="conversion-strip container" aria-label="Cam kết trải nghiệm">
-    <div class="conversion-card">
-      <span>01</span>
-      <b>Dùng trên điện thoại</b>
-      <p>Mở web, chọn ảnh, tạo watermark và tải về trong cùng một luồng thao tác.</p>
-    </div>
-    <div class="conversion-card">
-      <span>02</span>
-      <b>Ảnh nhìn chuyên nghiệp</b>
-      <p>Bố cục giờ, ngày, vị trí, logo và họ tên được thiết kế để dễ đọc trên ảnh.</p>
-    </div>
-    <div class="conversion-card">
-      <span>03</span>
-      <b>Hỗ trợ khi cần</b>
-      <p>Có kênh Zalo hỗ trợ nếu bạn gặp lỗi kích hoạt, thanh toán hoặc tải ảnh.</p>
-    </div>
-  </section>
-
-  <section class="intro container" aria-labelledby="intro-title">
-    <h2 id="intro-title">Giải pháp tạo ảnh check-in linh hoạt</h2>
-    <p class="intro-desc">
-      Timemark giúp bạn tạo ảnh check-in với thông tin hiển thị rõ ràng, bố cục chuyên nghiệp và watermark thương hiệu.
-      Ứng dụng chạy trực tiếp trên web, không cần cài đặt phần mềm phức tạp.
-    </p>
-
-    <div class="grid">
-      <article class="intro-card">
-        <h3>📍 Tùy chỉnh vị trí</h3>
-        <p>Nhập địa chỉ thủ công hoặc lấy vị trí GPS để hiển thị trên ảnh check-in.</p>
-      </article>
-
-      <article class="intro-card">
-        <h3>⏱ Tùy chỉnh thời gian</h3>
-        <p>Hiển thị giờ, ngày và thứ theo định dạng dễ đọc, phù hợp cho ảnh báo cáo.</p>
-      </article>
-
-      <article class="intro-card">
-        <h3>🔒 Watermark xác thực</h3>
-        <p>Thêm mã ảnh, thương hiệu, logo và thông tin cá nhân để ảnh đồng nhất hơn.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="demo-section container" aria-labelledby="demo-title">
-    <h2 id="demo-title">Ảnh demo Timemark</h2>
-    <p class="intro-desc">Xem trước phong cách ảnh check-in sau khi thêm watermark và thông tin hiển thị.</p>
-
-    <div class="demo-slider" id="demoSlider">
-      <img src="images/demo1.jpg" class="demo-img active" alt="Ảnh demo Timemark có thời gian và vị trí" width="600" height="600" fetchpriority="high">
-      <img src="images/demo2.jpg" class="demo-img" alt="Ảnh demo watermark check-in Timemark" width="600" height="600" loading="lazy">
-      <img src="images/demo3.jpg" class="demo-img" alt="Ảnh demo bố cục thông tin check-in Timemark" width="600" height="600" loading="lazy">
-    </div>
-
-    <div class="demo-dots" id="demoDots" aria-label="Chọn ảnh demo"></div>
-  </section>
-
-  <section class="use-case-section container" aria-labelledby="use-case-title">
-    <div class="section-kicker">Dành cho ai?</div>
-    <h2 id="use-case-title">Từ người dùng cá nhân đến đội nhóm cần ảnh check-in nhanh</h2>
-    <div class="use-case-grid">
-      <article>
-        <h3>Nhân viên thị trường</h3>
-        <p>Tạo ảnh có địa chỉ, giờ và tên để gửi báo cáo nhanh sau mỗi điểm làm việc.</p>
-      </article>
-      <article>
-        <h3>Sale và cộng tác viên</h3>
-        <p>Chuẩn hóa ảnh check-in khi gặp khách, khảo sát điểm bán hoặc ghi nhận hoạt động.</p>
-      </article>
-      <article>
-        <h3>Đội nhóm vận hành</h3>
-        <p>Thống nhất cách hiển thị logo, thời gian và thông tin người thực hiện trên ảnh.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="seo-section container" aria-labelledby="features-title">
-    <h2 id="features-title">Tính năng chính của Timemark</h2>
-    <div class="feature-list">
-      <article>
-        <h3>Tạo ảnh ngay trên trình duyệt</h3>
-        <p>Chọn ảnh, nhập thông tin check-in, xem trước trên canvas và tải ảnh PNG sau khi hoàn tất.</p>
-      </article>
-      <article>
-        <h3>Hỗ trợ logo thương hiệu</h3>
-        <p>Thêm logo riêng để ảnh check-in đồng bộ với nhận diện thương hiệu hoặc nhóm làm việc.</p>
-      </article>
-      <article>
-        <h3>Tối ưu cho điện thoại</h3>
-        <p>Giao diện được thiết kế theo hướng mobile-first, thao tác nhanh bằng chạm, kéo và vuốt.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="process-section container" aria-labelledby="process-title">
-    <div class="section-kicker">Cách sử dụng</div>
-    <h2 id="process-title">3 bước để có ảnh check-in hoàn chỉnh</h2>
-    <div class="process-list">
-      <article>
-        <span>01</span>
-        <h3>Chọn ảnh</h3>
-        <p>Tải ảnh từ điện thoại hoặc máy tính lên app Timemark.</p>
-      </article>
-      <article>
-        <span>02</span>
-        <h3>Nhập thông tin</h3>
-        <p>Điền giờ, ngày, địa chỉ, họ tên hoặc lấy GPS tự động.</p>
-      </article>
-      <article>
-        <span>03</span>
-        <h3>Tạo và tải xuống</h3>
-        <p>Xem trước watermark, kéo chỉnh vị trí rồi tải ảnh PNG.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="offer-section container" aria-labelledby="offer-title">
-    <div class="offer-panel">
-      <div>
-        <div class="section-kicker">Bắt đầu sử dụng</div>
-        <h2 id="offer-title">Dùng Timemark để tạo ảnh check-in ngay hôm nay</h2>
-        <p>Phù hợp khi bạn cần ảnh có thời gian, vị trí và thông tin hiển thị rõ ràng. Trải nghiệm app trước, sau đó chọn gói key phù hợp với nhu cầu.</p>
-      </div>
-      <div class="offer-actions">
-        <a class="btnMain" href="app/">Dùng app ngay</a>
-        <a class="btnSub" href="app/buy.html">Xem bảng giá</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="faq-section container" aria-labelledby="faq-title">
-    <h2 id="faq-title">Câu hỏi thường gặp</h2>
-    <div class="faq-list">
-      <details>
-        <summary>Timemark dùng để làm gì?</summary>
-        <p>Timemark dùng để tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực.</p>
-      </details>
-      <details>
-        <summary>Có cần cài đặt ứng dụng không?</summary>
-        <p>Không. Timemark chạy trên trình duyệt web, bạn chỉ cần truy cập trang app để sử dụng.</p>
-      </details>
-      <details>
-        <summary>Mỗi key dùng được cho bao nhiêu thiết bị?</summary>
-        <p>Mỗi key dùng cho một thiết bị để bảo vệ bản quyền và hạn chế chia sẻ ngoài phạm vi cho phép.</p>
-      </details>
-    </div>
-  </section>
-
-  <section class="cta container" aria-labelledby="cta-title">
-    <h2 id="cta-title">Sẵn sàng tạo ảnh check-in?</h2>
-    <div class="buttons">
-      <a class="btnMain" href="app/">⚡ Bắt đầu ngay</a>
-      <a class="btnSub" href="app/buy.html">🛒 Mua key</a>
-    </div>
-  </section>
-</main>
-
-<div class="mobile-cta" aria-label="Hành động nhanh trên mobile">
-  <a href="app/">Dùng app</a>
-  <a href="app/buy.html">Mua key</a>
 </div>
 
-<footer class="footer">
-  <p>© 2026 timemark.id.vn</p>
-  <nav aria-label="Liên kết chân trang">
-    <a href="guide-page.html">Giới thiệu</a>
-    <a href="guide.html">Hướng dẫn</a>
-    <a href="terms.html">Điều khoản</a>
-    <a href="privacy.html">Bảo mật</a>
-    <a href="app/">Ứng dụng</a>
-  </nav>
-</footer>
-
-<div class="zalo-wrapper" id="zaloBox">
-  <div class="zalo-tooltip">Hỗ trợ 24/7</div>
-  <a href="https://zalo.me/0559027234" target="_blank" rel="noopener" class="zalo-float" aria-label="Liên hệ Timemark qua Zalo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" width="30" height="30" loading="lazy">
-  </a>
+<div class="lock" id="notifyBox" style="display:none;">
+  <div class="lockBox notifyMax">
+    <div class="shieldIcon">🛡</div>
+    <h3 id="notifyTitle"></h3>
+    <p id="notifyMsg"></p>
+    <div class="notifyActions">
+      <button id="notifyBtn">Bắt đầu sử dụng</button>
+      <button id="notifyBtn2" style="display:none"></button>
+    </div>
+  </div>
 </div>
 
-<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<div class="app">
+  <header class="header-app">
+    <h2>🚀 Timemark Premium</h2>
+    <p>Tạo ảnh check-in có thời gian, vị trí và thông tin cá nhân.</p>
+    <p class="header-note">Gợi ý: dùng các số 0, 2, 4, 7 để ảnh tự nhiên hơn.</p>
+    <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle-btn" title="Đổi giao diện Sáng/Tối">🌙</button>
+  </header>
 
+  <!-- CARD 1: UPLOAD -->
+  <div class="card app-card upload-card">
+    <h3 class="section-title">Nguồn ảnh</h3>
+    <label>Ảnh check-in (Bắt buộc)</label>
+    <input type="file" id="imageInput" accept="image/*">
+    <label>Logo thương hiệu (Tùy chọn)</label>
+    <input type="file" id="logoInput" accept="image/*">
+  </div>
+
+  <!-- CARD 2: WATERMARK -->
+  <div class="card app-card watermark-card">
+    <h3 class="section-title">Cấu hình Watermark</h3>
+    <label>Kiểu Watermark</label>
+    <select id="wmStyle"><option value="v3">🔥 Chuẩn Timemark Premium</option></select>
+  </div>
+    
+  <!-- CARD 3: THÔNG TIN CHECK-IN -->
+  <div class="card app-card form-card">
+    <h3 class="section-title">Thông tin Check-in</h3>
+    <div class="quick-tool-row">
+      <button onclick="setNow()" class="btn-secondary">Lấy giờ thực tế</button>
+      <button onclick="getGPS()" class="btn-secondary">Lấy vị trí GPS</button>
+    </div>
+
+    <div class="infoGrid">
+      <div><label>Giờ</label><input id="time" placeholder="VD: 13:50"></div>
+      <div><label>Ngày</label><input id="date" placeholder="10 Tháng 3, 2026"></div>
+      <div><label>Thứ</label><input id="weekday" placeholder="Thứ Ba"></div>
+      <div class="fullRow"><label>Địa chỉ</label><textarea id="address" placeholder="Nhập địa chỉ"></textarea></div>
+      <div class="fullRow"><label>Họ tên</label><textarea id="fullname" placeholder="Nhập Họ tên"></textarea></div>
+      <div class="fullRow note-control">
+        <button id="addNoteBtn" class="note-add-btn" type="button" onclick="showExtraNote()">+ Thêm ghi chú</button>
+        <div id="extraNoteWrap" class="extra-note-wrap">
+          <label>Ghi chú thêm</label>
+          <textarea id="extraNote" placeholder="VD: Chức vụ: Giám đốc"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4: PREVIEW -->
+  <div class="card app-card preview-card">
+    <h3 class="section-title">Xem trước</h3>
+    <div class="canvas-wrap">
+      <canvas id="c" style="touch-action: none;"></canvas>
+    </div>
+  </div>
+
+  <!-- CARD 5: TÙY CHỈNH -->
+  <div class="card app-card settings-card">
+    <h3 class="section-title">Tùy chỉnh hiển thị</h3>
+    <div class="scale-control" style="margin-top: 0; margin-bottom: 16px; background: transparent; padding: 0; border: none;">
+      <label>🔍 Kích thước thông tin: <span id="scaleDisplay">100</span>%</label>
+      <input type="range" id="wmScaleSlider" min="50" max="180" value="100" oninput="updateWmScale(this.value)">
+      <span class="hint">👆 Vuốt thanh ngang để thu phóng, hoặc vuốt trực tiếp trên ảnh để di chuyển chữ.</span>
+    </div>
+
+    <button class="btnToggle" onclick="toggleAdvanced()">
+      <span class="gear">⚙️</span> Bật/tắt thành phần phụ
+    </button>
+    <div id="advancedPanel">
+      <div class="toggle-row"><label class="title">Mã ảnh</label><label class="switch"><input type="checkbox" id="toggleVertical" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Thương hiệu</label><label class="switch"><input type="checkbox" id="toggleBrand" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Logo</label><label class="switch"><input type="checkbox" id="toggleLogo" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Giờ & Ngày</label><label class="switch"><input type="checkbox" id="toggleTime" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Địa chỉ</label><label class="switch"><input type="checkbox" id="toggleAddress" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Họ tên</label><label class="switch"><input type="checkbox" id="toggleFullname" checked><span class="slider"></span></label></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ACTION BAR -->
+  <div class="action-bar">
+    <button onclick="draw()" class="btn-primary" style="flex: 2;">Tạo ảnh</button>
+    <button onclick="download()" class="btn-secondary-action" style="flex: 1;">Tải về</button>
+  </div>
+
+</div>
 <script>
-function toggleMenu(){
-  const menu = document.getElementById("menu");
-  const overlay = document.getElementById("menuOverlay");
-  const button = document.querySelector(".menu-toggle");
-  const isOpen = menu.classList.toggle("active");
-  overlay.classList.toggle("active", isOpen);
-  document.body.classList.toggle("menu-open", isOpen);
-  if(button) button.setAttribute("aria-expanded", String(isOpen));
+function toggleAdvanced(){
+  const panel = document.getElementById("advancedPanel");
+  const btn = document.querySelector(".btnToggle");
+  panel.classList.toggle("open");
+  btn.classList.toggle("active");
 }
+
+/* ===============================
+   👑 GOD MODE REAL AI LOADING
+================================ */
+let godInterval = null;
+
+function showGod(){
+  const box = document.getElementById("godMode");
+  const load = document.getElementById("godLoading");
+  const success = document.getElementById("godSuccess");
+  const text = document.getElementById("godAIText");
+  const percent = document.getElementById("godPercent");
+
+  box.style.display="flex";
+  load.style.display="block";
+  success.style.display="none";
+
+  const aiSteps = ["Scanning image...","Reading pixels...","Injecting watermark...","Encrypting metadata...","Finalizing render..."];
+  let p = 0;
+  const totalTime = 3000 + Math.random()*5000; 
+  const speed = totalTime/100;
+
+  clearInterval(godInterval);
+  godInterval = setInterval(()=>{
+    p++;
+    percent.innerText = p + "%";
+    if(p < 20) text.innerText = aiSteps[0];
+    else if(p < 40) text.innerText = aiSteps[1];
+    else if(p < 60) text.innerText = aiSteps[2];
+    else if(p < 80) text.innerText = aiSteps[3];
+    else text.innerText = aiSteps[4];
+
+    if(p >= 100){
+      clearInterval(godInterval);
+      godSuccess();
+    }
+  },speed);
+}
+
+function godSuccess(){
+  const load = document.getElementById("godLoading");
+  const success = document.getElementById("godSuccess");
+  load.style.display="none";
+  success.style.display="block";
+  const s=document.getElementById("godSound");
+  if(s){ s.currentTime=0; s.play().catch(()=>{}); }
+}
+
+function closeGod(){
+  document.getElementById("godMode").style.display="none";
+}
+
+const _nativeAlert = window.alert;
+window.alert = function(message){
+  if(!document.getElementById("notifyBox")){ _nativeAlert(message); return; }
+  showNotify("warning", "Thông báo", String(message));
+};
+
+/* ===== CONFIG & API ===== */
+const API_URL = "https://script.google.com/macros/s/AKfycbwDRIc7_SZC2nx1TlYRU-taklWN57lDF9aXLHt2LE3MrLDEu-7Q0inQQlvYd6MKplhw9Q/exec";
+
+function getWMStyle(){ return "v3"; } // Chỉ còn 1 style
+
+let keyWatcher = null;
+
+function getDevice(){
+  let d = localStorage.getItem("tm_device");
+  if(!d){ d = crypto.randomUUID(); localStorage.setItem("tm_device",d); }
+  return d;
+}
+
+function autoCheckKey(){
+  const savedKey = localStorage.getItem("tm_key");
+  if(!savedKey) return;
+
+  fetch(API_URL,{ method:"POST", body:JSON.stringify({ key: savedKey, device: getDevice() }) })
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.maintenance === true){
+      localStorage.removeItem("tm_active");
+      localStorage.removeItem("tm_key");
+      document.getElementById("lock").style.display="flex";
+      showNotify("maintenance", "🛠 Hệ thống bảo trì", "Timemark đang được nâng cấp.\nVui lòng quay lại sau ít phút.");
+    }
+    if(d.status !== "ok"){
+      localStorage.removeItem("tm_active");
+      localStorage.removeItem("tm_key");
+      localStorage.removeItem("tm_notify_once");
+      document.getElementById("lock").style.display = "flex";
+      showNotify("keyError", "Thông báo hệ thống", d.message || "Key không hợp lệ");
+      return;
+    }
+    if(localStorage.getItem("tm_notify_once")==="1") return;
+    localStorage.setItem("tm_notify_once","1");
+    showNotify("🛡 Thông tin bản quyền", `🔑 Gói: ${d.level || "--"}\n📦 Thời hạn: ${d.type}\n🔥 Còn lại: ${d.daysLeft || "--"} ngày\n⏳ Hết hạn: ${d.expireDate || "--"}\n\n👉 Đội ngũ timemark Premium xin cảm ơn bạn!`);
+  }).catch(()=>{});
+}
+
+function startRealtimeCheck(){
+  if(keyWatcher) return;
+  autoCheckKey();
+  keyWatcher = setInterval(()=>{ autoCheckKey(); },5000);
+}
+
+function activate(){
+  const key = keyInput.value.trim();
+  const btn = document.getElementById("btnActivate");
+  if(!key){ showNotify("Thông báo","Nhập key"); return; }
+  
+  btn.disabled = true; btn.innerText = "⏳ Đang kiểm tra...";
+  document.getElementById("loadingBlur").style.display = "block";
+
+  fetch(API_URL,{ method:"POST", body:JSON.stringify({ key:key, device:getDevice() }) })
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.status==="ok"){
+      localStorage.setItem("tm_active","1");
+      localStorage.setItem("tm_key", key);
+      document.getElementById("lock").style.display="none";
+      startRealtimeCheck();
+      document.getElementById("loadingBlur").style.display="none";
+      btn.disabled=false; btn.innerText="Kích hoạt";
+      startConfetti();
+      showNotify("success", "🎉 Kích hoạt thành công!", `🔑 Gói: ${d.level} (${d.type})\n📅 Ngày kích hoạt: ${d.startDate}\n⏳ Hết hạn: ${d.expireDate}\n🔥 Còn lại: ${d.daysLeft} ngày`);
+    }else{
+      document.getElementById("loadingBlur").style.display="none";
+      btn.disabled=false; btn.innerText="Kích hoạt";
+      showNotify("keyError", "Thông báo hệ thống", d.message || "Key không hợp lệ");
+    }
+  }).catch(()=>{
+    btn.disabled = false; btn.innerText = "Kích hoạt";
+    showNotify("Lỗi kết nối","Không kết nối được server");
+  });
+}
+
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ autoCheckKey(); } });
+
+function showNotify(type,title,msg){
+  const box = document.getElementById("notifyBox");
+  document.querySelector(".notifyActions").innerHTML = `<button id="notifyBtn"></button> <button id="notifyBtn2" style="display:none"></button>`;
+  const btn  = document.getElementById("notifyBtn");
+  const btn2 = document.getElementById("notifyBtn2");
+  
+  document.getElementById("notifyTitle").innerText = title;
+  document.getElementById("notifyMsg").innerText   = msg;
+  box.style.display="flex";
+
+  if(type==="maintenance"){
+    btn.innerText="🏠Về Trang chủ"; btn.onclick=()=>window.location.href="../";
+    btn2.style.display="none";
+  }else if(type==="keyError"){
+    btn.innerText="🏠 Trang chủ"; btn.onclick=()=>window.location.href="../";
+    btn2.style.display="block"; btn2.innerText="🛒 Mua key"; btn2.onclick=()=>window.open("buy.html","_blank");
+  }else if(type==="success"){
+    btn.innerText="Bắt đầu sử dụng"; btn.onclick=()=>closeNotify();
+  }else{
+    btn.innerText="Đóng"; btn.onclick=()=>closeNotify();
+  }
+}
+
+function closeNotify(){ document.getElementById("notifyBox").style.display = "none"; }
+
+function startConfetti(){
+  const box=document.getElementById("petals");
+  for(let i=0;i<20;i++){
+    const p=document.createElement("div");
+    p.innerText="🎉";
+    p.style.position="fixed"; p.style.left=Math.random()*100+"vw"; p.style.top="-10px";
+    p.style.zIndex="99999"; p.style.animation=`fall ${4+Math.random()*4}s linear`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),5000);
+  }
+}
+/* ===== APP CHÍNH & XỬ LÝ CANVAS ===== */
+const c=document.getElementById("c");
+const ctx=c.getContext("2d");
+
+function isOn(id){ const el=document.getElementById(id); return el?el.checked:true; }
+let img=new Image(); let logo=new Image();
+function fs(p){ return Math.round(Math.min(c.width,c.height)*p); }
+
+function generateCode(len=12){
+  const s="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  return Array.from({length:len},()=>s[Math.random()*s.length|0]).join("");
+}
+
+/* ===== DRAG & DROP STATE ===== */
+let wmX = 0;
+let wmY = 0;
+let wmScale = 1;
+let isDraggingWM = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let hasGenerated = false;
+let generatedData = {
+  time: "",
+  date: "",
+  weekday: "",
+  address: "",
+  fullname: "",
+  extraNote: ""
+};
+
+function captureGeneratedData(){
+  generatedData = {
+    time: time.value.trim(),
+    date: date.value.trim(),
+    weekday: weekday.value.trim(),
+    address: address.value.trim(),
+    fullname: fullname.value.trim(),
+    extraNote: document.getElementById("extraNote")?.value.trim() || ""
+  };
+}
+
+function resetGeneratedPreview(){
+  hasGenerated = false;
+  if(img.src) renderCanvas();
+}
+
+function showExtraNote(){
+  document.getElementById("extraNoteWrap").classList.add("show");
+  document.getElementById("addNoteBtn").style.display = "none";
+  document.getElementById("extraNote").focus();
+}
+
+function updateWmScale(val){
+  document.getElementById("scaleDisplay").innerText = val;
+  wmScale = parseInt(val) / 100;
+  if(img.src) renderCanvas();
+}
+
+c.addEventListener("pointerdown", (e) => {
+  if(!img.src || !hasGenerated) return;
+  isDraggingWM = true;
+  const rect = c.getBoundingClientRect();
+  const scaleX = c.width / rect.width;
+  const scaleY = c.height / rect.height;
+  const cx = (e.clientX - rect.left) * scaleX;
+  const cy = (e.clientY - rect.top) * scaleY;
+  dragStartX = cx - wmX;
+  dragStartY = cy - wmY;
+  c.style.cursor = "grabbing";
+});
+
+window.addEventListener("pointermove", (e) => {
+  if(!isDraggingWM) return;
+  e.preventDefault(); 
+  const rect = c.getBoundingClientRect();
+  const scaleX = c.width / rect.width;
+  const scaleY = c.height / rect.height;
+  const cx = (e.clientX - rect.left) * scaleX;
+  const cy = (e.clientY - rect.top) * scaleY;
+  wmX = cx - dragStartX;
+  wmY = cy - dragStartY;
+  renderCanvas();
+}, { passive: false });
+
+window.addEventListener("pointerup", () => {
+  isDraggingWM = false;
+  c.style.cursor = "default";
+});
+
+/* MÀI GÓC & VẼ SHIELD */
+function drawRoundedImage(ctx,img,x,y,w,h,r){
+  ctx.save(); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath(); ctx.clip(); ctx.drawImage(img,x,y,w,h); ctx.restore();
+}
+
+function drawShield(ctx,x,y,size,color){
+  ctx.save(); ctx.translate(x,y); ctx.strokeStyle=color; ctx.lineWidth=size*0.08;
+  ctx.lineCap="round"; ctx.lineJoin="round";
+  ctx.beginPath(); ctx.moveTo(0,-size*0.45); ctx.lineTo(size*0.38,-size*0.25); ctx.lineTo(size*0.30,size*0.22);
+  ctx.quadraticCurveTo(0,size*0.45,-size*0.30,size*0.22); ctx.lineTo(-size*0.38,-size*0.25); ctx.closePath(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-size*0.14,size*0.02); ctx.lineTo(-size*0.02,size*0.14); ctx.lineTo(size*0.18,-size*0.10); ctx.stroke();
+  ctx.restore();
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath(); ctx.fill();
+}
+
+/* SHADOW HELPER TẠO BÓNG MỜ ĐEN */
+function setShadow(ctx, blur, offset, color="rgba(0,0,0,0.8)"){
+  ctx.shadowColor = color;
+  ctx.shadowBlur = blur;
+  ctx.shadowOffsetX = offset;
+  ctx.shadowOffsetY = offset;
+}
+function resetShadow(ctx){
+  ctx.shadowColor = "transparent";
+}
+
+function wrapManualLines(text, maxWidth){
+  return String(text || "").split(/\r?\n/).flatMap(part => {
+    const words = part.trim().split(/\s+/).filter(Boolean);
+    if(!words.length) return [""];
+
+    const lines = [];
+    let line = "";
+    words.forEach(word => {
+      const testLine = line ? `${line} ${word}` : word;
+      if(ctx.measureText(testLine).width > maxWidth && line){
+        lines.push(line);
+        line = word;
+      }else{
+        line = testLine;
+      }
+    });
+    lines.push(line);
+    return lines;
+  });
+}
+
+function drawTextLines(lines, leftX, startY, lineHeight){
+  let y = startY;
+  lines.forEach(line => {
+    if(line) ctx.fillText(line, leftX, y);
+    y += lineHeight;
+  });
+  return y;
+}
+
+imageInput.onchange=e=>{
+  hasGenerated = false;
+  const r=new FileReader();
+  r.onload=()=>img.src=r.result;
+  r.readAsDataURL(e.target.files[0]);
+};
+logoInput.onchange=e=>{
+  hasGenerated = false;
+  const r=new FileReader();
+  r.onload=()=>{ logo.src=r.result; renderCanvas(); };
+  r.readAsDataURL(e.target.files[0]);
+};
+
+img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); };
+
+function setNow(){
+  const d=new Date();
+  time.value=d.toLocaleTimeString("vi-VN",{hour:'2-digit',minute:'2-digit'});
+  const day=String(d.getDate()).padStart(2,'0');
+  const month=d.getMonth()+1;
+  const year=d.getFullYear();
+  date.value=`${day} Tháng ${month}, ${year}`;
+  weekday.value=d.toLocaleDateString("vi-VN",{weekday:'long'});
+  resetGeneratedPreview();
+}
+
+function getGPS(){
+  if(!navigator.geolocation){ alert("Thiết bị không hỗ trợ GPS"); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const lat = pos.coords.latitude.toFixed(6); const lng = pos.coords.longitude.toFixed(6);
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`, { headers:{ "Accept":"application/json" } })
+      .then(r=>r.json())
+      .then(data=>{
+        if(data.address){
+          const a = data.address;
+          const xa = a.village || a.suburb || a.hamlet || a.town || "";
+          const huyen = a.county || a.district || a.city || "";
+          const tinh = a.state || a.region || "";
+          address.value = [ xa ? `X. ${xa}` : "", huyen ? `H. ${huyen}` : "", tinh ].filter(Boolean).join(", ");
+        }else{ address.value = `${lat}, ${lng}`; }
+        resetGeneratedPreview();
+      }).catch(err=>{ address.value = `${lat}, ${lng}`; resetGeneratedPreview(); });
+    },
+    err=>{ alert("Không lấy được GPS: " + err.message); },
+    { enableHighAccuracy:true, timeout:15000, maximumAge:0 }
+  );
+}
+
+async function draw(){
+  await document.fonts.ready;
+  if(!img.src) return alert("Chưa chọn ảnh");
+  captureGeneratedData();
+  hasGenerated = true;
+  showGod();
+  
+  // Trả vị trí về mặc định khi tạo mới
+  wmX = 0; wmY = 0; 
+  document.getElementById('wmScaleSlider').value = 100;
+  updateWmScale(100);
+}
+
+// Gọi hàm này để update liên tục khi di chuyển
+async function renderCanvas(){
+  if(!img.src) return;
+  await document.fonts.ready;
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.drawImage(img,0,0);
+  if(hasGenerated) drawStyleV3(); 
+}
+function drawStyleV3(){
+  const pad = fs(0.04);
+
+  /* =============================
+     THÀNH PHẦN CỐ ĐỊNH GÓC (Vertical & Brand)
+  ============================== */
+  if(isOn("toggleVertical")) drawVerticalWatermark(pad);
+  if(isOn("toggleBrand")) drawBrandMark(pad);
+
+  /* =============================
+     CONTENT BLOCK (Có thể kéo thả & Zoom)
+  ============================== */
+  ctx.save();
+  
+  let baseLeftX = pad;
+  let baseY = c.height - pad - fs(0.16);
+  
+  // Dịch chuyển và Zoom
+  ctx.translate(baseLeftX + wmX, baseY + wmY);
+  ctx.scale(wmScale, wmScale);
+  ctx.translate(-baseLeftX, -baseY);
+
+  let y = baseY;
+  let leftX = baseLeftX;
+
+  if(logo.src && isOn("toggleLogo")) y = drawWatermarkLogo(leftX, y);
+  if(isOn("toggleTime") && generatedData.time) y = drawWatermarkTime(leftX, y);
+  if(isOn("toggleAddress") && generatedData.address) y = drawWatermarkAddress(leftX, y);
+  if(isOn("toggleFullname")) y = drawWatermarkFullName(leftX, y);
+
+  ctx.restore(); // Kết thúc Block di chuyển
+}
+
+/* ==================================================
+   CÁC HÀM HELPER VẼ TỪNG THÀNH PHẦN (GIỮ NGUYÊN LOGIC)
+=================================================== */
+function drawVerticalWatermark(pad){
+  ctx.save();
+  ctx.translate(c.width - fs(0.015), c.height/2);
+  ctx.rotate(-Math.PI/2);
+  const code = generateCode();
+  const text = `${code}  Timemark Verified`;
+  ctx.font = `${fs(0.025)}px Arial`;
+  ctx.fillStyle = "rgba(255,255,255,1)";
+  ctx.textAlign = "left"; ctx.textBaseline = "middle";
+  const w = ctx.measureText(text).width;
+  drawShield(ctx, -w/2 - fs(0.02), 0, fs(0.022), "#FFFFFF");
+  ctx.fillText(text, -w/2, 0);
+  ctx.restore();
+}
+
+function drawBrandMark(pad){
+  let yBrand = c.height - pad;
+  ctx.textAlign = "right"; ctx.font = `bold ${fs(0.028)}px Arial`;
+  ctx.fillStyle = "#FFFFFF"; ctx.fillText("mark", c.width - pad, yBrand);
+  const wMark = ctx.measureText("mark").width;
+  ctx.fillStyle = "#FFC107"; ctx.fillText("Time", c.width - pad - wMark, yBrand);
+  ctx.font = `${fs(0.018)}px Arial`; ctx.fillStyle = "rgba(255,255,255,0.5)";
+  ctx.fillText("100% Chân thực", c.width - pad, yBrand + fs(0.03));
+  ctx.textAlign = "left";
+}
+
+function drawWatermarkLogo(leftX, y){
+  const lh = fs(0.085);
+  const ratio = logo.width/logo.height;
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, leftX, y - lh - fs(0.002), lh * ratio, lh, fs(0.012));
+  drawRoundedImage(ctx, logo, leftX, y - lh - fs(0.002), lh * ratio, lh, fs(0.012));
+  return y + fs(0.016); // Trả về y mới (giảm 20% khoảng cách)
+}
+
+function drawWatermarkTime(leftX, y){
+  const scaleY = 1.95;
+  const fontSize = fs(0.045);
+  const timeHeight = fontSize * scaleY;
+
+  ctx.font = `${fontSize}px "Social Gothic Soft"`;
+  ctx.fillStyle = "#FFFFFF";
+
+  ctx.save();
+  const baseYTime = y + timeHeight * 0.82;
+  ctx.translate(leftX, baseYTime);
+  ctx.scale(1, scaleY);
+  const [h, m = ""] = generatedData.time.split(":");
+  
+  setShadow(ctx, fs(0.01), fs(0.0025));
+  ctx.fillText(h, 0, 0);
+  resetShadow(ctx);
+
+  const hourWidth = ctx.measureText(h).width;
+  const colonX = hourWidth + fs(0.012);
+  const dotSize = fs(0.006);
+  const colonOffsetY = -fs(0.016);
+  ctx.fillRect(colonX, colonOffsetY - fs(0.002), dotSize, dotSize);
+  ctx.fillRect(colonX, colonOffsetY + fs(0.01), dotSize, dotSize);
+
+  setShadow(ctx, fs(0.01), fs(0.0025));
+  ctx.fillText(m, hourWidth + fs(0.025), 0);
+  resetShadow(ctx);
+  ctx.restore();
+
+  const timeW = ctx.measureText(generatedData.time).width;
+  const lineX = leftX + timeW + fs(0.032);
+
+  ctx.strokeStyle = "#FFC107";
+  ctx.lineWidth = fs(0.004);
+  
+  // 📏 Căn chỉnh thanh kẻ dọc bằng với độ cao của Giờ
+  const lineTop = y + timeHeight * 0.02; // Bắt đầu cao hơn (sát mép trên chữ Giờ)
+  const lineHeight = timeHeight * 0.80; // Kéo dài tận mép chân chữ Giờ
+  ctx.beginPath(); ctx.moveTo(lineX, lineTop); ctx.lineTo(lineX, lineTop + lineHeight); ctx.stroke();
+
+  const rightX = lineX + fs(0.02);
+  const dateFont = fs(0.04) * 0.765 * 0.72; // Giảm thêm 10%
+  ctx.font = `${dateFont}px Arial`;
+  
+  setShadow(ctx, fs(0.008), fs(0.002));
+  
+  ctx.textBaseline = "top"; // Căn Ngày theo mép trên thanh dọc
+  ctx.fillText(generatedData.date, rightX, lineTop);
+  
+  ctx.textBaseline = "alphabetic"; // Căn Thứ theo mép dưới thanh dọc (bằng baseline Giờ)
+  ctx.fillText(generatedData.weekday, rightX, lineTop + lineHeight);
+  
+  resetShadow(ctx);
+
+  return y + timeHeight + fs(0.016); // Giảm 20% khoảng cách
+}
+
+function drawWatermarkAddress(leftX, y){
+  const addressFont = fs(0.028) * 0.85; // Giảm 15%
+  ctx.font = `${addressFont}px Arial`;
+  ctx.fillStyle = "rgba(255,255,255,1)";
+  setShadow(ctx, fs(0.008), fs(0.002));
+
+  const maxTextWidth = c.width * 0.5; 
+  const lineHeight = fs(0.031);
+  const startY = y + fs(0.004);
+  const lines = wrapManualLines(generatedData.address, maxTextWidth);
+  const nextY = drawTextLines(lines, leftX, startY, lineHeight);
+
+  resetShadow(ctx);
+  
+  return nextY + fs(0.012);
+}
+
+function drawWatermarkFullName(leftX, y){
+  const nameVal = generatedData.fullname;
+  const noteVal = generatedData.extraNote;
+  if(!nameVal && !noteVal) return y;
+
+  const nameFont = fs(0.028) * 0.85; // Giảm 15%
+  ctx.font = `${nameFont}px Arial`;
+  const maxTextWidth = c.width * 0.5;
+  const lines = [];
+
+  if(nameVal){
+    lines.push(...wrapManualLines(nameVal, maxTextWidth).map((line, index) => index === 0 ? "Họ tên: " + line : line));
+  }
+
+  if(noteVal){
+    lines.push(...wrapManualLines(noteVal, maxTextWidth));
+  }
+
+  const textW = Math.max(...lines.map(line => ctx.measureText(line).width));
+  const boxPad = fs(0.017); // Giảm padding tương ứng
+  const lineHeight = fs(0.031);
+  const boxTopPad = fs(0.012);
+  const boxBottomPad = fs(0.012);
+  const boxHeight = lineHeight * lines.length + boxTopPad + boxBottomPad;
+
+  // Đặt tọa độ nền bắt đầu đúng từ mép trái (leftX) để thẳng hàng tuyệt đối với các thông tin trên
+  const boxX = leftX;
+  const boxY = y - boxTopPad - fs(0.022);
+  const boxW = textW + boxPad * 4; // Kéo dài thêm dải màu ra sau một chút để hiệu ứng mờ dần đẹp hơn
+
+  // Tạo gradient mờ dần từ trái (0.25) sang phải (0)
+  const grad = ctx.createLinearGradient(boxX, 0, boxX + boxW, 0);
+  grad.addColorStop(0, "rgba(255,255,255,0.25)");
+  grad.addColorStop(1, "rgba(255,255,255,0)");
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(boxX, boxY, boxW, boxHeight); // Dùng fillRect thay vì roundRect để bỏ bo góc
+
+  ctx.fillStyle = "#FFFFFF";
+  setShadow(ctx, fs(0.008), fs(0.002));
+  const nextY = drawTextLines(lines, leftX, y, lineHeight);
+  resetShadow(ctx);
+
+  return nextY + fs(0.012);
+}
+
+function isIOS(){
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function isAndroid(){ return /Android/i.test(navigator.userAgent); }
+
+function getDownloadFileName(){
+  const now = new Date();
+  const stamp = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("") + "-" + [
+    String(now.getHours()).padStart(2, "0"),
+    String(now.getMinutes()).padStart(2, "0")
+  ].join("");
+  return `timemark-${stamp}.png`;
+}
+
+function canvasToBlob(){
+  return new Promise(resolve => c.toBlob(resolve, "image/png", 1));
+}
+
+function downloadBlob(blob, fileName){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1200);
+}
+
+async function shareImageIfAvailable(blob, fileName){
+  if(!navigator.canShare || !navigator.share) return false;
+  const file = new File([blob], fileName, { type: "image/png" });
+  if(!navigator.canShare({ files: [file] })) return false;
+
+  try{
+    await navigator.share({
+      files: [file],
+      title: "Timemark",
+      text: "Ảnh tạo từ Timemark"
+    });
+    return true;
+  }catch(err){
+    return false;
+  }
+}
+
+async function download(){
+  if(!img.src){ alert("Chưa chọn ảnh"); return; }
+  if(!hasGenerated){ alert("Vui lòng bấm Tạo Ảnh trước khi tải về"); return; }
+
+  const fileName = getDownloadFileName();
+
+  if(isIOS()){
+    const d = c.toDataURL("image/png");
+    const w = window.open("", "_blank");
+    if(!w){ alert("Safari đang chặn popup. Hãy cho phép popup."); return; }
+    showNotify("info", "📥 Hướng dẫn tải ảnh", "Tab ảnh đã mở. Nhấn giữ ảnh để lưu vào thư viện.");
+    w.document.write(`
+      <html>
+      <head>
+        <title>Timemark Download</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <style>
+          body{ margin:0; background:#0b0b0b; font-family:Arial; color:#fff; text-align:center; }
+          .header{ position:sticky; top:0; background:rgba(0,0,0,.7); backdrop-filter:blur(12px); padding:12px; }
+          .backBtn{ display:inline-block; padding:12px 20px; border-radius:16px; background:linear-gradient(135deg,#ff6a00,#ff9800); color:#fff; text-decoration:none; font-weight:bold; box-shadow:0 10px 30px rgba(255,120,0,.6); }
+          .guide{ font-size:14px; opacity:.8; margin-top:8px; }
+          img{ width:100%; margin-top:10px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <a class="backBtn" href="./">🔙 Quay lại Timemark</a>
+          <div class="guide">Nhấn giữ ảnh → Lưu vào thư viện iPhone</div>
+        </div>
+        <img src="${d}">
+      </body>
+      </html>
+    `);
+    return;
+  }
+
+  const blob = await canvasToBlob();
+  if(!blob){ alert("Không tạo được file ảnh"); return; }
+
+  if(isAndroid()){
+    const shared = await shareImageIfAvailable(blob, fileName);
+    if(shared) return;
+    downloadBlob(blob, fileName);
+    showNotify("info", "📥 Đã tải ảnh", "Nếu ảnh chưa hiện trong thư viện, hãy kiểm tra thư mục Downloads.");
+    return;
+  }
+
+  downloadBlob(blob, fileName);
+}
+
+window.onload=()=>{
+  localStorage.removeItem("tm_notify_once");
+  ["time","date","weekday","address","fullname","extraNote"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener("input", resetGeneratedPreview);
+  });
+
+  const box=document.getElementById("petals");
+  ["🌸","🌼","🌺"].forEach(()=>{
+    for(let i=0;i<8;i++){
+      const p=document.createElement("div"); p.innerText="🌸";
+      p.style.position="absolute"; p.style.left=Math.random()*100+"vw"; p.style.top="-10%";
+      p.style.animation=`fall ${10+Math.random()*10}s linear infinite, sway ${3+Math.random()*4}s ease-in-out infinite`;
+      box.appendChild(p);
+    }
+  });
+
+  if(localStorage.getItem("tm_active")==="1"){
+    document.getElementById("lock").style.display="none";
+    startRealtimeCheck();
+  }
+
+  const themeBtn = document.getElementById('themeToggle');
+  if(themeBtn) themeBtn.innerText = document.documentElement.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+};
 </script>
+
+<div class="tmFab">
+  <div class="tmFabMenu" id="tmFabMenu">
+    <a href="../" class="tmFabItem">🏠 <span>Trang chủ</span></a>
+    <a href="buy.html" target="_blank" class="tmFabItem">🛒 <span>Mua key</span></a>
+    <a href="https://zalo.me/0559027234" target="_blank" class="tmFabItem">💬 <span>Liên hệ</span></a>
+  </div>
+  <button id="tmFabBtn" class="tmFabBtn" onclick="toggleFab()">☰</button>
+</div>
 
 <script>
-setTimeout(()=>{
-  document.getElementById("zaloBox")?.classList.add("show");
-},3000);
+function toggleFab(){ document.getElementById("tmFabMenu").classList.toggle("show"); }
+const fab = document.getElementById("tmFabBtn");
+const fabWrap = document.querySelector(".tmFab");
 </script>
 
-<div class="welcome-overlay" id="welcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-  <div class="welcome-box">
-    <button class="welcome-close" type="button" onclick="closeWelcome()" aria-label="Đóng thông báo">✕</button>
-
-    <h2 id="welcome-title">🚀 Chào mừng đến với TIMEMARK</h2>
-    <p class="welcome-desc">Công cụ giúp bạn tạo ảnh check-in nhanh chóng và rõ thông tin.</p>
-
-    <div class="popup-note">
-      <b>📌 Lưu ý:</b>
-      <ul>
-        <li>Key dùng ngay sau khi thanh toán</li>
-        <li>Không chia sẻ key</li>
-        <li>Hỗ trợ 24/7 nếu gặp lỗi</li>
-      </ul>
-    </div>
-
-    <div class="popup-bank">
-      <b>💳 Thanh toán duy nhất:</b>
-      <p>Ngân hàng: <b>OCB</b></p>
-      <p>STK: <b>0837685798</b></p>
-      <p>Chủ TK: <b>Tran Thi Chuc Quynh</b></p>
-    </div>
-
-    <div class="welcome-actions">
-      <button class="welcome-ok" type="button" onclick="closeWelcome()">OK, tiếp tục 🚀</button>
-      <button class="welcome-skip" type="button" onclick="skipWelcome()">Không hiển thị lại</button>
-    </div>
+<div id="godMode" class="god-mode">
+  <div class="god-box">
+      <div class="god-holo"></div>
+      <div id="godLoading" class="god-state">
+          <div class="god-ring"></div>
+          <div class="god-ring2"></div>
+          <div class="god-title">TIMEMARK AI SYSTEM</div>
+          <div id="godAIText" class="god-text">Initializing AI...</div>
+          <div id="godPercent" style="margin-top:6px;font-size:12px;color:#ff3b3b;">0%</div>
+          <div class="god-bar"><span></span></div>
+      </div>
+      <div id="godSuccess" class="god-state" style="display:none;">
+          <div class="god-success"> Ảnh đã tạo thành công </div>
+          <div class="god-success" style="font-size:12px;color:#cfd8ff;">Bạn có thể vuốt để di chuyển Text!</div>  
+          <button class="god-btn" onclick="closeGod(); renderCanvas();">Hoàn tất</button>
+      </div>
   </div>
 </div>
 
-<script src="landing-effects.js" defer></script>
+<audio id="godSound" preload="auto">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
+</audio>
+
 </body>
 </html>

@@ -737,13 +737,66 @@ function drawWatermarkFullName(leftX, y){
   return nextY + fs(0.012);
 }
 
-function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
+function isIOS(){
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
 
-function download(){
+function isAndroid(){ return /Android/i.test(navigator.userAgent); }
+
+function getDownloadFileName(){
+  const now = new Date();
+  const stamp = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0")
+  ].join("") + "-" + [
+    String(now.getHours()).padStart(2, "0"),
+    String(now.getMinutes()).padStart(2, "0")
+  ].join("");
+  return `timemark-${stamp}.png`;
+}
+
+function canvasToBlob(){
+  return new Promise(resolve => c.toBlob(resolve, "image/png", 1));
+}
+
+function downloadBlob(blob, fileName){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1200);
+}
+
+async function shareImageIfAvailable(blob, fileName){
+  if(!navigator.canShare || !navigator.share) return false;
+  const file = new File([blob], fileName, { type: "image/png" });
+  if(!navigator.canShare({ files: [file] })) return false;
+
+  try{
+    await navigator.share({
+      files: [file],
+      title: "Timemark",
+      text: "Ảnh tạo từ Timemark"
+    });
+    return true;
+  }catch(err){
+    return false;
+  }
+}
+
+async function download(){
   if(!img.src){ alert("Chưa chọn ảnh"); return; }
   if(!hasGenerated){ alert("Vui lòng bấm Tạo Ảnh trước khi tải về"); return; }
-  const d = c.toDataURL("image/png");
+
+  const fileName = getDownloadFileName();
+
   if(isIOS()){
+    const d = c.toDataURL("image/png");
     const w = window.open("", "_blank");
     if(!w){ alert("Safari đang chặn popup. Hãy cho phép popup."); return; }
     showNotify("info", "📥 Hướng dẫn tải ảnh", "Tab ảnh đã mở. Nhấn giữ ảnh để lưu vào thư viện.");
@@ -771,9 +824,19 @@ function download(){
     `);
     return;
   }
-  const a = document.createElement("a");
-  a.href = d; a.download = "timemark.png";
-  document.body.appendChild(a); a.click(); a.remove();
+
+  const blob = await canvasToBlob();
+  if(!blob){ alert("Không tạo được file ảnh"); return; }
+
+  if(isAndroid()){
+    const shared = await shareImageIfAvailable(blob, fileName);
+    if(shared) return;
+    downloadBlob(blob, fileName);
+    showNotify("info", "📥 Đã tải ảnh", "Nếu ảnh chưa hiện trong thư viện, hãy kiểm tra thư mục Downloads.");
+    return;
+  }
+
+  downloadBlob(blob, fileName);
 }
 
 window.onload=()=>{

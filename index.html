@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="description" content="Timemark là công cụ tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực. Dùng nhanh trên trình duyệt, phù hợp cho nhu cầu check-in linh hoạt.">
+<meta name="keywords" content="Timemark, tạo ảnh check-in, chỉnh ngày giờ trên ảnh, chỉnh vị trí trên ảnh, watermark check-in, ảnh xác thực, app check-in">
+<meta name="author" content="Timemark">
+<meta name="theme-color" content="#0a0a0a">
+
+<link rel="canonical" href="https://timemark.id.vn/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme-landing.css?v=1003">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Timemark">
+<meta property="og:title" content="Timemark - Công cụ tạo ảnh check-in có thời gian và vị trí">
+<meta property="og:description" content="Tạo ảnh check-in với thời gian, ngày tháng, vị trí, họ tên và watermark xác thực ngay trên trình duyệt.">
+<meta property="og:url" content="https://timemark.id.vn/">
+<meta property="og:image" content="https://timemark.id.vn/images/demo1.jpg">
+<meta property="og:image:alt" content="Ảnh demo giao diện tạo watermark check-in Timemark">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Timemark - Tạo ảnh check-in có thời gian và vị trí">
+<meta name="twitter:description" content="Công cụ tạo ảnh check-in có watermark, thời gian, vị trí và thông tin cá nhân ngay trên trình duyệt.">
+<meta name="twitter:image" content="https://timemark.id.vn/images/demo1.jpg">
+
+<title>Timemark - Tạo ảnh check-in có thời gian, vị trí và watermark</title>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://timemark.id.vn/#organization",
+      "name": "Timemark",
+      "url": "https://timemark.id.vn/",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://zalo.me/0559027234",
+        "availableLanguage": "vi"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://timemark.id.vn/#website",
+      "name": "Timemark",
+      "url": "https://timemark.id.vn/",
+      "publisher": { "@id": "https://timemark.id.vn/#organization" },
+      "inLanguage": "vi-VN"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://timemark.id.vn/#app",
+      "name": "Timemark",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web",
+      "url": "https://timemark.id.vn/app/",
+      "description": "Công cụ tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực.",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://timemark.id.vn/app/buy.html",
+        "priceCurrency": "VND"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://timemark.id.vn/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Timemark dùng để làm gì?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Timemark giúp tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực trực tiếp trên trình duyệt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Timemark có dùng trên điện thoại được không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Có. Timemark là ứng dụng web, có thể dùng trên trình duyệt điện thoại và máy tính."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mỗi key Timemark dùng được cho mấy thiết bị?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mỗi key được thiết kế để dùng cho một thiết bị nhằm bảo vệ bản quyền và hạn chế chia sẻ key."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Bỏ qua menu</a>
+
+<header class="site-header">
+  <nav class="navbar" aria-label="Điều hướng chính">
+    <a class="logo" href="/" aria-label="Timemark trang chủ">🚀 TIMEMARK</a>
+    <button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Mở menu" aria-controls="menu">☰</button>
+  </nav>
+
+  <div class="menu" id="menu">
+    <button class="menu-close" type="button" onclick="toggleMenu()" aria-label="Đóng menu">✕</button>
+    <a href="guide-page.html">Giới thiệu</a>
+    <a href="guide.html">Hướng dẫn</a>
+    <a href="terms.html">Điều khoản</a>
+    <a href="app/">Bắt đầu</a>
+    <a href="app/buy.html">Mua key</a>
+  </div>
+</header>
+
+<main id="main">
+  <div class="top-offer" role="note">
+    <span>Ưu tiên mobile</span>
+    <b>Tạo ảnh check-in nhanh, rõ thông tin, tải về ngay</b>
+    <a href="app/">Mở app</a>
+  </div>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-shell">
+      <div class="hero-content">
+        <p class="eyebrow">Công cụ tạo ảnh check-in trên trình duyệt</p>
+        <h1 id="hero-title">Tạo ảnh check-in có thời gian và vị trí trong vài giây</h1>
+        <p class="hero-copy">Timemark giúp bạn thêm giờ, ngày, địa chỉ, họ tên, logo và watermark xác thực lên ảnh. Giao diện tối ưu cho điện thoại, dùng nhanh ngay trên web.</p>
+
+        <div class="buttons" aria-label="Hành động chính">
+          <a class="btnMain" href="app/">⚡ Dùng app ngay</a>
+          <a class="btnSub" href="app/buy.html">🛒 Xem gói key</a>
+        </div>
+
+        <div class="hero-points" aria-label="Lợi ích nổi bật">
+          <span>Không cần cài app</span>
+          <span>Có GPS và nhập tay</span>
+          <span>Tải ảnh PNG</span>
+        </div>
+
+        <div class="counter-box" aria-label="Số người đã kích hoạt">
+          <div class="counter-main">🔥 <span id="fakeCounter">0</span>+ người đã kích hoạt</div>
+          <div class="counter-sub">Cập nhật liên tục mỗi ngày</div>
+        </div>
+      </div>
+
+      <div class="hero-preview" aria-label="Ảnh xem trước Timemark">
+        <div class="phone-frame app-mockup">
+          <div class="mock-status">
+            <span>09:41</span>
+            <span>Timemark</span>
+          </div>
+          <div class="mock-photo">
+            <div class="mock-watermark">
+              <strong>13:50</strong>
+              <span>02 Tháng 5, 2026</span>
+              <span>Q. 1, TP. Hồ Chí Minh</span>
+            </div>
+            <div class="mock-brand">Time<span>mark</span></div>
+          </div>
+          <div class="mock-panel">
+            <div>
+              <span>Ảnh check-in</span>
+              <b>Đã sẵn sàng</b>
+            </div>
+            <button type="button">Tạo ảnh</button>
+          </div>
+          <div class="preview-badge">Mobile optimized</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker-wrap" aria-live="polite">
+    <div class="ticker" id="fakeTicker"></div>
+  </div>
+
+  <section class="trust-strip" aria-label="Lý do người dùng chọn Timemark">
+    <div><b>Web app</b><span>Dùng trực tiếp trên trình duyệt</span></div>
+    <div><b>Mobile-first</b><span>Tối ưu thao tác trên điện thoại</span></div>
+    <div><b>Watermark</b><span>Ảnh rõ thông tin và thương hiệu</span></div>
+  </section>
+
+  <section class="conversion-strip container" aria-label="Cam kết trải nghiệm">
+    <div class="conversion-card">
+      <span>01</span>
+      <b>Dùng trên điện thoại</b>
+      <p>Mở web, chọn ảnh, tạo watermark và tải về trong cùng một luồng thao tác.</p>
+    </div>
+    <div class="conversion-card">
+      <span>02</span>
+      <b>Ảnh nhìn chuyên nghiệp</b>
+      <p>Bố cục giờ, ngày, vị trí, logo và họ tên được thiết kế để dễ đọc trên ảnh.</p>
+    </div>
+    <div class="conversion-card">
+      <span>03</span>
+      <b>Hỗ trợ khi cần</b>
+      <p>Có kênh Zalo hỗ trợ nếu bạn gặp lỗi kích hoạt, thanh toán hoặc tải ảnh.</p>
+    </div>
+  </section>
+
+  <section class="intro container" aria-labelledby="intro-title">
+    <h2 id="intro-title">Giải pháp tạo ảnh check-in linh hoạt</h2>
+    <p class="intro-desc">
+      Timemark giúp bạn tạo ảnh check-in với thông tin hiển thị rõ ràng, bố cục chuyên nghiệp và watermark thương hiệu.
+      Ứng dụng chạy trực tiếp trên web, không cần cài đặt phần mềm phức tạp.
+    </p>
+
+    <div class="grid">
+      <article class="intro-card">
+        <h3>📍 Tùy chỉnh vị trí</h3>
+        <p>Nhập địa chỉ thủ công hoặc lấy vị trí GPS để hiển thị trên ảnh check-in.</p>
+      </article>
+
+      <article class="intro-card">
+        <h3>⏱ Tùy chỉnh thời gian</h3>
+        <p>Hiển thị giờ, ngày và thứ theo định dạng dễ đọc, phù hợp cho ảnh báo cáo.</p>
+      </article>
+
+      <article class="intro-card">
+        <h3>🔒 Watermark xác thực</h3>
+        <p>Thêm mã ảnh, thương hiệu, logo và thông tin cá nhân để ảnh đồng nhất hơn.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="demo-section container" aria-labelledby="demo-title">
+    <h2 id="demo-title">Ảnh demo Timemark</h2>
+    <p class="intro-desc">Xem trước phong cách ảnh check-in sau khi thêm watermark và thông tin hiển thị.</p>
+
+    <div class="demo-slider" id="demoSlider">
+      <img src="images/demo1.jpg" class="demo-img active" alt="Ảnh demo Timemark có thời gian và vị trí" width="600" height="600" fetchpriority="high">
+      <img src="images/demo2.jpg" class="demo-img" alt="Ảnh demo watermark check-in Timemark" width="600" height="600" loading="lazy">
+      <img src="images/demo3.jpg" class="demo-img" alt="Ảnh demo bố cục thông tin check-in Timemark" width="600" height="600" loading="lazy">
+    </div>
+
+    <div class="demo-dots" id="demoDots" aria-label="Chọn ảnh demo"></div>
+  </section>
+
+  <section class="use-case-section container" aria-labelledby="use-case-title">
+    <div class="section-kicker">Dành cho ai?</div>
+    <h2 id="use-case-title">Từ người dùng cá nhân đến đội nhóm cần ảnh check-in nhanh</h2>
+    <div class="use-case-grid">
+      <article>
+        <h3>Nhân viên thị trường</h3>
+        <p>Tạo ảnh có địa chỉ, giờ và tên để gửi báo cáo nhanh sau mỗi điểm làm việc.</p>
+      </article>
+      <article>
+        <h3>Sale và cộng tác viên</h3>
+        <p>Chuẩn hóa ảnh check-in khi gặp khách, khảo sát điểm bán hoặc ghi nhận hoạt động.</p>
+      </article>
+      <article>
+        <h3>Đội nhóm vận hành</h3>
+        <p>Thống nhất cách hiển thị logo, thời gian và thông tin người thực hiện trên ảnh.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="seo-section container" aria-labelledby="features-title">
+    <h2 id="features-title">Tính năng chính của Timemark</h2>
+    <div class="feature-list">
+      <article>
+        <h3>Tạo ảnh ngay trên trình duyệt</h3>
+        <p>Chọn ảnh, nhập thông tin check-in, xem trước trên canvas và tải ảnh PNG sau khi hoàn tất.</p>
+      </article>
+      <article>
+        <h3>Hỗ trợ logo thương hiệu</h3>
+        <p>Thêm logo riêng để ảnh check-in đồng bộ với nhận diện thương hiệu hoặc nhóm làm việc.</p>
+      </article>
+      <article>
+        <h3>Tối ưu cho điện thoại</h3>
+        <p>Giao diện được thiết kế theo hướng mobile-first, thao tác nhanh bằng chạm, kéo và vuốt.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="process-section container" aria-labelledby="process-title">
+    <div class="section-kicker">Cách sử dụng</div>
+    <h2 id="process-title">3 bước để có ảnh check-in hoàn chỉnh</h2>
+    <div class="process-list">
+      <article>
+        <span>01</span>
+        <h3>Chọn ảnh</h3>
+        <p>Tải ảnh từ điện thoại hoặc máy tính lên app Timemark.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Nhập thông tin</h3>
+        <p>Điền giờ, ngày, địa chỉ, họ tên hoặc lấy GPS tự động.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Tạo và tải xuống</h3>
+        <p>Xem trước watermark, kéo chỉnh vị trí rồi tải ảnh PNG.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="offer-section container" aria-labelledby="offer-title">
+    <div class="offer-panel">
+      <div>
+        <div class="section-kicker">Bắt đầu sử dụng</div>
+        <h2 id="offer-title">Dùng Timemark để tạo ảnh check-in ngay hôm nay</h2>
+        <p>Phù hợp khi bạn cần ảnh có thời gian, vị trí và thông tin hiển thị rõ ràng. Trải nghiệm app trước, sau đó chọn gói key phù hợp với nhu cầu.</p>
+      </div>
+      <div class="offer-actions">
+        <a class="btnMain" href="app/">Dùng app ngay</a>
+        <a class="btnSub" href="app/buy.html">Xem bảng giá</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section container" aria-labelledby="faq-title">
+    <h2 id="faq-title">Câu hỏi thường gặp</h2>
+    <div class="faq-list">
+      <details>
+        <summary>Timemark dùng để làm gì?</summary>
+        <p>Timemark dùng để tạo ảnh check-in có thời gian, ngày tháng, vị trí, họ tên và watermark xác thực.</p>
+      </details>
+      <details>
+        <summary>Có cần cài đặt ứng dụng không?</summary>
+        <p>Không. Timemark chạy trên trình duyệt web, bạn chỉ cần truy cập trang app để sử dụng.</p>
+      </details>
+      <details>
+        <summary>Mỗi key dùng được cho bao nhiêu thiết bị?</summary>
+        <p>Mỗi key dùng cho một thiết bị để bảo vệ bản quyền và hạn chế chia sẻ ngoài phạm vi cho phép.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta container" aria-labelledby="cta-title">
+    <h2 id="cta-title">Sẵn sàng tạo ảnh check-in?</h2>
+    <div class="buttons">
+      <a class="btnMain" href="app/">⚡ Bắt đầu ngay</a>
+      <a class="btnSub" href="app/buy.html">🛒 Mua key</a>
+    </div>
+  </section>
+</main>
+
+<div class="mobile-cta" aria-label="Hành động nhanh trên mobile">
+  <a href="app/">Dùng app</a>
+  <a href="app/buy.html">Mua key</a>
+</div>
+
+<footer class="footer">
+  <p>© 2026 timemark.id.vn</p>
+  <nav aria-label="Liên kết chân trang">
+    <a href="guide-page.html">Giới thiệu</a>
+    <a href="guide.html">Hướng dẫn</a>
+    <a href="terms.html">Điều khoản</a>
+    <a href="privacy.html">Bảo mật</a>
+    <a href="app/">Ứng dụng</a>
+  </nav>
+</footer>
+
+<div class="zalo-wrapper" id="zaloBox">
+  <div class="zalo-tooltip">Hỗ trợ 24/7</div>
+  <a href="https://zalo.me/0559027234" target="_blank" rel="noopener" class="zalo-float" aria-label="Liên hệ Timemark qua Zalo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" width="30" height="30" loading="lazy">
+  </a>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<script>
+function toggleMenu(){
+  const menu = document.getElementById("menu");
+  const overlay = document.getElementById("menuOverlay");
+  const button = document.querySelector(".menu-toggle");
+  const isOpen = menu.classList.toggle("active");
+  overlay.classList.toggle("active", isOpen);
+  document.body.classList.toggle("menu-open", isOpen);
+  if(button) button.setAttribute("aria-expanded", String(isOpen));
+}
+</script>
+
+<script>
+setTimeout(()=>{
+  document.getElementById("zaloBox")?.classList.add("show");
+},3000);
+</script>
+
+<div class="welcome-overlay" id="welcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+  <div class="welcome-box">
+    <button class="welcome-close" type="button" onclick="closeWelcome()" aria-label="Đóng thông báo">✕</button>
+
+    <h2 id="welcome-title">🚀 Chào mừng đến với TIMEMARK</h2>
+    <p class="welcome-desc">Công cụ giúp bạn tạo ảnh check-in nhanh chóng và rõ thông tin.</p>
+
+    <div class="popup-note">
+      <b>📌 Lưu ý:</b>
+      <ul>
+        <li>Key dùng ngay sau khi thanh toán</li>
+        <li>Không chia sẻ key</li>
+        <li>Hỗ trợ 24/7 nếu gặp lỗi</li>
+      </ul>
+    </div>
+
+    <div class="popup-bank">
+      <b>💳 Thanh toán duy nhất:</b>
+      <p>Ngân hàng: <b>OCB</b></p>
+      <p>STK: <b>0837685798</b></p>
+      <p>Chủ TK: <b>Tran Thi Chuc Quynh</b></p>
+    </div>
+
+    <div class="welcome-actions">
+      <button class="welcome-ok" type="button" onclick="closeWelcome()">OK, tiếp tục 🚀</button>
+      <button class="welcome-skip" type="button" onclick="skipWelcome()">Không hiển thị lại</button>
+    </div>
+  </div>
+</div>
+
+<script src="landing-effects.js" defer></script>
+</body>
+</html>

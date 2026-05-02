@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="description" content="Mua key Timemark để tạo ảnh check-in có thời gian, vị trí, họ tên, logo và watermark. Thanh toán QR và nhận key qua email.">
+<title>Mua key Timemark - Bảng giá bản quyền</title>
+<link rel="stylesheet" href="theme-app.css?v=1">
+
+<style>
+:root{
+  --buy-bg:#070b14;
+  --buy-surface:#101827;
+  --buy-card:#121c2d;
+  --buy-card-2:#0d1421;
+  --buy-line:rgba(255,255,255,.12);
+  --buy-text:#f8fafc;
+  --buy-muted:#a9b7ca;
+  --buy-orange:#ff8a1f;
+  --buy-orange-2:#ffb347;
+  --buy-blue:#3b82f6;
+  --buy-cyan:#16d5ff;
+  --buy-green:#39d98a;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--buy-text);
+  background:
+    radial-gradient(circle at 18% 0%,rgba(255,138,31,.24),transparent 310px),
+    radial-gradient(circle at 86% 8%,rgba(59,130,246,.26),transparent 340px),
+    linear-gradient(180deg,#101827 0%,var(--buy-bg) 48%,#090d15 100%);
+  user-select:auto;
+}
+
+a{color:inherit}
+
+.buy-shell{
+  width:min(1120px,100%);
+  margin:0 auto;
+  padding:18px 18px 64px;
+}
+
+.buy-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 0 28px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  text-decoration:none;
+}
+
+.brand-mark{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--buy-orange),var(--buy-blue));
+  box-shadow:0 12px 28px rgba(255,138,31,.22);
+}
+
+.nav-actions{
+  display:flex;
+  gap:10px;
+}
+
+.nav-actions a{
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 14px;
+  border:1px solid var(--buy-line);
+  border-radius:12px;
+  background:rgba(255,255,255,.07);
+  color:#e8f1ff;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+}
+
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:28px;
+  align-items:end;
+  padding:22px 0 24px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,138,31,.14);
+  border:1px solid rgba(255,138,31,.24);
+  color:#ffd7a8;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+h1{
+  margin:14px 0 0;
+  max-width:760px;
+  font-size:clamp(38px,6vw,72px);
+  line-height:1;
+  letter-spacing:0;
+  background:linear-gradient(135deg,#fff,#dff7ff 34%,#ffb347 64%,#83a8ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  max-width:680px;
+  margin:18px 0 0;
+  color:var(--buy-muted);
+  font-size:17px;
+  line-height:1.7;
+}
+
+.hero-panel{
+  padding:20px;
+  border:1px solid var(--buy-line);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.055));
+  box-shadow:0 22px 70px rgba(0,0,0,.28);
+}
+
+.hero-panel b,
+.hero-panel span{display:block}
+
+.hero-panel b{
+  font-size:34px;
+  color:#fff;
+}
+
+.hero-panel span{
+  margin-top:6px;
+  color:var(--buy-muted);
+}
+
+.benefits{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:26px 0 28px;
+}
+
+.quick-links{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:0 0 20px;
+}
+
+.quick-links a{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 14px;
+  border-radius:13px;
+  border:1px solid var(--buy-line);
+  background:rgba(255,255,255,.07);
+  color:#e8f1ff;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:800;
+}
+
+.quick-links a:first-child{
+  background:rgba(255,138,31,.14);
+  border-color:rgba(255,138,31,.28);
+  color:#ffd7a8;
+}
+
+.benefits div{
+  padding:15px;
+  border:1px solid var(--buy-line);
+  border-radius:16px;
+  background:rgba(255,255,255,.07);
+}
+
+.benefits b{
+  display:block;
+  margin-bottom:5px;
+}
+
+.benefits span{
+  color:var(--buy-muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.pricing{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.plan-card{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  min-height:318px;
+  padding:20px;
+  border:1px solid var(--buy-line);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.105),rgba(255,255,255,.045));
+  box-shadow:0 18px 50px rgba(0,0,0,.22);
+}
+
+.plan-card.featured{
+  border-color:rgba(255,138,31,.52);
+  box-shadow:0 22px 70px rgba(255,138,31,.16);
+}
+
+.plan-card.soldout{
+  opacity:.62;
+}
+
+.badge{
+  align-self:flex-start;
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(22,213,255,.12);
+  color:#b7f5ff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.featured .badge{
+  background:rgba(255,138,31,.16);
+  color:#ffd7a8;
+}
+
+.plan-card h3{
+  margin:18px 0 8px;
+  font-size:22px;
+  line-height:1.2;
+}
+
+.plan-sub{
+  min-height:42px;
+  color:var(--buy-muted);
+  font-size:14px;
+  line-height:1.55;
+}
+
+.price{
+  margin:18px 0 8px;
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.features{
+  display:grid;
+  gap:8px;
+  margin:12px 0 20px;
+  padding:0;
+  list-style:none;
+  color:#dce7f7;
+  font-size:14px;
+}
+
+.features li:before{
+  content:"✓";
+  margin-right:8px;
+  color:var(--buy-green);
+  font-weight:900;
+}
+
+.plan-card button{
+  width:100%;
+  min-height:50px;
+  margin-top:auto;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--buy-orange),var(--buy-orange-2) 45%,var(--buy-blue));
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 14px 30px rgba(255,138,31,.20);
+  transition:.18s ease;
+}
+
+.plan-card button:hover{transform:translateY(-2px)}
+.plan-card button:active{transform:scale(.98)}
+
+.plan-card button:disabled{
+  cursor:not-allowed;
+  background:rgba(255,255,255,.12);
+  color:#94a3b8;
+  box-shadow:none;
+}
+
+.note{
+  margin-top:24px;
+  padding:16px;
+  border:1px solid var(--buy-line);
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+  color:var(--buy-muted);
+  line-height:1.6;
+  text-align:center;
+}
+
+.footer{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-top:28px;
+  color:var(--buy-muted);
+  font-size:14px;
+}
+
+.footer a{text-decoration:none;color:#ffd7a8}
+
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(10px);
+  z-index:99999;
+}
+
+.modal.show{display:flex}
+
+.modal-box{
+  width:min(420px,100%);
+  padding:22px;
+  border:1px solid var(--buy-line);
+  border-radius:24px;
+  background:#101827;
+  box-shadow:0 30px 90px rgba(0,0,0,.58);
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.modal-head h3{
+  margin:0;
+  font-size:22px;
+}
+
+.modal-close{
+  width:38px;
+  height:38px;
+  border:1px solid var(--buy-line);
+  border-radius:12px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  cursor:pointer;
+}
+
+.modal-box p{
+  color:var(--buy-muted);
+  line-height:1.6;
+}
+
+.email-input{
+  width:100%;
+  height:50px;
+  margin:10px 0 12px;
+  padding:0 14px;
+  border:1px solid var(--buy-line);
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  font-size:15px;
+  outline:none;
+}
+
+.email-input:focus{
+  border-color:rgba(255,138,31,.66);
+  box-shadow:0 0 0 4px rgba(255,138,31,.12);
+}
+
+.modal-primary{
+  width:100%;
+  min-height:50px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--buy-orange),var(--buy-orange-2) 45%,var(--buy-blue));
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.qrBox{
+  text-align:center;
+}
+
+.qrBox img{
+  width:240px;
+  max-width:100%;
+  margin:16px 0;
+  border-radius:18px;
+  background:#fff;
+  padding:10px;
+}
+
+.loadingText{
+  padding:12px;
+  border-radius:14px;
+  background:rgba(255,138,31,.12);
+  color:#ffd7a8;
+  font-weight:800;
+}
+
+@media(max-width:900px){
+  .hero,
+  .pricing,
+  .benefits{
+    grid-template-columns:1fr;
+  }
+
+  .hero-panel{
+    display:none;
+  }
+}
+
+@media(max-width:560px){
+  .buy-shell{
+    padding:14px 14px 46px;
+  }
+
+  .buy-nav{
+    padding-bottom:18px;
+  }
+
+  h1{
+    font-size:38px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .benefits{
+    gap:10px;
+    margin:20px 0;
+  }
+
+  .pricing{
+    gap:12px;
+  }
+
+  .plan-card{
+    min-height:0;
+    padding:18px;
+    border-radius:18px;
+  }
+
+  .price{
+    font-size:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="buy-shell">
+  <nav class="buy-nav" aria-label="Điều hướng mua key">
+    <a class="brand" href="./">
+      <span class="brand-mark">T</span>
+      <span>Timemark</span>
+    </a>
+    <div class="nav-actions">
+      <a href="../">Trang chủ</a>
+      <a href="./">Mở app</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="eyebrow">Bản quyền Timemark</span>
+      <h1>Chọn key phù hợp để tạo ảnh check-in chuyên nghiệp</h1>
+      <p>Mỗi key dùng cho một thiết bị. Thanh toán bằng QR, hệ thống kiểm tra tự động và gửi key về Gmail bạn nhập khi mua.</p>
+    </div>
+    <aside class="hero-panel">
+      <b>1 thiết bị</b>
+      <span>Một key bảo vệ theo thiết bị, hạn chế chia sẻ ngoài phạm vi sử dụng.</span>
+    </aside>
+  </header>
+
+  <section class="benefits" aria-label="Lợi ích khi mua key Timemark">
+    <div><b>Kích hoạt nhanh</b><span>Nhận key qua Gmail sau khi hệ thống xác nhận thanh toán.</span></div>
+    <div><b>Dùng trên web</b><span>Không cần cài phần mềm, mở app trực tiếp bằng trình duyệt.</span></div>
+    <div><b>Hỗ trợ khi lỗi</b><span>Liên hệ hỗ trợ nếu gặp lỗi thanh toán, key hoặc thiết bị.</span></div>
+  </section>
+
+  <div class="quick-links" aria-label="Liên kết nhanh">
+    <a href="../">← Trang chủ</a>
+    <a href="./">Mở app Timemark</a>
+  </div>
+
+  <main class="pricing" id="pricing"></main>
+
+  <div class="note">
+    Lưu ý: mỗi key dùng cho 1 thiết bị. Người dùng tự chịu trách nhiệm với mục đích sử dụng ảnh tạo từ Timemark.
+  </div>
+
+  <footer class="footer">
+    <span>© 2026 Timemark</span>
+    <a href="../terms.html">Điều khoản</a>
+    <a href="../privacy.html">Bảo mật</a>
+  </footer>
+</div>
+
+<div id="emailModal" class="modal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <h3>Nhập Gmail nhận key</h3>
+        <p id="selectedPlanText">Key sẽ được gửi về email sau khi thanh toán thành công.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeEmailModal()">✕</button>
+    </div>
+    <input id="emailInput" class="email-input" type="email" placeholder="emailcuaban@gmail.com" autocomplete="email">
+    <button class="modal-primary" type="button" onclick="confirmBuy()">Tiếp tục thanh toán</button>
+  </div>
+</div>
+
+<div id="qrPopup" class="modal" aria-hidden="true">
+  <div class="modal-box qrBox">
+    <div class="modal-head">
+      <div>
+        <h3>Quét QR để thanh toán</h3>
+        <p id="qrPlanText">Giữ nguyên nội dung chuyển khoản để hệ thống nhận diện đơn.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeQrPopup()">✕</button>
+    </div>
+    <img id="qrImg" src="" alt="QR thanh toán Timemark">
+    <div id="loadingText" class="loadingText">⏳ Đang chờ thanh toán...</div>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwDRIc7_SZC2nx1TlYRU-taklWN57lDF9aXLHt2LE3MrLDEu-7Q0inQQlvYd6MKplhw9Q/exec";
+
+const priceMap = {
+  basic1: 40000,
+  basic7: 99999999,
+  pro1: 495000,
+  pro3: 1289000,
+  pre6: 1899000,
+  lifetime: 3499000
+};
+
+const plans = [
+  {id:"basic1", title:"Dùng thử 1 ngày", cls:"basic", badge:"Bắt đầu nhanh", desc:"Phù hợp để trải nghiệm app trước khi dùng dài hạn.", available:true, features:["1 thiết bị","Tạo ảnh không giới hạn trong thời hạn","Hỗ trợ watermark cơ bản"]},
+  {id:"basic7", title:"7 ngày", cls:"basic", badge:"Hết hàng", desc:"Gói ngắn hạn hiện đang tạm ngừng bán.", available:false, features:["1 thiết bị","Thời hạn 7 ngày","Sẽ mở lại sau"]},
+  {id:"pro1", title:"1 tháng", cls:"pro", badge:"Ổn định", desc:"Lựa chọn phù hợp cho nhu cầu làm việc thường xuyên.", available:true, features:["1 thiết bị","Dùng đủ tính năng","Hỗ trợ khi lỗi key"]},
+  {id:"pro3", title:"3 tháng", cls:"pro featured", badge:"Đáng chọn", desc:"Tối ưu chi phí cho người dùng đều đặn mỗi tuần.", available:true, features:["1 thiết bị","Giá tốt hơn gói tháng","Phù hợp sale/thị trường"]},
+  {id:"pre6", title:"6 tháng", cls:"premium featured", badge:"Tiết kiệm", desc:"Dành cho người dùng chuyên nghiệp, cần sử dụng lâu dài.", available:true, features:["1 thiết bị","Thời hạn dài","Ưu tiên hỗ trợ"]},
+  {id:"lifetime", title:"Vĩnh viễn", cls:"premium", badge:"Một lần", desc:"Thanh toán một lần cho nhu cầu sử dụng lâu dài.", available:true, features:["1 thiết bị","Không cần gia hạn","Phù hợp người dùng thường xuyên"]}
+];
+
+const box = document.getElementById("pricing");
+let selectedPlan = null;
+let checkTimer = null;
+
+function formatPrice(value){
+  return value.toLocaleString("vi-VN") + "đ";
+}
+
+function renderPlans(){
+  box.innerHTML = plans.map(p => {
+    const priceText = p.available ? formatPrice(priceMap[p.id]) : "Tạm hết";
+    const buttonText = p.available ? "Mua gói này" : "Tạm hết hàng";
+    const features = p.features.map(item => `<li>${item}</li>`).join("");
+    return `
+      <article class="plan-card ${p.cls} ${p.available ? "" : "soldout"}">
+        <span class="badge">${p.badge}</span>
+        <h3>${p.title}</h3>
+        <p class="plan-sub">${p.desc}</p>
+        <div class="price">${priceText}</div>
+        <ul class="features">${features}</ul>
+        <button type="button" ${p.available ? `onclick="openEmailModal('${p.id}')"` : "disabled"}>${buttonText}</button>
+      </article>
+    `;
+  }).join("");
+}
+
+function openEmailModal(plan){
+  selectedPlan = plan;
+  const p = plans.find(item => item.id === plan);
+  document.getElementById("selectedPlanText").innerText = `${p.title} - ${formatPrice(priceMap[plan])}. Key sẽ được gửi về Gmail sau khi thanh toán thành công.`;
+  document.getElementById("emailModal").classList.add("show");
+  document.getElementById("emailModal").setAttribute("aria-hidden","false");
+  setTimeout(()=>document.getElementById("emailInput").focus(),50);
+}
+
+function closeEmailModal(){
+  document.getElementById("emailModal").classList.remove("show");
+  document.getElementById("emailModal").setAttribute("aria-hidden","true");
+}
+
+function closeQrPopup(){
+  document.getElementById("qrPopup").classList.remove("show");
+  document.getElementById("qrPopup").setAttribute("aria-hidden","true");
+  if(checkTimer) clearInterval(checkTimer);
+}
+
+function confirmBuy(){
+  const email = document.getElementById("emailInput").value.trim();
+  if(!email || !email.includes("@")){
+    alert("Email không hợp lệ");
+    return;
+  }
+  if(!selectedPlan) return;
+  buy(selectedPlan, email);
+}
+
+function startChecking(orderId, email){
+  if(checkTimer) clearInterval(checkTimer);
+  checkTimer = setInterval(()=>{
+    fetch(API_URL,{
+      method:"POST",
+      body:JSON.stringify({action:"checkPaid",orderId,email})
+    })
+    .then(r=>r.json())
+    .then(res=>{
+      if(res.paid){
+        clearInterval(checkTimer);
+        closeQrPopup();
+        alert("🎉 Thanh toán thành công! KEY đã gửi về email.\n📩 Nếu chưa nhận được, vui lòng kiểm tra thư nháp hoặc spam.");
+      }
+    });
+  },3000);
+}
+
+function buyLegacyUnused(plan, email){
+  const price = priceMap[plan];
+  const p = plans.find(item => item.id === plan);
+
+  closeEmailModal();
+  document.getElementById("qrPlanText").innerText = `${p.title} - ${formatPrice(price)}. Nội dung chuyển khoản: ${orderId}`;
+  document.getElementById("qrImg").src = qrLink;
+  document.getElementById("qrPopup").classList.add("show");
+  document.getElementById("qrPopup").setAttribute("aria-hidden","false");
+
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({action:"createPending",email})
+  }).then(()=>startChecking(email));
+}
+
+function buy(plan, email){
+  const price = priceMap[plan];
+  const p = plans.find(item => item.id === plan);
+
+  closeEmailModal();
+
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({action:"createPending",email,plan,amount:price})
+  })
+  .then(r=>r.json())
+  .then(order=>{
+    if(order.status !== "ok" || !order.orderId){
+      alert(order.message || "Khong tao duoc don hang");
+      return;
+    }
+
+    const orderId = order.orderId;
+    const amount = order.amount || price;
+    const qrLink =
+      "https://img.vietqr.io/image/970448-CASS301001-compact2.png?amount="
+      + amount +
+      "&addInfo=" + encodeURIComponent(orderId) +
+      "&accountName=" + encodeURIComponent("Timemark");
+
+    document.getElementById("qrPlanText").innerText = `${p.title} - ${formatPrice(amount)}. Noi dung chuyen khoan: ${orderId}`;
+    document.getElementById("qrImg").src = qrLink;
+    document.getElementById("qrPopup").classList.add("show");
+    document.getElementById("qrPopup").setAttribute("aria-hidden","false");
+    startChecking(orderId, email);
+  })
+  .catch(()=>{
+    alert("Khong ket noi duoc he thong tao don");
+  });
+}
+
+renderPlans();
+</script>
+</body>
+</html>

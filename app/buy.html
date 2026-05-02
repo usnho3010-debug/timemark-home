@@ -594,7 +594,7 @@ function renderPlans(){
   box.innerHTML = plans.map(p => {
     const priceText = p.available ? formatPrice(priceMap[p.id]) : "Tạm hết";
     const buttonText = p.available ? "Mua gói này" : "Tạm hết hàng";
-    const stockFeature = p.remaining >= 0 ? [`Con lai ${p.remaining} key`] : [];
+    const stockFeature = p.remaining >= 0 ? [`Số Lượng ${p.remaining} key`] : [];
     const features = p.features.concat(stockFeature).map(item => `<li>${item}</li>`).join("");
     return `
       <article class="plan-card ${p.cls} ${p.available ? "" : "soldout"}">

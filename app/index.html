@@ -9,12 +9,12 @@
 <link rel="stylesheet" href="theme-app.css">
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#a80000">
+<meta name="theme-color" content="#f7fbff">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <script>
   // Khởi tạo Theme ngay từ đầu để tránh bị chớp màn hình (Flicker)
-  const savedTheme = localStorage.getItem('tm_theme') || 'dark';
+  const savedTheme = localStorage.getItem('tm_theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
   
   function toggleTheme() {
@@ -59,14 +59,14 @@
 <div class="app">
   <header class="header-app">
     <h2>🚀 Timemark Premium</h2>
-    <p>Cập nhật hệ thống: 15/04/2026</p>
-    <p>‼Lưu Ý: Dùng các số 0,2,4,7 để ảnh được thật hơn!‼</p>
+    <p>Tạo ảnh check-in có thời gian, vị trí và thông tin cá nhân.</p>
+    <p class="header-note">Gợi ý: dùng các số 0, 2, 4, 7 để ảnh tự nhiên hơn.</p>
     <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle-btn" title="Đổi giao diện Sáng/Tối">🌙</button>
   </header>
 
   <!-- CARD 1: UPLOAD -->
-  <div class="card app-card">
-    <h3 class="section-title">📸 Nguồn ảnh</h3>
+  <div class="card app-card upload-card">
+    <h3 class="section-title">Nguồn ảnh</h3>
     <label>Ảnh check-in (Bắt buộc)</label>
     <input type="file" id="imageInput" accept="image/*">
     <label>Logo thương hiệu (Tùy chọn)</label>
@@ -74,38 +74,47 @@
   </div>
 
   <!-- CARD 2: WATERMARK -->
-  <div class="card app-card">
-    <h3 class="section-title">💧 Cấu hình Watermark</h3>
+  <div class="card app-card watermark-card">
+    <h3 class="section-title">Cấu hình Watermark</h3>
     <label>Kiểu Watermark</label>
     <select id="wmStyle"><option value="v3">🔥 Chuẩn Timemark Premium</option></select>
   </div>
     
   <!-- CARD 3: THÔNG TIN CHECK-IN -->
-  <div class="card app-card">
-    <h3 class="section-title">📝 Thông tin Check-in</h3>
-    <button onclick="setNow()" class="btn-secondary">🕒 Lấy giờ thực tế tự động</button>
-    <button onclick="getGPS()" class="btn-secondary" style="margin-bottom: 16px;">📍 Lấy vị trí GPS</button>
+  <div class="card app-card form-card">
+    <h3 class="section-title">Thông tin Check-in</h3>
+    <div class="quick-tool-row">
+      <button onclick="setNow()" class="btn-secondary">Lấy giờ thực tế</button>
+      <button onclick="getGPS()" class="btn-secondary">Lấy vị trí GPS</button>
+    </div>
 
     <div class="infoGrid">
       <div><label>Giờ</label><input id="time" placeholder="VD: 13:50"></div>
       <div><label>Ngày</label><input id="date" placeholder="10 Tháng 3, 2026"></div>
       <div><label>Thứ</label><input id="weekday" placeholder="Thứ Ba"></div>
-      <div class="fullRow"><label>Địa chỉ</label><input id="address" placeholder="Nhập địa chỉ"></div>
-      <div class="fullRow"><label>Họ tên</label><input id="fullname" placeholder="Nhập Họ tên"></div>
+      <div class="fullRow"><label>Địa chỉ</label><textarea id="address" placeholder="Nhập địa chỉ"></textarea></div>
+      <div class="fullRow"><label>Họ tên</label><textarea id="fullname" placeholder="Nhập Họ tên"></textarea></div>
+      <div class="fullRow note-control">
+        <button id="addNoteBtn" class="note-add-btn" type="button" onclick="showExtraNote()">+ Thêm ghi chú</button>
+        <div id="extraNoteWrap" class="extra-note-wrap">
+          <label>Ghi chú thêm</label>
+          <textarea id="extraNote" placeholder="VD: Chức vụ: Giám đốc"></textarea>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- CARD 4: PREVIEW -->
   <div class="card app-card preview-card">
-    <h3 class="section-title">🖼 Xem trước</h3>
+    <h3 class="section-title">Xem trước</h3>
     <div class="canvas-wrap">
       <canvas id="c" style="touch-action: none;"></canvas>
     </div>
   </div>
 
   <!-- CARD 5: TÙY CHỈNH -->
-  <div class="card app-card">
-    <h3 class="section-title">⚙️ Tùy chỉnh hiển thị</h3>
+  <div class="card app-card settings-card">
+    <h3 class="section-title">Tùy chỉnh hiển thị</h3>
     <div class="scale-control" style="margin-top: 0; margin-bottom: 16px; background: transparent; padding: 0; border: none;">
       <label>🔍 Kích thước thông tin: <span id="scaleDisplay">100</span>%</label>
       <input type="range" id="wmScaleSlider" min="50" max="180" value="100" oninput="updateWmScale(this.value)">
@@ -127,8 +136,8 @@
 
   <!-- BOTTOM ACTION BAR -->
   <div class="action-bar">
-    <button onclick="draw()" class="btn-primary" style="flex: 2;">✨ Tạo Ảnh</button>
-    <button onclick="download()" class="btn-secondary-action" style="flex: 1;">⬇️ Tải về</button>
+    <button onclick="draw()" class="btn-primary" style="flex: 2;">Tạo ảnh</button>
+    <button onclick="download()" class="btn-secondary-action" style="flex: 1;">Tải về</button>
   </div>
 
 </div>
@@ -332,6 +341,37 @@ let wmScale = 1;
 let isDraggingWM = false;
 let dragStartX = 0;
 let dragStartY = 0;
+let hasGenerated = false;
+let generatedData = {
+  time: "",
+  date: "",
+  weekday: "",
+  address: "",
+  fullname: "",
+  extraNote: ""
+};
+
+function captureGeneratedData(){
+  generatedData = {
+    time: time.value.trim(),
+    date: date.value.trim(),
+    weekday: weekday.value.trim(),
+    address: address.value.trim(),
+    fullname: fullname.value.trim(),
+    extraNote: document.getElementById("extraNote")?.value.trim() || ""
+  };
+}
+
+function resetGeneratedPreview(){
+  hasGenerated = false;
+  if(img.src) renderCanvas();
+}
+
+function showExtraNote(){
+  document.getElementById("extraNoteWrap").classList.add("show");
+  document.getElementById("addNoteBtn").style.display = "none";
+  document.getElementById("extraNote").focus();
+}
 
 function updateWmScale(val){
   document.getElementById("scaleDisplay").innerText = val;
@@ -340,7 +380,7 @@ function updateWmScale(val){
 }
 
 c.addEventListener("pointerdown", (e) => {
-  if(!img.src) return;
+  if(!img.src || !hasGenerated) return;
   isDraggingWM = true;
   const rect = c.getBoundingClientRect();
   const scaleX = c.width / rect.width;
@@ -405,8 +445,48 @@ function resetShadow(ctx){
   ctx.shadowColor = "transparent";
 }
 
-imageInput.onchange=e=>{ const r=new FileReader(); r.onload=()=>img.src=r.result; r.readAsDataURL(e.target.files[0]); };
-logoInput.onchange=e=>{ const r=new FileReader(); r.onload=()=>logo.src=r.result; r.readAsDataURL(e.target.files[0]); };
+function wrapManualLines(text, maxWidth){
+  return String(text || "").split(/\r?\n/).flatMap(part => {
+    const words = part.trim().split(/\s+/).filter(Boolean);
+    if(!words.length) return [""];
+
+    const lines = [];
+    let line = "";
+    words.forEach(word => {
+      const testLine = line ? `${line} ${word}` : word;
+      if(ctx.measureText(testLine).width > maxWidth && line){
+        lines.push(line);
+        line = word;
+      }else{
+        line = testLine;
+      }
+    });
+    lines.push(line);
+    return lines;
+  });
+}
+
+function drawTextLines(lines, leftX, startY, lineHeight){
+  let y = startY;
+  lines.forEach(line => {
+    if(line) ctx.fillText(line, leftX, y);
+    y += lineHeight;
+  });
+  return y;
+}
+
+imageInput.onchange=e=>{
+  hasGenerated = false;
+  const r=new FileReader();
+  r.onload=()=>img.src=r.result;
+  r.readAsDataURL(e.target.files[0]);
+};
+logoInput.onchange=e=>{
+  hasGenerated = false;
+  const r=new FileReader();
+  r.onload=()=>{ logo.src=r.result; renderCanvas(); };
+  r.readAsDataURL(e.target.files[0]);
+};
 
 img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); };
 
@@ -418,6 +498,7 @@ function setNow(){
   const year=d.getFullYear();
   date.value=`${day} Tháng ${month}, ${year}`;
   weekday.value=d.toLocaleDateString("vi-VN",{weekday:'long'});
+  resetGeneratedPreview();
 }
 
 function getGPS(){
@@ -435,7 +516,8 @@ function getGPS(){
           const tinh = a.state || a.region || "";
           address.value = [ xa ? `X. ${xa}` : "", huyen ? `H. ${huyen}` : "", tinh ].filter(Boolean).join(", ");
         }else{ address.value = `${lat}, ${lng}`; }
-      }).catch(err=>{ address.value = `${lat}, ${lng}`; });
+        resetGeneratedPreview();
+      }).catch(err=>{ address.value = `${lat}, ${lng}`; resetGeneratedPreview(); });
     },
     err=>{ alert("Không lấy được GPS: " + err.message); },
     { enableHighAccuracy:true, timeout:15000, maximumAge:0 }
@@ -445,6 +527,8 @@ function getGPS(){
 async function draw(){
   await document.fonts.ready;
   if(!img.src) return alert("Chưa chọn ảnh");
+  captureGeneratedData();
+  hasGenerated = true;
   showGod();
   
   // Trả vị trí về mặc định khi tạo mới
@@ -459,7 +543,7 @@ async function renderCanvas(){
   await document.fonts.ready;
   ctx.clearRect(0,0,c.width,c.height);
   ctx.drawImage(img,0,0);
-  drawStyleV3(); 
+  if(hasGenerated) drawStyleV3(); 
 }
 function drawStyleV3(){
   const pad = fs(0.04);
@@ -487,8 +571,8 @@ function drawStyleV3(){
   let leftX = baseLeftX;
 
   if(logo.src && isOn("toggleLogo")) y = drawWatermarkLogo(leftX, y);
-  if(isOn("toggleTime")) y = drawWatermarkTime(leftX, y);
-  if(isOn("toggleAddress") && address.value) y = drawWatermarkAddress(leftX, y);
+  if(isOn("toggleTime") && generatedData.time) y = drawWatermarkTime(leftX, y);
+  if(isOn("toggleAddress") && generatedData.address) y = drawWatermarkAddress(leftX, y);
   if(isOn("toggleFullname")) y = drawWatermarkFullName(leftX, y);
 
   ctx.restore(); // Kết thúc Block di chuyển
@@ -544,7 +628,7 @@ function drawWatermarkTime(leftX, y){
   const baseYTime = y + timeHeight * 0.82;
   ctx.translate(leftX, baseYTime);
   ctx.scale(1, scaleY);
-  const [h, m] = time.value.split(":");
+  const [h, m = ""] = generatedData.time.split(":");
   
   setShadow(ctx, fs(0.01), fs(0.0025));
   ctx.fillText(h, 0, 0);
@@ -562,7 +646,7 @@ function drawWatermarkTime(leftX, y){
   resetShadow(ctx);
   ctx.restore();
 
-  const timeW = ctx.measureText(time.value).width;
+  const timeW = ctx.measureText(generatedData.time).width;
   const lineX = leftX + timeW + fs(0.032);
 
   ctx.strokeStyle = "#FFC107";
@@ -580,10 +664,10 @@ function drawWatermarkTime(leftX, y){
   setShadow(ctx, fs(0.008), fs(0.002));
   
   ctx.textBaseline = "top"; // Căn Ngày theo mép trên thanh dọc
-  ctx.fillText(date.value, rightX, lineTop);
+  ctx.fillText(generatedData.date, rightX, lineTop);
   
   ctx.textBaseline = "alphabetic"; // Căn Thứ theo mép dưới thanh dọc (bằng baseline Giờ)
-  ctx.fillText(weekday.value, rightX, lineTop + lineHeight);
+  ctx.fillText(generatedData.weekday, rightX, lineTop + lineHeight);
   
   resetShadow(ctx);
 
@@ -597,44 +681,44 @@ function drawWatermarkAddress(leftX, y){
   setShadow(ctx, fs(0.008), fs(0.002));
 
   const maxTextWidth = c.width * 0.5; 
-  const lineHeight = fs(0.027); // Giảm 20% khoảng cách dòng
-  
-  const words = address.value.split(" ");
-  let line = "";
-  let startY = y + fs(0.008); // Giảm 20%
+  const lineHeight = fs(0.031);
+  const startY = y + fs(0.004);
+  const lines = wrapManualLines(generatedData.address, maxTextWidth);
+  const nextY = drawTextLines(lines, leftX, startY, lineHeight);
 
-  for (let n = 0; n < words.length; n++) {
-    let testLine = line + words[n] + " ";
-    let metrics = ctx.measureText(testLine);
-    
-    if (metrics.width > maxTextWidth && n > 0) {
-      ctx.fillText(line, leftX, startY);
-      line = words[n] + " ";
-      startY += lineHeight;
-    } else {
-      line = testLine;
-    }
-  }
-  ctx.fillText(line, leftX, startY);
   resetShadow(ctx);
   
-  return startY + fs(0.044); // Giảm 20% khoảng cách với khối dưới
+  return nextY + fs(0.012);
 }
 
 function drawWatermarkFullName(leftX, y){
-  const nameVal = document.getElementById("fullname")?.value?.trim();
-  if(!nameVal) return y;
+  const nameVal = generatedData.fullname;
+  const noteVal = generatedData.extraNote;
+  if(!nameVal && !noteVal) return y;
 
-  const nameText = "Họ tên: " + nameVal;
   const nameFont = fs(0.028) * 0.85; // Giảm 15%
   ctx.font = `${nameFont}px Arial`;
-  const textW = ctx.measureText(nameText).width;
+  const maxTextWidth = c.width * 0.5;
+  const lines = [];
+
+  if(nameVal){
+    lines.push(...wrapManualLines(nameVal, maxTextWidth).map((line, index) => index === 0 ? "Họ tên: " + line : line));
+  }
+
+  if(noteVal){
+    lines.push(...wrapManualLines(noteVal, maxTextWidth));
+  }
+
+  const textW = Math.max(...lines.map(line => ctx.measureText(line).width));
   const boxPad = fs(0.017); // Giảm padding tương ứng
-  const boxHeight = fs(0.042); // Giảm chiều cao khung nền tương ứng
+  const lineHeight = fs(0.031);
+  const boxTopPad = fs(0.012);
+  const boxBottomPad = fs(0.012);
+  const boxHeight = lineHeight * lines.length + boxTopPad + boxBottomPad;
 
   // Đặt tọa độ nền bắt đầu đúng từ mép trái (leftX) để thẳng hàng tuyệt đối với các thông tin trên
   const boxX = leftX;
-  const boxY = y - boxHeight + fs(0.01);
+  const boxY = y - boxTopPad - fs(0.022);
   const boxW = textW + boxPad * 4; // Kéo dài thêm dải màu ra sau một chút để hiệu ứng mờ dần đẹp hơn
 
   // Tạo gradient mờ dần từ trái (0.25) sang phải (0)
@@ -647,16 +731,17 @@ function drawWatermarkFullName(leftX, y){
 
   ctx.fillStyle = "#FFFFFF";
   setShadow(ctx, fs(0.008), fs(0.002));
-  ctx.fillText(nameText, leftX, y);
+  const nextY = drawTextLines(lines, leftX, y, lineHeight);
   resetShadow(ctx);
 
-  return y + fs(0.048); // Giảm 20% khoảng cách kết thúc
+  return nextY + fs(0.012);
 }
 
 function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
 
 function download(){
   if(!img.src){ alert("Chưa chọn ảnh"); return; }
+  if(!hasGenerated){ alert("Vui lòng bấm Tạo Ảnh trước khi tải về"); return; }
   const d = c.toDataURL("image/png");
   if(isIOS()){
     const w = window.open("", "_blank");
@@ -693,6 +778,11 @@ function download(){
 
 window.onload=()=>{
   localStorage.removeItem("tm_notify_once");
+  ["time","date","weekday","address","fullname","extraNote"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener("input", resetGeneratedPreview);
+  });
+
   const box=document.getElementById("petals");
   ["🌸","🌼","🌺"].forEach(()=>{
     for(let i=0;i<8;i++){

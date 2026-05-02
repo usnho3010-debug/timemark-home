@@ -594,7 +594,8 @@ function renderPlans(){
   box.innerHTML = plans.map(p => {
     const priceText = p.available ? formatPrice(priceMap[p.id]) : "Tạm hết";
     const buttonText = p.available ? "Mua gói này" : "Tạm hết hàng";
-    const features = p.features.map(item => `<li>${item}</li>`).join("");
+    const stockFeature = p.remaining >= 0 ? [`Con lai ${p.remaining} key`] : [];
+    const features = p.features.concat(stockFeature).map(item => `<li>${item}</li>`).join("");
     return `
       <article class="plan-card ${p.cls} ${p.available ? "" : "soldout"}">
         <span class="badge">${p.badge}</span>
@@ -606,6 +607,42 @@ function renderPlans(){
       </article>
     `;
   }).join("");
+}
+
+function applyRemotePlans(remotePlans){
+  if(!Array.isArray(remotePlans) || !remotePlans.length) return;
+
+  plans.splice(0, plans.length, ...remotePlans.map(p => ({
+    id: p.id,
+    title: p.title || p.id,
+    cls: p.cls || "",
+    badge: p.badge || "",
+    desc: p.desc || "",
+    available: p.available === true,
+    features: Array.isArray(p.features) ? p.features : [],
+    amount: Number(p.amount || 0),
+    remaining: Number(p.remaining)
+  })));
+
+  remotePlans.forEach(p => {
+    priceMap[p.id] = Number(p.amount || 0);
+  });
+}
+
+function loadPlans(){
+  box.innerHTML = "<p style=\"color:#64748b;text-align:center;grid-column:1/-1;\">Dang tai goi...</p>";
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({action:"getPlans"})
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    if(res.status === "ok") applyRemotePlans(res.plans);
+    renderPlans();
+  })
+  .catch(()=>{
+    renderPlans();
+  });
 }
 
 function openEmailModal(plan){
@@ -708,7 +745,7 @@ function buy(plan, email){
   });
 }
 
-renderPlans();
+loadPlans();
 </script>
 </body>
 </html>

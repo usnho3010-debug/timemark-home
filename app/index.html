@@ -156,11 +156,14 @@ let godInterval = null;
 
 function showGod(){
   const box = document.getElementById("godMode");
+  const godBox = box.querySelector(".god-box");
   const load = document.getElementById("godLoading");
   const success = document.getElementById("godSuccess");
   const text = document.getElementById("godAIText");
   const percent = document.getElementById("godPercent");
 
+  godBox.classList.remove("god-box-success");
+  godBox.classList.add("god-box-loading");
   box.style.display="flex";
   load.style.display="block";
   success.style.display="none";
@@ -190,6 +193,9 @@ function showGod(){
 function godSuccess(){
   const load = document.getElementById("godLoading");
   const success = document.getElementById("godSuccess");
+  const godBox = document.querySelector("#godMode .god-box");
+  godBox.classList.remove("god-box-loading");
+  godBox.classList.add("god-box-success");
   load.style.display="none";
   success.style.display="block";
   const s=document.getElementById("godSound");
@@ -617,7 +623,7 @@ function drawWatermarkLogo(leftX, y){
 }
 
 function drawWatermarkTime(leftX, y){
-  const scaleY = 1.95;
+  const scaleY = 1.95 * 0.9;
   const fontSize = fs(0.045);
   const timeHeight = fontSize * scaleY;
 
@@ -653,8 +659,8 @@ function drawWatermarkTime(leftX, y){
   ctx.lineWidth = fs(0.004);
   
   // 📏 Căn chỉnh thanh kẻ dọc bằng với độ cao của Giờ
-  const lineTop = y + timeHeight * 0.02; // Bắt đầu cao hơn (sát mép trên chữ Giờ)
-  const lineHeight = timeHeight * 0.80; // Kéo dài tận mép chân chữ Giờ
+  const lineTop = y + timeHeight * 0.02; // Bám theo chiều cao Giờ sau khi giảm 10%
+  const lineHeight = timeHeight * 0.80; // Giữ logic căn hiện tại theo chiều cao Giờ
   ctx.beginPath(); ctx.moveTo(lineX, lineTop); ctx.lineTo(lineX, lineTop + lineHeight); ctx.stroke();
 
   const rightX = lineX + fs(0.02);
@@ -789,48 +795,58 @@ async function shareImageIfAvailable(blob, fileName){
   }
 }
 
+function openImageSaveGuide(dataUrl){
+  const w = window.open("", "_blank");
+  if(!w){ alert("Safari đang chặn popup. Hãy cho phép popup."); return false; }
+
+  w.document.write(`
+    <html>
+    <head>
+      <title>Timemark Download</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <style>
+        body{ margin:0; background:#0b0b0b; font-family:Arial; color:#fff; text-align:center; }
+        .header{ position:sticky; top:0; background:rgba(0,0,0,.7); backdrop-filter:blur(12px); padding:12px; }
+        .backBtn{ display:inline-block; padding:12px 20px; border-radius:16px; background:linear-gradient(135deg,#ff6a00,#ff9800); color:#fff; text-decoration:none; font-weight:bold; box-shadow:0 10px 30px rgba(255,120,0,.6); }
+        .guide{ font-size:14px; opacity:.8; margin-top:8px; }
+        img{ width:100%; margin-top:10px; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <a class="backBtn" href="./">🔙 Quay lại Timemark</a>
+        <div class="guide">Nhấn giữ ảnh → Lưu vào thư viện iPhone</div>
+      </div>
+      <img src="${dataUrl}">
+    </body>
+    </html>
+  `);
+  return true;
+}
+
 async function download(){
   if(!img.src){ alert("Chưa chọn ảnh"); return; }
   if(!hasGenerated){ alert("Vui lòng bấm Tạo Ảnh trước khi tải về"); return; }
 
   const fileName = getDownloadFileName();
-
-  if(isIOS()){
-    const d = c.toDataURL("image/png");
-    const w = window.open("", "_blank");
-    if(!w){ alert("Safari đang chặn popup. Hãy cho phép popup."); return; }
-    showNotify("info", "📥 Hướng dẫn tải ảnh", "Tab ảnh đã mở. Nhấn giữ ảnh để lưu vào thư viện.");
-    w.document.write(`
-      <html>
-      <head>
-        <title>Timemark Download</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <style>
-          body{ margin:0; background:#0b0b0b; font-family:Arial; color:#fff; text-align:center; }
-          .header{ position:sticky; top:0; background:rgba(0,0,0,.7); backdrop-filter:blur(12px); padding:12px; }
-          .backBtn{ display:inline-block; padding:12px 20px; border-radius:16px; background:linear-gradient(135deg,#ff6a00,#ff9800); color:#fff; text-decoration:none; font-weight:bold; box-shadow:0 10px 30px rgba(255,120,0,.6); }
-          .guide{ font-size:14px; opacity:.8; margin-top:8px; }
-          img{ width:100%; margin-top:10px; }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <a class="backBtn" href="./">🔙 Quay lại Timemark</a>
-          <div class="guide">Nhấn giữ ảnh → Lưu vào thư viện iPhone</div>
-        </div>
-        <img src="${d}">
-      </body>
-      </html>
-    `);
-    return;
-  }
-
   const blob = await canvasToBlob();
   if(!blob){ alert("Không tạo được file ảnh"); return; }
 
-  if(isAndroid()){
+  if(isIOS() || isAndroid()){
     const shared = await shareImageIfAvailable(blob, fileName);
-    if(shared) return;
+    if(shared){
+      showNotify("info", "📥 Lưu ảnh", "Nếu bảng chia sẻ vừa mở, hãy chọn Lưu hình ảnh / Photos / Thư viện để lưu vào máy.");
+      return;
+    }
+  }
+
+  if(isIOS()){
+    const opened = openImageSaveGuide(c.toDataURL("image/png"));
+    if(opened) showNotify("info", "📥 Hướng dẫn tải ảnh", "Tab ảnh đã mở. Nhấn giữ ảnh để lưu vào thư viện.");
+    return;
+  }
+
+  if(isAndroid()){
     downloadBlob(blob, fileName);
     showNotify("info", "📥 Đã tải ảnh", "Nếu ảnh chưa hiện trong thư viện, hãy kiểm tra thư mục Downloads.");
     return;
@@ -893,8 +909,9 @@ const fabWrap = document.querySelector(".tmFab");
           <div class="god-bar"><span></span></div>
       </div>
       <div id="godSuccess" class="god-state" style="display:none;">
-          <div class="god-success"> Ảnh đã tạo thành công </div>
-          <div class="god-success" style="font-size:12px;color:#cfd8ff;">Bạn có thể vuốt để di chuyển Text!</div>  
+          <div class="god-success-icon">✓</div>
+          <div class="god-success-title">Ảnh đã tạo thành công</div>
+          <div class="god-success-text">Bạn có thể vuốt trực tiếp trên ảnh để di chuyển chữ.</div>
           <button class="god-btn" onclick="closeGod(); renderCanvas();">Hoàn tất</button>
       </div>
   </div>

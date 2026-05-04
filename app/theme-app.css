@@ -323,8 +323,10 @@ canvas { width: 100%; display: block; background: var(--canvas-bg); }
 }
 
 /* ================= AI GOD MODE ================= */
-.god-mode { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 99999; }
+.god-mode { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 99999; padding: 20px; }
 .god-box { width: 280px; padding: 30px; border-radius: var(--radius-lg); background: #000; border: 1px solid var(--primary); text-align: center; box-shadow: 0 0 40px var(--primary-glow); position: relative; overflow: hidden; }
+.god-box-success { width: min(360px, 100%); min-height: 250px; }
+.god-state { position: relative; z-index: 1; }
 .god-ring, .god-ring2 { position: absolute; left: 50%; top: 30px; transform: translateX(-50%); border-radius: 50%; border: 2px solid var(--primary); border-top-color: transparent; }
 .god-ring { width: 50px; height: 50px; animation: spin 1s linear infinite; }
 .god-ring2 { width: 66px; height: 66px; border: 2px solid rgba(139, 92, 246, 0.3); border-bottom-color: transparent; animation: spinReverse 1.5s linear infinite; }
@@ -332,6 +334,38 @@ canvas { width: 100%; display: block; background: var(--canvas-bg); }
 .god-text { margin-top: 8px; font-size: 14px; color: #fff; }
 .god-bar { margin-top: 16px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
 .god-bar span { display: block; height: 100%; width: 30%; background: var(--primary); border-radius: 4px; animation: godLoad 1s ease-in-out infinite alternate; }
+.god-success-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+  color: #fff;
+  font-size: 34px;
+  font-weight: 900;
+  box-shadow: 0 14px 34px rgba(34, 197, 94, 0.32);
+}
+.god-success-title {
+  color: #fff;
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.god-success-text {
+  max-width: 280px;
+  margin: 10px auto 18px;
+  color: #cfd8ff;
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: normal;
+}
+.god-success-text + .god-btn { margin-top: 0; }
 @keyframes spin { 100% { transform: translateX(-50%) rotate(360deg); } }
 @keyframes spinReverse { 100% { transform: translateX(-50%) rotate(-360deg); } }
 @keyframes godLoad { 0% { transform: translateX(-10%); } 100% { transform: translateX(250%); } }

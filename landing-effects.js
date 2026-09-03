@@ -1,42 +1,3 @@
-document.addEventListener("DOMContentLoaded",()=>{
-
-/* ===================================================
-🔥 SMART DAILY COUNTER (AUTO GROW)
-=================================================== */
-
-const counter = document.getElementById("fakeCounter");
-
-if(counter){
-
-const startDate = new Date("2026-01-01");
-const baseValue = 1200;
-const dailyGrow = 18;
-
-const today = new Date();
-
-const diffDays = Math.floor(
- (today - startDate) / (1000*60*60*24)
-);
-
-let target = baseValue + (diffDays * dailyGrow);
-let current = 0;
-
-const runCounter=setInterval(()=>{
-
-current += Math.ceil(target/80);
-
-if(current>=target){
-current=target;
-clearInterval(runCounter);
-}
-
-counter.innerText = current.toLocaleString();
-
-},20);
-
-}
-
-});
 /* ===== DEMO SLIDER AUTO ===== */
 
 const slides = document.querySelectorAll(".demo-img");
@@ -44,17 +5,17 @@ const dotsContainer = document.getElementById("demoDots");
 
 let currentSlide = 0;
 
-/* tạo dots tự động */
-slides.forEach((_, index)=>{
-  const dot = document.createElement("span");
-  dot.classList.add("dot");
-
-  if(index === 0) dot.classList.add("active");
-
-  dot.addEventListener("click", ()=> showSlide(index));
-
-  dotsContainer.appendChild(dot);
-});
+if(slides.length && dotsContainer){
+  slides.forEach((_, index)=>{
+    const dot = document.createElement("button");
+    dot.classList.add("dot");
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Xem ảnh demo ${index + 1}`);
+    if(index === 0) dot.classList.add("active");
+    dot.addEventListener("click", ()=> showSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+}
 
 const dots = document.querySelectorAll(".dot");
 
@@ -70,85 +31,37 @@ function showSlide(index){
   currentSlide = index;
 }
 
-/* auto chạy */
-setInterval(()=>{
-  let next = (currentSlide + 1) % slides.length;
-  showSlide(next);
-},3000);
-/* ===== TICKER SINGLE MESSAGE ===== */
-
-const ticker = document.getElementById("fakeTicker");
-
-if(ticker){
-
-const names = [
-"Nguyễn V.","Anh T.","Minh K.","Phúc L.",
-"Huy N.","Tuấn P.","Long D.","Khang V.",
-"Nam T.","Đạt Q."
-];
-
-const actions = [
-"vừa kích hoạt thành công",
-"đã mua gói 7 ngày",
-"vừa gia hạn key",
-"đã xác thực thiết bị",
-"đã kết nối hệ thống"
-];
-
-function randomMessage(){
-  const name = names[Math.floor(Math.random()*names.length)];
-  const action = actions[Math.floor(Math.random()*actions.length)];
-
-  return `🟢 <b style="color:#00f0ff">${name}</b> ${action}`;
+if(slides.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  setInterval(()=>showSlide((currentSlide + 1) % slides.length),4500);
 }
 
-function showMessage(){
+/* Decorative snow and sakura petals share one lightweight animation layer. */
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const seasonalLayer = document.createElement("div");
+  seasonalLayer.className = "seasonal-effects";
+  seasonalLayer.setAttribute("aria-hidden","true");
 
-  ticker.classList.remove("show");
+  for(let index = 0; index < 32; index++){
+    const snow = document.createElement("span");
+    snow.className = "snowflake";
+    snow.style.setProperty("--x", `${Math.random() * 100}vw`);
+    snow.style.setProperty("--drift", `${Math.random() * 110 - 55}px`);
+    snow.style.setProperty("--size", `${4 + Math.random() * 7}px`);
+    snow.style.setProperty("--duration", `${8 + Math.random() * 10}s`);
+    snow.style.setProperty("--delay", `${Math.random() * -18}s`);
+    seasonalLayer.appendChild(snow);
+  }
 
-  setTimeout(()=>{
-    ticker.innerHTML = randomMessage();
-    ticker.classList.add("show");
-  },200);
+  for(let index = 0; index < 14; index++){
+    const petal = document.createElement("span");
+    petal.className = "sakura-petal";
+    petal.style.setProperty("--x", `${Math.random() * 100}vw`);
+    petal.style.setProperty("--drift", `${Math.random() * 180 - 90}px`);
+    petal.style.setProperty("--duration", `${11 + Math.random() * 10}s`);
+    petal.style.setProperty("--delay", `${Math.random() * -20}s`);
+    petal.style.setProperty("--scale", `${.65 + Math.random() * .7}`);
+    seasonalLayer.appendChild(petal);
+  }
 
+  document.body.prepend(seasonalLayer);
 }
-
-/* chạy lần đầu */
-showMessage();
-
-/* đổi mỗi 3s */
-setInterval(showMessage,3000);
-
-}
-document.addEventListener("DOMContentLoaded",()=>{
-
-const welcome = document.getElementById("welcomeOverlay");
-
-if(!welcome) return;
-
-const now = Date.now();
-const savedTime = localStorage.getItem("hide_welcome_time");
-
-/* kiểm tra 24h */
-if(!savedTime || (now - savedTime > 24*60*60*1000)){
-
-  setTimeout(()=>{
-    welcome.classList.add("show");
-  },800);
-
-}
-
-/* OK */
-window.closeWelcome = function(){
-  welcome.classList.remove("show");
-}
-
-/* Không hiển thị lại */
-window.skipWelcome = function(){
-  welcome.classList.remove("show");
-
-  /* lưu thời gian hiện tại */
-  localStorage.setItem("hide_welcome_time", Date.now());
-}
-
-});

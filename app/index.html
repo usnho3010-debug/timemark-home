@@ -244,7 +244,13 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwDRIc7_SZC2nx1TlYRU-ta
 
 function getWMStyle(){ return document.getElementById("wmStyle")?.value || "v3"; }
 
+const KEY_CHECK_INTERVAL_MS = 60000;
+const KEY_CHECK_MIN_GAP_MS = 10000;
 let keyWatcher = null;
+let keyCheckInFlight = null;
+let lastKeyCheckAt = 0;
+let keyRetryAfterAt = 0;
+let activationInFlight = false;
 
 function getDevice(){
   let d = localStorage.getItem("tm_device");
@@ -285,11 +291,22 @@ function formatCompactDate(value){
 
 function autoCheckKey(){
   const savedKey = localStorage.getItem("tm_key");
-  if(!savedKey){ updateKeyExpiryLine(null); return; }
+  if(!savedKey){ updateKeyExpiryLine(null); return Promise.resolve(); }
 
-  fetch(API_URL,{ method:"POST", body:JSON.stringify({ key: savedKey, device: getDevice() }) })
+  const now = Date.now();
+  if(document.hidden || keyCheckInFlight || now < keyRetryAfterAt || now - lastKeyCheckAt < KEY_CHECK_MIN_GAP_MS){
+    return keyCheckInFlight || Promise.resolve();
+  }
+
+  lastKeyCheckAt = now;
+  keyCheckInFlight = fetch(API_URL,{ method:"POST", body:JSON.stringify({ key: savedKey, device: getDevice() }) })
   .then(r=>r.json())
   .then(d=>{
+    if(d.status === "rate_limited"){
+      const retryAfterSeconds = Math.max(1, Number(d.retryAfterSeconds) || 60);
+      keyRetryAfterAt = Date.now() + retryAfterSeconds * 1000;
+      return;
+    }
     if(d.maintenance === true){
       localStorage.removeItem("tm_active");
       localStorage.removeItem("tm_key");
@@ -309,20 +326,24 @@ function autoCheckKey(){
     if(localStorage.getItem("tm_notify_once")==="1") return;
     localStorage.setItem("tm_notify_once","1");
     showNotify("🛡 Thông tin bản quyền", `🔑 Gói: ${d.level || "--"}\n📦 Thời hạn: ${d.type}\n🔥 Còn lại: ${d.daysLeft || "--"} ngày\n⏳ Hết hạn: ${d.expireDate || "--"}\n\n👉 Đội ngũ timemark Premium xin cảm ơn bạn!`);
-  }).catch(()=>{});
+  }).catch(()=>{}).finally(()=>{ keyCheckInFlight = null; });
+
+  return keyCheckInFlight;
 }
 
 function startRealtimeCheck(){
   if(keyWatcher) return;
   autoCheckKey();
-  keyWatcher = setInterval(()=>{ autoCheckKey(); },5000);
+  keyWatcher = setInterval(()=>{ autoCheckKey(); },KEY_CHECK_INTERVAL_MS);
 }
 
 function activate(){
   const key = keyInput.value.trim();
   const btn = document.getElementById("btnActivate");
+  if(activationInFlight) return;
   if(!key){ showNotify("Thông báo","Nhập key"); return; }
-  
+
+  activationInFlight = true;
   btn.disabled = true; btn.innerText = "⏳ Đang kiểm tra...";
   document.getElementById("loadingBlur").style.display = "block";
 
@@ -330,6 +351,8 @@ function activate(){
   .then(r=>r.json())
   .then(d=>{
     if(d.status==="ok"){
+      lastKeyCheckAt = Date.now();
+      keyRetryAfterAt = 0;
       localStorage.setItem("tm_active","1");
       localStorage.setItem("tm_key", key);
       updateKeyExpiryLine(d);
@@ -337,15 +360,26 @@ function activate(){
       startRealtimeCheck();
       document.getElementById("loadingBlur").style.display="none";
       btn.disabled=false; btn.innerText="Kích hoạt";
+      activationInFlight = false;
       startConfetti();
       showNotify("success", "🎉 Kích hoạt thành công!", `🔑 Gói: ${d.level} (${d.type})\n📅 Ngày kích hoạt: ${d.startDate}\n⏳ Hết hạn: ${d.expireDate}\n🔥 Còn lại: ${d.daysLeft} ngày`);
+    }else if(d.status==="rate_limited"){
+      const retryAfterSeconds = Math.max(1, Number(d.retryAfterSeconds) || 60);
+      keyRetryAfterAt = Date.now() + retryAfterSeconds * 1000;
+      document.getElementById("loadingBlur").style.display="none";
+      btn.disabled=false; btn.innerText="Kích hoạt";
+      activationInFlight = false;
+      showNotify("warning", "Vui lòng chờ", `Hệ thống đang giới hạn tạm thời. Vui lòng thử lại sau ${retryAfterSeconds} giây.`);
     }else{
       document.getElementById("loadingBlur").style.display="none";
       btn.disabled=false; btn.innerText="Kích hoạt";
+      activationInFlight = false;
       showNotify("keyError", "Thông báo hệ thống", d.message || "Key không hợp lệ");
     }
   }).catch(()=>{
+    document.getElementById("loadingBlur").style.display="none";
     btn.disabled = false; btn.innerText = "Kích hoạt";
+    activationInFlight = false;
     showNotify("Lỗi kết nối","Không kết nối được server");
   });
 }

@@ -180,6 +180,65 @@ function toggleAdvanced(){
    👑 GOD MODE REAL AI LOADING
 ================================ */
 let godInterval = null;
+let godScrollState = null;
+
+function lockGodScroll(){
+  if(godScrollState) return;
+
+  const bodyStyle = document.body.style;
+  const rootStyle = document.documentElement.style;
+  const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  godScrollState = {
+    scrollY,
+    bodyOverflow: bodyStyle.overflow,
+    bodyPosition: bodyStyle.position,
+    bodyTop: bodyStyle.top,
+    bodyWidth: bodyStyle.width,
+    rootOverflow: rootStyle.overflow
+  };
+
+  rootStyle.overflow = "hidden";
+  bodyStyle.overflow = "hidden";
+  bodyStyle.position = "fixed";
+  bodyStyle.top = `-${scrollY}px`;
+  bodyStyle.width = "100%";
+}
+
+function unlockGodScroll(){
+  if(!godScrollState) return;
+
+  const state = godScrollState;
+  godScrollState = null;
+  document.documentElement.style.overflow = state.rootOverflow;
+  document.body.style.overflow = state.bodyOverflow;
+  document.body.style.position = state.bodyPosition;
+  document.body.style.top = state.bodyTop;
+  document.body.style.width = state.bodyWidth;
+  window.scrollTo(0, state.scrollY);
+}
+
+function setGodProgress(value){
+  const percent = document.getElementById("godPercent");
+  const progressBar = document.querySelector("#godMode .god-bar");
+  const progressFill = progressBar.querySelector("span");
+  const numericValue = Number(value);
+  const hasProgress = value !== null && value !== undefined && Number.isFinite(numericValue);
+
+  if(!hasProgress){
+    percent.hidden = true;
+    progressBar.removeAttribute("aria-valuenow");
+    progressFill.classList.add("is-indeterminate");
+    progressFill.style.removeProperty("--god-progress");
+    return;
+  }
+
+  const progress = Math.min(100, Math.max(0, numericValue));
+  percent.hidden = false;
+  percent.innerText = `${Math.round(progress)}%`;
+  progressBar.setAttribute("aria-valuenow", String(progress));
+  progressFill.classList.remove("is-indeterminate");
+  progressFill.style.setProperty("--god-progress", `${progress}%`);
+}
 
 function showGod(){
   const box = document.getElementById("godMode");
@@ -187,23 +246,26 @@ function showGod(){
   const load = document.getElementById("godLoading");
   const success = document.getElementById("godSuccess");
   const text = document.getElementById("godAIText");
-  const percent = document.getElementById("godPercent");
 
+  lockGodScroll();
+  box.classList.add("is-open");
+  box.setAttribute("aria-hidden", "false");
   godBox.classList.remove("god-box-success");
   godBox.classList.add("god-box-loading");
   box.style.display="flex";
-  load.style.display="block";
+  load.style.display="flex";
   success.style.display="none";
 
-  const aiSteps = ["Scanning image...","Reading pixels...","Injecting watermark...","Encrypting metadata...","Finalizing render..."];
+  const aiSteps = ["Đang chuẩn bị ảnh…","Đang phân tích ảnh…","Đang căn chỉnh watermark…","Đang hoàn thiện bố cục…","Sắp hoàn tất…"];
   let p = 0;
   const totalTime = 3000 + Math.random()*5000; 
   const speed = totalTime/100;
 
+  text.innerText = aiSteps[0];
+  setGodProgress(null);
   clearInterval(godInterval);
   godInterval = setInterval(()=>{
     p++;
-    percent.innerText = p + "%";
     if(p < 20) text.innerText = aiSteps[0];
     else if(p < 40) text.innerText = aiSteps[1];
     else if(p < 60) text.innerText = aiSteps[2];
@@ -221,16 +283,22 @@ function godSuccess(){
   const load = document.getElementById("godLoading");
   const success = document.getElementById("godSuccess");
   const godBox = document.querySelector("#godMode .god-box");
+  setGodProgress(100);
   godBox.classList.remove("god-box-loading");
   godBox.classList.add("god-box-success");
   load.style.display="none";
-  success.style.display="block";
+  success.style.display="flex";
   const s=document.getElementById("godSound");
   if(s){ s.currentTime=0; s.play().catch(()=>{}); }
 }
 
 function closeGod(){
-  document.getElementById("godMode").style.display="none";
+  const box = document.getElementById("godMode");
+  clearInterval(godInterval);
+  box.classList.remove("is-open");
+  box.setAttribute("aria-hidden", "true");
+  box.style.display="none";
+  unlockGodScroll();
 }
 
 const _nativeAlert = window.alert;
@@ -1232,18 +1300,20 @@ const fab = document.getElementById("tmFabBtn");
 const fabWrap = document.querySelector(".tmFab");
 </script>
 
-<div id="godMode" class="god-mode">
-  <div class="god-box">
+<div id="godMode" class="god-mode" role="dialog" aria-modal="true" aria-labelledby="godTitle" aria-describedby="godAIText" aria-hidden="true">
+  <div class="god-box god-box-loading">
       <div class="god-holo"></div>
-      <div id="godLoading" class="god-state">
+      <div id="godLoading" class="god-state" role="status" aria-live="polite">
+        <div class="god-loader-icon" aria-hidden="true">
           <div class="god-ring"></div>
           <div class="god-ring2"></div>
-          <div class="god-title">TIMEMARK AI SYSTEM</div>
-          <div id="godAIText" class="god-text">Initializing AI...</div>
-          <div id="godPercent" style="margin-top:6px;font-size:12px;color:#ff3b3b;">0%</div>
-          <div class="god-bar"><span></span></div>
+        </div>
+        <div id="godTitle" class="god-title">TIMEMARK LOADING...</div>
+        <div id="godAIText" class="god-text">Đang chuẩn bị ảnh…</div>
+        <div class="god-bar" role="progressbar" aria-label="Tiến độ tạo ảnh" aria-valuemin="0" aria-valuemax="100"><span class="is-indeterminate"></span></div>
+        <div id="godPercent" class="god-percent" hidden>0%</div>
       </div>
-      <div id="godSuccess" class="god-state" style="display:none;">
+      <div id="godSuccess" class="god-state" role="status" aria-live="polite" style="display:none;">
           <div class="god-success-icon">✓</div>
           <div class="god-success-title">Ảnh đã tạo thành công</div>
           <div class="god-success-text">Bạn có thể vuốt trực tiếp trên ảnh để di chuyển chữ.</div>

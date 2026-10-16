@@ -746,7 +746,20 @@ function getGPS(){
   );
 }
 
+let referenceClockPromise;
+function loadReferenceClock(){
+  if(!referenceClockPromise){
+    const face = new FontFace('TimemarkReferenceClock', 'url(./reference-clock.ttf?v=20261016)');
+    referenceClockPromise = face.load().then(font => { document.fonts.add(font); return font; }).catch(error => { referenceClockPromise = null; throw error; });
+  }
+  return referenceClockPromise;
+}
+async function ensureWatermarkFont(){
+  if(getWMStyle() !== 'attendance') await loadReferenceClock();
+}
 async function draw(){
+  try { await ensureWatermarkFont(); }
+  catch(error){ alert('Không tải được font giờ. Vui lòng thử lại.'); return; }
   await document.fonts.ready;
   if(!img.src) return alert("Chưa chọn ảnh");
   captureGeneratedData();
@@ -762,6 +775,7 @@ async function draw(){
 // Gọi hàm này để update liên tục khi di chuyển
 async function renderCanvas(){
   if(!img.src) return;
+  try { await ensureWatermarkFont(); } catch(error){ return; }
   await document.fonts.ready;
   ctx.clearRect(0,0,c.width,c.height);
   ctx.drawImage(img,0,0);
@@ -1024,35 +1038,21 @@ function drawWatermarkLogo(leftX, y){
 }
 
 function drawWatermarkTime(leftX, y){
-  const scaleY = 1.95 * 0.9;
-  const fontSize = fs(0.045);
-  const timeHeight = fontSize * scaleY;
-
-  ctx.font = `${fontSize}px "Social Gothic Soft"`;
+  const timeHeight = fs(0.045) * 1.95 * 0.9;
+  const fontSize = timeHeight * 0.80 / 1.03;
+  ctx.font = `400 ${fontSize}px "TimemarkReferenceClock"`;
   ctx.fillStyle = "#FFFFFF";
-
-  ctx.save();
+  ctx.textBaseline = "alphabetic";
   const baseYTime = y + timeHeight * 0.82;
-  ctx.translate(leftX, baseYTime);
-  ctx.scale(1, scaleY);
-  const [h, m = ""] = generatedData.time.split(":");
-  
-  setShadow(ctx, fs(0.01), fs(0.0025));
-  ctx.fillText(h, 0, 0);
-  resetShadow(ctx);
-
-  const hourWidth = ctx.measureText(h).width;
-  const colonX = hourWidth + fs(0.012);
-  const dotSize = fs(0.006);
-  const colonOffsetY = -fs(0.016);
-  ctx.fillRect(colonX, colonOffsetY - fs(0.002), dotSize, dotSize);
-  ctx.fillRect(colonX, colonOffsetY + fs(0.01), dotSize, dotSize);
-
-  setShadow(ctx, fs(0.01), fs(0.0025));
-  ctx.fillText(m, hourWidth + fs(0.025), 0);
-  resetShadow(ctx);
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,.65)';
+  ctx.shadowBlur = fontSize * 0.02;
+  ctx.shadowOffsetY = fontSize * 0.01;
+  ctx.lineWidth = fontSize * 0.016;
+  ctx.strokeStyle = '#333';
+  ctx.strokeText(generatedData.time, leftX, baseYTime);
+  ctx.fillText(generatedData.time, leftX, baseYTime);
   ctx.restore();
-
   const timeW = ctx.measureText(generatedData.time).width;
   const lineX = leftX + timeW + fs(0.032);
 
@@ -1229,6 +1229,9 @@ async function download(){
   if(!img.src){ alert("Chưa chọn ảnh"); return; }
   if(!hasGenerated){ alert("Vui lòng bấm Tạo Ảnh trước khi tải về"); return; }
 
+  try { await ensureWatermarkFont(); }
+  catch(error){ alert("Không tải được font giờ. Vui lòng thử lại."); return; }
+  await renderCanvas();
   const fileName = getDownloadFileName();
   const blob = await canvasToBlob();
   if(!blob){ alert("Không tạo được file ảnh"); return; }

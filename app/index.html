@@ -1053,8 +1053,9 @@ function drawWatermarkTime(leftX, y){
   ctx.strokeText(generatedData.time, leftX, baseYTime);
   ctx.fillText(generatedData.time, leftX, baseYTime);
   ctx.restore();
-  const timeW = ctx.measureText(generatedData.time).width;
-  const lineX = leftX + timeW + fs(0.032);
+  const timeMetrics = ctx.measureText(generatedData.time);
+  const timeW = timeMetrics.actualBoundingBoxRight ?? timeMetrics.width;
+  const lineX = leftX + timeW + fontSize * 0.32;
 
   ctx.strokeStyle = "#FFC107";
   ctx.lineWidth = fs(0.004);
@@ -1064,7 +1065,7 @@ function drawWatermarkTime(leftX, y){
   const lineHeight = timeHeight * 0.80; // Giữ logic căn hiện tại theo chiều cao Giờ
   ctx.beginPath(); ctx.moveTo(lineX, lineTop); ctx.lineTo(lineX, lineTop + lineHeight); ctx.stroke();
 
-  const rightX = lineX + fs(0.02);
+  const rightX = lineX + fontSize * 0.28;
   const dateFont = fs(0.04) * 0.765 * 0.72; // Giảm thêm 10%
   ctx.font = `${dateFont}px Arial`;
   

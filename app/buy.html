@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="index,follow">
 <meta name="description" content="Chọn gói Timemark, thanh toán bằng QR hoặc chuyển khoản và nhận key tự động sau khi máy chủ xác nhận.">
-<meta name="theme-color" content="#fff7fb">
+<meta name="theme-color" content="#07111e">
 <title>Mua key Timemark - Thanh toán và nhận key tự động</title>
+<link rel="canonical" href="https://timemark.id.vn/app/buy.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -42,6 +43,62 @@ body::before{opacity:.32;background-image:radial-gradient(circle at 10px 10px,rg
 .modal{background:rgba(87,65,82,.28)}.modal-box{color:#443748;border-color:rgba(126,91,118,.18);background:linear-gradient(165deg,#fff,#fff4f8 72%);box-shadow:0 30px 100px rgba(95,65,87,.25)}.modal-head p,.field-help,.review-row span,.payment-summary span,.payment-guide,.status-content p,.success-note,.mail-status{color:#746977}.icon{color:#554758;border-color:rgba(126,91,118,.16);background:#fff}.email-input{color:#443748;border-color:rgba(126,91,118,.17);background:#fff}.review,.payment-summary div,.transfer-row,.mail-status{border-color:rgba(126,91,118,.14);background:rgba(255,255,255,.78)}.secondary{color:#554758;border-color:rgba(126,91,118,.16);background:#fff}.order-ref{color:#8e4162;background:#fff0f5}.tabs,.status-box{border-color:rgba(126,91,118,.14);background:#fff}.tab{color:#786b79}.tab.active{color:#8e3c60;background:linear-gradient(135deg,#ffe8f0,#eaf4ff)}.payment-guide strong{color:#443748}.warning{color:#8b4763;border-color:rgba(231,111,152,.22);background:#fff0f5}.transfer-row input{color:#443748}.copy{color:#8e4162;border-color:rgba(231,111,152,.2);background:#fff0f5}.key-box{border-color:rgba(231,111,152,.24);background:#fff}.key-value{color:#47394a}.success-mark{color:#308b68;background:#e9f8f2}.toast{color:#443748;background:#fff;border-color:rgba(126,91,118,.16)}
 @media(max-width:620px){.seasonal-effects{opacity:.72}}
 @media(prefers-reduced-motion:reduce){.seasonal-effects{display:none}}
+
+/* Unified visual skin shared with Timemark app — no payment behaviour changes. */
+:root{
+ --bg:#07111e;--surface:#102236;--line:rgba(126,218,222,.21);
+ --text:#f1f9ff;--muted:#b2c8d6;--orange:#62e7d3;
+ --orange2:#a5f5e5;--blue:#5ebcff;--green:#60e9b7;
+ --shadow:0 24px 72px rgba(1,9,19,.37);
+}
+body{
+ background:radial-gradient(circle at 7% 6%,rgba(25,148,180,.20),transparent 31rem),
+ radial-gradient(circle at 94% 12%,rgba(54,113,218,.16),transparent 29rem),
+ linear-gradient(180deg,#091827 0%,#06111e 100%);
+}
+body::before{opacity:.09}
+.brand{color:#f0fcff}
+.brand-mark{
+ color:#042630;
+ background:linear-gradient(145deg,#70ead6,#5fbfff);
+ box-shadow:0 14px 34px rgba(53,206,210,.18);
+}
+.nav-links a{background:#152e40;border-color:var(--line)}
+.nav-links a:hover{border-color:#70ead6;color:#92f7e1}
+.eyebrow{color:#81eedc}
+h1.gradient,.gradient{background:linear-gradient(115deg,#f6fdff,#a9dfee 54%,#65e6d3);background-clip:text;-webkit-background-clip:text}
+.flow-card,.plan-card,.modal-box{
+ background:linear-gradient(145deg,#152d40,#0c1e30 76%);
+ border-color:var(--line);
+ box-shadow:var(--shadow);
+}
+.plan-card.featured{border-color:rgba(101,231,211,.55);box-shadow:0 18px 58px rgba(48,190,190,.13)}
+.flow-list li::before{background:#174956;color:#b5f7e7}
+.badge{background:#16414b;color:#a9f8e7;border-color:var(--line)}
+.modal{
+ background:rgba(1,10,20,.78);
+ -webkit-backdrop-filter:blur(12px);
+ backdrop-filter:blur(12px);
+ padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));
+}
+.modal-box{
+ max-height:calc(100dvh - 28px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+ border-radius:24px;
+}
+.modal-head h2{color:#f0fcff}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #64e7d3;outline-offset:3px}
+button,a{-webkit-tap-highlight-color:transparent}
+@media(max-width:768px){
+ .shell{padding-top:max(14px,env(safe-area-inset-top,0px));padding-left:16px;padding-right:16px}
+ .nav{flex-wrap:wrap;row-gap:12px}
+ .nav-links{flex-wrap:wrap}
+ .modal-box{width:100%;border-radius:18px}
+ .modal-head{padding:18px 17px 0}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
 </style>
 </head>
 <body>

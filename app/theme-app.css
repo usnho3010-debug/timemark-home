@@ -1753,3 +1753,32 @@ canvas {
 .key-expiry-line::before {
   margin-right: 5px;
 }
+
+
+/* Key activation and notice surfaces unified with midnight cyan theme.
+   Time rendering, user input, export canvas and key validation are untouched. */
+.lockBox{
+  border:1px solid rgba(111,223,213,.29);
+  border-radius:22px;
+  background:linear-gradient(155deg,var(--bg-surface),var(--bg-deep));
+  box-shadow:0 30px 84px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.10);
+}
+.lockBox h3{letter-spacing:-.02em}
+.lockBox button:focus-visible,.lockBox input:focus-visible{
+ outline:3px solid #5eead4;outline-offset:3px;
+}
+[data-theme="dark"] .lockBox,[data-theme="dark"] .notifyMax{
+ border-color:rgba(94,234,212,.31);
+}
+[data-theme="light"] .lockBox{
+ background:linear-gradient(155deg,#fff,#e9f8fe);
+ box-shadow:0 24px 70px rgba(11,52,89,.13);
+}
+@media(max-width:480px){
+ .lock{padding:16px max(12px,env(safe-area-inset-right,0px)) 16px max(12px,env(safe-area-inset-left,0px))}
+ .lockBox{width:100%;max-width:360px;padding:24px 18px;border-radius:20px}
+ .notifyActions{gap:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .lockBox,.lockBox button{transition:none}
+}

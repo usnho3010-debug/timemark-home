@@ -4,3 +4,33 @@
 @media(max-width:1000px){.hero-shell{gap:32px}.desktop-links{gap:16px}.trust-strip{margin-inline:24px}.top-offer{margin-inline:24px}.preview-badge{right:-8px}.hero h1{font-size:60px}.offer-panel{gap:25px}}
 @media(max-width:760px){.desktop-links{display:none}.menu-toggle{display:block}.hero{padding:36px 20px 40px}.hero-shell{grid-template-columns:1fr;gap:38px}.hero h1{font-size:clamp(42px,10vw,62px);margin:20px 0}.hero-copy{font-size:15px}.hero-preview{padding:12px 20px}.phone-frame{max-width:300px;transform:none}.preview-badge{right:-6px;transform:none}.hero-points{gap:6px}.top-offer{margin:16px 18px 0;justify-content:space-between;gap:10px;font-size:11px}.top-offer b{display:none}.trust-strip{grid-template-columns:1fr;gap:18px;padding:24px 0;margin:0 20px}.trust-strip div{gap:4px}.grid,.use-case-grid,.process-list{grid-template-columns:1fr}.container{padding:36px 20px}.intro-card,.use-case-grid article,.process-list article{padding:22px}.feature-icon,.process-list article>span{margin-bottom:18px}.demo-slider{aspect-ratio:1;padding:5px;border-radius:16px}.demo-img{border-radius:12px}.template-tags{gap:6px}.template-tags span{font-size:10px}.purchase-path ol{grid-template-columns:1fr 1fr}.purchase-path li{padding:16px;gap:12px}.purchase-path li:last-child{grid-column:1/-1}.offer-panel{grid-template-columns:1fr;padding:25px}.offer-actions{grid-template-columns:1fr 1fr}.offer-actions a{padding:14px 10px;font-size:12px}.faq-list details{padding:0 18px}.cta{margin:24px 20px 0;padding:32px 20px}.mobile-cta{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:fixed;bottom:0;left:0;right:0;z-index:90;padding:10px max(16px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:#07111ff5;border-top:1px solid var(--tm-line)}.mobile-cta a{display:grid;place-items:center;min-height:46px;padding:10px;border:1px solid var(--tm-line);border-radius:12px;color:var(--tm-text);font-size:12px;text-decoration:none;font-weight:700}.mobile-cta a:first-child{background:var(--tm-gradient);color:#032032}.tm-home{padding-bottom:calc(76px + env(safe-area-inset-bottom))}.menu-open .mobile-cta{visibility:hidden}.tm-home .zalo-wrapper{bottom:calc(92px + env(safe-area-inset-bottom));right:15px}.zalo-tooltip{display:none}.tm-document .grid{grid-template-columns:1fr}.tm-document .wrapper,.legal-page,.tm-document main.container{padding:26px 20px}.tm-document .section,.step,.legal-page section{padding:20px}}
 @media(max-width:360px){.self-service-actions{grid-template-columns:1fr}.hero h1{font-size:40px}.offer-actions{grid-template-columns:1fr}.template-tags span{padding:7px}.phone-frame{max-width:260px}.mock-photo{height:285px}.hero-preview{padding-inline:8px}}
+
+/* Mobile landing layout: override shared navigation without clipping content. */
+@media(max-width:900px){
+  .tm-home .navbar .desktop-links{display:none}
+  .tm-home .navbar .menu-toggle{display:block;flex:0 0 44px}
+}
+@media(max-width:760px){
+  .tm-home .navbar{gap:12px;padding-inline:max(16px,env(safe-area-inset-left)) max(16px,env(safe-area-inset-right))}
+  .tm-home .navbar .logo{min-width:0;gap:8px}
+  .tm-home .navbar .brand-name{font-size:clamp(16px,4.5vw,19px);white-space:normal;overflow-wrap:anywhere}
+  .tm-home .navbar .brand-rocket{width:28px;height:28px;font-size:18px}
+  .tm-home .hero-shell{grid-template-columns:minmax(0,1fr)}
+  .tm-home :is(.hero-shell,.grid,.use-case-grid,.process-list,.purchase-path ol,.offer-panel,.self-service-actions,.offer-actions,.mobile-cta)>*{min-width:0}
+  .tm-home :is(h1,h2,h3,p,a,strong,b,summary){overflow-wrap:anywhere}
+  .tm-home .hero-preview{min-width:0;max-width:100%}
+  .tm-home .hero-preview::before{inset:20% 0}
+  .tm-home .phone-frame{width:100%;max-width:300px}
+  .tm-home .preview-badge{right:8px;max-width:calc(100% - 16px)}
+  .tm-home .self-service-actions,.tm-home .offer-actions,.tm-home .mobile-cta{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tm-home .purchase-path ol{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tm-home .buttons>a{max-width:100%;white-space:normal}
+  .tm-home .tm-footer>*{min-width:0;max-width:100%}
+  .tm-home .tm-footer .brand-name{white-space:normal}
+  .tm-home .top-offer{flex-wrap:wrap}
+  .tm-home .menu{max-width:100%;overflow-x:hidden;overflow-y:auto}
+}
+@media(max-width:360px){
+  .tm-home .self-service-actions,.tm-home .offer-actions{grid-template-columns:minmax(0,1fr)}
+  .tm-home .phone-frame{max-width:260px}
+}

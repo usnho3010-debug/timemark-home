@@ -1,0 +1,24 @@
+/* Timemark Premium: shared presentation tokens, no application behavior. */
+:root{--tm-bg:#020617;--tm-panel:#0b1628;--tm-panel-raised:#102039;--tm-line:rgba(125,211,252,.19);--tm-text:#f8fafc;--tm-muted:#b6c7dc;--tm-cyan:#38bdf8;--tm-mint:#5eead4;--tm-gradient:linear-gradient(115deg,#5eead4,#38bdf8);--tm-shadow:0 20px 55px rgba(0,0,0,.22);--tm-font:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+html{scroll-padding-top:100px;-webkit-text-size-adjust:100%}
+body{font-family:var(--tm-font);-webkit-font-smoothing:antialiased}
+.tm-marketing,.tm-buy-page{color-scheme:dark;color:var(--tm-text);background:radial-gradient(ellipse at 8% 0,rgba(14,165,233,.16),transparent 32rem),radial-gradient(ellipse at 95% 20%,rgba(45,212,191,.08),transparent 34rem),var(--tm-bg);margin:0}
+a,button,input,select,textarea,summary{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--tm-mint)!important;outline-offset:5px}
+.tm-brand,.tm-marketing .logo,.header-app .brand-title{display:inline-flex;align-items:center;gap:9px;font-family:var(--tm-font);font-weight:900;letter-spacing:-.035em;text-decoration:none;line-height:1.15}
+.tm-brand .brand-name,.tm-marketing .brand-name,.header-app .brand-name{font-size:clamp(18px,2vw,23px);background:linear-gradient(90deg,#facc15,#38bdf8,#5eead4,#fb7185,#facc15);background-size:260% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:tmBrandFlow 12s linear infinite;text-shadow:none;white-space:nowrap}
+.tm-brand .brand-rocket,.tm-marketing .brand-rocket,.header-app .brand-rocket{width:34px;height:34px;display:inline-grid;place-items:center;flex:0 0 auto;border-radius:50%;font-size:21px;background:radial-gradient(circle at 34% 24%,#fff,#38bdf8 38%,#0f172a 72%);box-shadow:0 0 18px rgba(56,189,248,.3);animation:none}
+.header-app .brand-title::after{display:none}
+.tm-header,.site-header{position:sticky;top:0;z-index:100;background:rgba(2,6,23,.94);border-bottom:1px solid var(--tm-line);padding-top:env(safe-area-inset-top)}
+.tm-nav,.tm-marketing .navbar{max-width:1160px;margin:auto;min-height:80px;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.tm-links,.desktop-links{display:flex;align-items:center;gap:24px}
+.tm-links a,.desktop-links a{color:var(--tm-muted);font-size:14px;font-weight:600;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;gap:8px}
+.tm-links .tm-nav-cta,.desktop-links .tm-nav-cta{padding:0 20px;border:1px solid var(--tm-line);border-radius:12px;color:var(--tm-text);background:#102039}
+.tm-footer{max-width:1160px;margin:64px auto 0;padding:40px 24px calc(36px + env(safe-area-inset-bottom));border-top:1px solid var(--tm-line);display:flex;justify-content:space-between;align-items:flex-start;gap:36px;color:var(--tm-muted)}
+.tm-footer p{font-size:14px;line-height:1.7;margin:18px 0 10px}.tm-footer small{font-size:12px}.tm-footer nav{display:flex;flex-wrap:wrap;gap:12px 24px;max-width:370px}.tm-footer nav a{min-height:44px;display:inline-flex;align-items:center;color:var(--tm-muted);font-size:14px;text-decoration:none}
+.tm-dialog-brand{justify-content:center;margin-bottom:22px;width:100%}
+.seasonal-effects,.petals{display:none!important}
+@keyframes tmBrandFlow{to{background-position:260% 50%}}
+@media(hover:hover){.tm-links a:hover,.desktop-links a:hover,.tm-footer a:hover{color:var(--tm-mint)}}
+@media(max-width:700px){.tm-nav{flex-wrap:wrap;gap:12px;padding:14px 18px}.tm-links{width:100%;gap:8px;justify-content:space-between}.tm-links a{font-size:12px}.tm-links .tm-nav-cta{padding:0 14px}.tm-footer{flex-direction:column;margin-top:36px;padding:30px 20px}.tm-footer nav{gap:4px 20px}.tm-brand .brand-name,.tm-marketing .brand-name{font-size:19px}.tm-marketing .navbar{min-height:70px;padding:12px 18px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="index,follow">
 <meta name="description" content="Chọn gói Timemark, thanh toán bằng QR hoặc chuyển khoản và nhận key tự động sau khi máy chủ xác nhận.">
-
+<meta name="theme-color" content="#020617">
 <title>Mua key Timemark - Thanh toán và nhận key tự động</title>
-<link rel="canonical" href="https://timemark.id.vn/app/buy.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
 <style>
 :root{--bg:#071019;--surface:#0d1924;--line:rgba(168,204,224,.17);--text:#f4f8fa;--muted:#9fb1be;--orange:#ff8b35;--orange2:#ffb15c;--blue:#31a8ff;--green:#4ade80;--red:#fb7185;--shadow:0 24px 80px rgba(0,0,0,.34)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font-family:"Be Vietnam Pro",sans-serif;background:radial-gradient(circle at 8% 4%,rgba(255,139,53,.2),transparent 29rem),radial-gradient(circle at 94% 9%,rgba(49,168,255,.17),transparent 28rem),linear-gradient(180deg,#0b1722,var(--bg) 42%,#050b11)}
@@ -43,82 +42,28 @@ body::before{opacity:.32;background-image:radial-gradient(circle at 10px 10px,rg
 .modal{background:rgba(87,65,82,.28)}.modal-box{color:#443748;border-color:rgba(126,91,118,.18);background:linear-gradient(165deg,#fff,#fff4f8 72%);box-shadow:0 30px 100px rgba(95,65,87,.25)}.modal-head p,.field-help,.review-row span,.payment-summary span,.payment-guide,.status-content p,.success-note,.mail-status{color:#746977}.icon{color:#554758;border-color:rgba(126,91,118,.16);background:#fff}.email-input{color:#443748;border-color:rgba(126,91,118,.17);background:#fff}.review,.payment-summary div,.transfer-row,.mail-status{border-color:rgba(126,91,118,.14);background:rgba(255,255,255,.78)}.secondary{color:#554758;border-color:rgba(126,91,118,.16);background:#fff}.order-ref{color:#8e4162;background:#fff0f5}.tabs,.status-box{border-color:rgba(126,91,118,.14);background:#fff}.tab{color:#786b79}.tab.active{color:#8e3c60;background:linear-gradient(135deg,#ffe8f0,#eaf4ff)}.payment-guide strong{color:#443748}.warning{color:#8b4763;border-color:rgba(231,111,152,.22);background:#fff0f5}.transfer-row input{color:#443748}.copy{color:#8e4162;border-color:rgba(231,111,152,.2);background:#fff0f5}.key-box{border-color:rgba(231,111,152,.24);background:#fff}.key-value{color:#47394a}.success-mark{color:#308b68;background:#e9f8f2}.toast{color:#443748;background:#fff;border-color:rgba(126,91,118,.16)}
 @media(max-width:620px){.seasonal-effects{opacity:.72}}
 @media(prefers-reduced-motion:reduce){.seasonal-effects{display:none}}
-
-/* Unified visual skin shared with Timemark app — no payment behaviour changes. */
-:root{
- --bg:#07111e;--surface:#102236;--line:rgba(126,218,222,.21);
- --text:#f1f9ff;--muted:#b2c8d6;--orange:#62e7d3;
- --orange2:#a5f5e5;--blue:#5ebcff;--green:#60e9b7;
- --shadow:0 24px 72px rgba(1,9,19,.37);
-}
-body{
- background:radial-gradient(circle at 7% 6%,rgba(25,148,180,.20),transparent 31rem),
- radial-gradient(circle at 94% 12%,rgba(54,113,218,.16),transparent 29rem),
- linear-gradient(180deg,#091827 0%,#06111e 100%);
-}
-body::before{opacity:.09}
-.brand{color:#f0fcff}
-.brand-mark{
- color:#042630;
- background:linear-gradient(145deg,#70ead6,#5fbfff);
- box-shadow:0 14px 34px rgba(53,206,210,.18);
-}
-.nav-links a{background:#152e40;border-color:var(--line)}
-.nav-links a:hover{border-color:#70ead6;color:#92f7e1}
-.eyebrow{color:#81eedc}
-h1.gradient,.gradient{background:linear-gradient(115deg,#f6fdff,#a9dfee 54%,#65e6d3);background-clip:text;-webkit-background-clip:text}
-.flow-card,.plan-card,.modal-box{
- background:linear-gradient(145deg,#152d40,#0c1e30 76%);
- border-color:var(--line);
- box-shadow:var(--shadow);
-}
-.plan-card.featured{border-color:rgba(101,231,211,.55);box-shadow:0 18px 58px rgba(48,190,190,.13)}
-.flow-list li::before{background:#174956;color:#b5f7e7}
-.badge{background:#16414b;color:#a9f8e7;border-color:var(--line)}
-.modal{
- background:rgba(1,10,20,.78);
- -webkit-backdrop-filter:blur(12px);
- backdrop-filter:blur(12px);
- padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));
-}
-.modal-box{
- max-height:calc(100dvh - 28px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
- border-radius:24px;
-}
-.modal-head h2{color:#f0fcff}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #64e7d3;outline-offset:3px}
-button,a{-webkit-tap-highlight-color:transparent}
-@media(max-width:768px){
- .shell{padding-top:max(14px,env(safe-area-inset-top,0px));padding-left:16px;padding-right:16px}
- .nav{flex-wrap:wrap;row-gap:12px}
- .nav-links{flex-wrap:wrap}
- .modal-box{width:100%;border-radius:18px}
- .modal-head{padding:18px 17px 0}
-}
-@media(prefers-reduced-motion:reduce){
- *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
-}
-
 </style>
-<meta name="theme-color" content="#07111e">
+<link rel="stylesheet" href="../theme-shared.css?v=20261018">
+<link rel="stylesheet" href="purchase-theme.css?v=20261018">
+<link rel="canonical" href="https://timemark.id.vn/app/buy.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="vi_VN">
-<meta property="og:site_name" content="Timemark">
-<meta property="og:title" content="Mua key Timemark – Thanh toán tự động">
-<meta property="og:description" content="Chọn gói Timemark, thanh toán bằng QR hoặc chuyển khoản và nhận key sau khi giao dịch được xác nhận.">
+<meta property="og:title" content="Mua key Timemark - Thanh toán và nhận key tự động">
+<meta property="og:description" content="Chọn gói Timemark, thanh toán bằng QR hoặc chuyển khoản và nhận key tự động sau khi máy chủ xác nhận.">
 <meta property="og:url" content="https://timemark.id.vn/app/buy.html">
 <meta property="og:image" content="https://timemark.id.vn/images/demo1.jpg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-<body>
+<body class="tm-buy-page">
 <div class="shell">
-  <nav class="nav" aria-label="Điều hướng mua key"><a class="brand" href="../"><span class="brand-mark">🚀</span><span>Timemark Premium</span></a><div class="nav-links"><a href="../">Trang chủ</a><a href="./">Đã có key · Mở app</a></div></nav>
+  <header class="tm-header"><nav class="tm-nav" aria-label="Điều hướng chính"><a class="tm-brand" href="/" aria-label="Timemark Premium — Trang chủ"><span class="brand-rocket" aria-hidden="true">🚀</span><span class="brand-name">Timemark Premium</span></a><div class="tm-links"><a href="/guide-page.html">Giới thiệu</a><a href="/guide.html">Hướng dẫn</a><a href="/app/buy.html">Mua key</a><a class="tm-nav-cta" href="/app/">Mở app <span aria-hidden="true">↗</span></a></div></nav></header>
   <header class="hero">
-    <div><p class="eyebrow">Mua key tự phục vụ</p><h1 class="gradient">Chọn gói, thanh toán, nhận key.</h1><p class="hero-copy">Không cần tạo tài khoản. Giá và số lượng key được tải trực tiếp từ hệ thống; key chỉ hiển thị sau khi máy chủ xác nhận giao dịch hợp lệ.</p></div>
+    <div><p class="eyebrow">Mua key tự phục vụ</p><h1 class="gradient">Chọn gói phù hợp.
+Bắt đầu tạo ảnh.</h1><p class="hero-copy">Chọn thời hạn bạn cần, thanh toán bằng QR hoặc chuyển khoản và nhận key sau khi giao dịch được xác nhận. Mỗi key dành cho một thiết bị.</p></div>
     <aside class="flow-card" aria-label="Quy trình mua key"><strong>Hoàn tất trong 5 bước</strong><ol class="flow-list"><li>Chọn gói</li><li>Nhập email</li><li>Thanh toán</li><li>Nhận key</li><li>Mở app</li></ol></aside>
   </header>
   <main><div class="catalog-head"><div><h2>Chọn thời hạn phù hợp</h2><p>Mỗi key dùng cho một thiết bị.</p></div><div class="server-badge" id="serverBadge">Dữ liệu từ máy chủ</div></div><section class="pricing" id="pricing" aria-live="polite"></section><p class="notice">Vui lòng chuyển đúng số tiền và nội dung của đơn. Không chuyển thêm tiền khi hệ thống đã báo nhận thanh toán hoặc đang xử lý key.</p></main>
-  <footer class="footer"><span>© 2026 Timemark</span><div class="footer-links"><a href="../terms.html">Điều khoản</a><a href="../privacy.html">Bảo mật</a><a href="../guide.html">Hướng dẫn</a></div></footer>
+  <footer class="tm-footer"><div><a class="tm-brand" href="/"><span class="brand-rocket" aria-hidden="true">🚀</span><span class="brand-name">Timemark Premium</span></a><p>Tạo ảnh có thời gian, vị trí và dấu ấn của bạn.</p><small>© 2026 timemark.id.vn</small></div><nav aria-label="Liên kết chân trang"><a href="/guide-page.html">Giới thiệu</a><a href="/guide.html">Hướng dẫn</a><a href="/terms.html">Điều khoản</a><a href="/privacy.html">Bảo mật</a><a href="/app/buy.html">Mua key</a></nav></footer>
 </div>
 
 <div class="modal" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="orderTitle"><div class="modal-box"><div class="modal-head"><div><h2 id="orderTitle">Kiểm tra đơn hàng</h2><p>Nhập email bạn có thể truy cập để nhận key.</p></div><button class="icon" type="button" data-close="orderModal" aria-label="Đóng">✕</button></div><div class="modal-body">

@@ -4,15 +4,13 @@
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<title>Timemark Premium – Tạo ảnh thời gian và vị trí</title>
-<meta name="description" content="Mở công cụ Timemark để tạo ảnh theo thời gian, vị trí, logo và watermark tùy chỉnh trên trình duyệt.">
-<link rel="canonical" href="https://timemark.id.vn/app/">
+<title>Tạo ảnh Timemark Premium — Giờ, vị trí và watermark</title>
 
-<link rel="stylesheet" href="theme-app.css?v=20261017">
+<link rel="stylesheet" href="theme-app.css?v=20261018">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#020617">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <script>
   // Khởi tạo Theme ngay từ đầu để tránh bị chớp màn hình (Flicker)
@@ -27,16 +25,28 @@
     document.getElementById('themeToggle').innerText = newTheme === 'light' ? '☀️' : '🌙';
   }
 </script>
+<link rel="stylesheet" href="../theme-shared.css?v=20261018">
+<link rel="stylesheet" href="responsive-ui.css?v=20261018">
+<meta name="description" content="Tạo ảnh Timemark với giờ, ngày, vị trí, logo và ghi chú. Xem trước, tùy chỉnh bố cục và tải ảnh PNG trên trình duyệt.">
+<link rel="canonical" href="https://timemark.id.vn/app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:title" content="Tạo ảnh Timemark Premium — Giờ, vị trí và watermark">
+<meta property="og:description" content="Tạo ảnh Timemark với giờ, ngày, vị trí, logo và ghi chú. Xem trước, tùy chỉnh bố cục và tải ảnh PNG trên trình duyệt.">
+<meta property="og:url" content="https://timemark.id.vn/app/">
+<meta property="og:image" content="https://timemark.id.vn/images/demo1.jpg">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body>
+<body class="tm-app-page">
 <div class="bg"></div>
 <div id="loadingBlur" class="loadingBlur"></div>
 <div class="petals" id="petals"></div>
 
 <div class="lock" id="lock">
-  <div class="lockBox">
+  <div class="lockBox"><div class="tm-brand tm-dialog-brand"><span class="brand-rocket" aria-hidden="true">🚀</span><span class="brand-name">Timemark Premium</span></div>
     <h3>🔐 Kích hoạt Timemark</h3>
+    <label for="keyInput">Key kích hoạt</label>
     <input id="keyInput" placeholder="Nhập key của bạn">
     <button id="btnActivate" onclick="activate()">Kích hoạt</button>
 

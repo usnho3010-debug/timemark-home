@@ -27,6 +27,17 @@
 </script>
 <link rel="stylesheet" href="../theme-shared.css?v=20261018">
 <link rel="stylesheet" href="responsive-ui.css?v=20261018">
+<style>
+/* Keep menu and theme controls together, clear of the download action. */
+.tm-app-page .header-app{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding-right:14px;overflow:visible}
+.tm-app-page .header-app .brand-title{min-width:0;margin-bottom:0!important}
+.tm-app-page .header-app > p{grid-column:1 / -1}
+.tm-app-page .header-controls{display:flex;align-items:center;gap:8px;z-index:20}
+.tm-app-page .header-controls .theme-toggle-btn{position:static!important;margin:0;flex:0 0 44px}
+.tm-app-page .header-controls .tmFab{position:relative;inset:auto;z-index:20}
+.tm-app-page .header-controls .tmFabBtn{width:44px;height:44px;min-height:44px;padding:0;border-radius:13px}
+.tm-app-page .header-controls .tmFabMenu{top:calc(100% + 10px);bottom:auto;right:0;transform-origin:top right}
+</style>
 <meta name="description" content="Tạo ảnh Timemark với giờ, ngày, vị trí, logo và ghi chú. Xem trước, tùy chỉnh bố cục và tải ảnh PNG trên trình duyệt.">
 <link rel="canonical" href="https://timemark.id.vn/app/">
 <meta property="og:type" content="website">
@@ -71,9 +82,19 @@
 <div class="app">
   <header class="header-app">
     <h2 class="brand-title"><span class="brand-rocket">🚀</span><span class="brand-name">Timemark Premium</span></h2>
+    <div class="header-controls">
+    <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle-btn" title="Đổi giao diện Sáng/Tối">🌙</button>
+<div class="tmFab">
+  <div class="tmFabMenu" id="tmFabMenu">
+    <a href="../" class="tmFabItem">🏠 <span>Trang chủ</span></a>
+    <a href="buy.html" target="_blank" class="tmFabItem">🛒 <span>Mua key</span></a>
+    <a href="https://zalo.me/0559027234" target="_blank" class="tmFabItem">💬 <span>Liên hệ</span></a>
+  </div>
+  <button id="tmFabBtn" class="tmFabBtn" onclick="toggleFab()">☰</button>
+</div>
+    </div>
     <p id="keyExpiryLine" class="key-expiry-line">Đang kiểm tra thời hạn key...</p>
     <p class="header-note">📢Thông Báo: nếu chỉnh ảnh không hài lòng hãy LH admin ✅</p>
-    <button id="themeToggle" onclick="toggleTheme()" class="theme-toggle-btn" title="Đổi giao diện Sáng/Tối">🌙</button>
   </header>
 
   <!-- CARD 1: UPLOAD -->
@@ -1301,14 +1322,7 @@ window.onload=()=>{
 };
 </script>
 
-<div class="tmFab">
-  <div class="tmFabMenu" id="tmFabMenu">
-    <a href="../" class="tmFabItem">🏠 <span>Trang chủ</span></a>
-    <a href="buy.html" target="_blank" class="tmFabItem">🛒 <span>Mua key</span></a>
-    <a href="https://zalo.me/0559027234" target="_blank" class="tmFabItem">💬 <span>Liên hệ</span></a>
-  </div>
-  <button id="tmFabBtn" class="tmFabBtn" onclick="toggleFab()">☰</button>
-</div>
+
 
 <script>
 function toggleFab(){ document.getElementById("tmFabMenu").classList.toggle("show"); }

@@ -1,4 +1,6 @@
 /* Presentation overrides only: existing checkout handlers, IDs and state classes are unchanged. */
+.tm-buy-page .price{color:var(--tm-text)}.tm-buy-page .eyebrow::before{background:var(--tm-mint)}
+.tm-buy-page .load-state{color:var(--tm-muted);background:var(--tm-panel);border-color:var(--tm-line)}.tm-buy-page .load-state strong{color:var(--tm-text)}.tm-buy-page .retry{color:var(--tm-mint);background:#123245;border-color:var(--tm-line)}.tm-buy-page .features li::before{color:var(--tm-mint)}
 :root{--bg:var(--tm-bg);--surface:var(--tm-panel);--line:var(--tm-line);--text:var(--tm-text);--muted:var(--tm-muted);--orange:var(--tm-cyan);--orange2:var(--tm-mint);--blue:var(--tm-cyan);--green:#5eead4;--red:#fda4af;--shadow:var(--tm-shadow)}
 .tm-buy-page h1,.tm-buy-page h2,.tm-buy-page h3,.tm-buy-page .price,.tm-buy-page .flow-card strong{font-family:var(--tm-font)}
 .tm-buy-page .shell{padding-top:0}.tm-buy-page .tm-header{margin:0 -20px 24px}.tm-buy-page .hero{padding:32px 0;gap:36px}.tm-buy-page h1{font-size:clamp(36px,5vw,60px);line-height:1.12;letter-spacing:-.045em}.tm-buy-page .gradient{color:var(--tm-text);background:none;-webkit-text-fill-color:currentColor}.tm-buy-page .hero-copy{font-size:15px;color:var(--tm-muted)}

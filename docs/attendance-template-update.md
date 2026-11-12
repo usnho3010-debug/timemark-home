@@ -41,12 +41,3 @@ Kiểm tra trình duyệt trên bản làm việc riêng đã đối chiếu:
 - Chưa chạy trên iPhone thật. Luồng chia sẻ/lưu ảnh iOS và các hàm vẽ mẫu 1 được giữ nguyên mã nguồn.
 
 Tại thời điểm tạo gói, thay đổi mới nằm trên nhánh làm việc; việc có mặt trên website thật cần được xác nhận riêng bằng commit/triển khai.
-
-## Giao diện nhập gọn (bản cập nhật tiếp theo)
-
-- Hai tab Mẫu 1 / Mẫu 2, ảnh nguồn và xem trước nằm trên danh sách thông tin.
-- Chạm vào dòng thông tin để mở bảng sửa; nút Xong đóng bảng và giữ giá trị. Công tắc bật/tắt độc lập với nút sửa.
-- Nút lấy giờ/GPS nằm trong mục tương ứng. Các mục ít dùng nằm trong Tùy chỉnh thêm.
-- Dùng lại các ô nhập và listener gốc, không sao chép dữ liệu qua form trung gian. Không thay đổi attendance-template.js hay các hàm vẽ/xuất ảnh.
-- Bổ sung compact-editor.js và compact-editor.css; tải hai tệp này cùng app/index.html.
-- Cơ chế key giữ nguyên. Bản thử riêng và PR chưa thay thế website chính.

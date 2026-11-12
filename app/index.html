@@ -27,6 +27,7 @@
 </script>
 <link rel="stylesheet" href="../theme-shared.css?v=20261018">
 <link rel="stylesheet" href="responsive-ui.css?v=20261018">
+<link rel="stylesheet" href="attendance-template.css?v=20261112">
 <style>
 /* Keep menu and theme controls together, clear of the download action. */
 .tm-app-page .header-app{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding-right:14px;overflow:visible}
@@ -94,7 +95,7 @@
 </div>
     </div>
     <p id="keyExpiryLine" class="key-expiry-line">Đang kiểm tra thời hạn key...</p>
-    <p class="header-note">📢Thông Báo: Mẫu 1 đã update 100%, mẫu 2 vui lòng đợi...</p>
+    <p class="header-note">📢Thông Báo: Mẫu 1 đã update 100%, mẫu 2 có bộ điều khiển riêng.</p>
   </header>
 
   <!-- CARD 1: UPLOAD -->
@@ -102,8 +103,10 @@
     <h3 class="section-title">Nguồn ảnh</h3>
     <label>Ảnh check-in (Bắt buộc)</label>
     <input type="file" id="imageInput" accept="image/*">
+    <div data-template-one-only>
     <label>Logo thương hiệu (Tùy chọn)</label>
     <input type="file" id="logoInput" accept="image/*">
+    </div>
   </div>
 
   <!-- CARD 2: WATERMARK -->
@@ -154,13 +157,31 @@
     </div>
 
     <div id="formAttendance" class="style-form">
-      <div class="infoGrid">
-        <div class="fullRow"><label>Chữ trên nhãn</label><input id="attendanceLabel" placeholder="VD: Điểm danh"></div>
-        <div><label>Giờ</label><input id="attendanceTime" placeholder="VD: 22:13"></div>
-        <div><label>Thứ</label><input id="attendanceWeekday" placeholder="VD: Thứ Hai"></div>
-        <div class="fullRow"><label>Ngày</label><input id="attendanceDate" placeholder="VD: 04 Tháng 5, 2026"></div>
-        <div class="fullRow"><label>Địa chỉ</label><textarea id="attendanceAddress" placeholder="Nhập địa chỉ điểm danh"></textarea></div>
-      </div>
+      <h4 class="attendance-heading">Chỉnh sửa mẫu 2</h4>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleLogo" aria-label="Bật logo mẫu 2"><span></span></label><label for="attendanceToggleLogo">Logo<small id="attendanceLogoSummary">Chưa chọn logo</small></label></div>
+      <div id="attendanceLogoFields" class="attendance-fields" hidden><label>Ảnh logo<input type="file" id="attendanceLogoInput" accept="image/*"></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleTitle" aria-label="Bật tiêu đề mẫu 2" checked><span></span></label><label for="attendanceToggleTitle">Tiêu đề</label></div>
+      <div id="attendanceTitleFields" class="attendance-fields"><label>Nội dung tiêu đề<input id="attendanceLabel" value="Điểm danh" maxlength="80"></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleArt" aria-label="Bật kiểu chữ nghệ thuật mẫu 2"><span></span></label><label for="attendanceToggleArt">Kiểu chữ nghệ thuật</label></div>
+      <div id="attendanceArtFields" class="attendance-fields" hidden><label>Kiểu chữ tiêu đề<select id="attendanceArtStyle"><option value="gothic">Chữ cao, đậm</option><option value="italic">Chữ nghiêng</option></select></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleTags" aria-label="Bật thẻ mẫu 2"><span></span></label><label for="attendanceToggleTags">Thẻ</label></div>
+      <div id="attendanceTagsFields" class="attendance-fields" hidden><label>Nội dung thẻ<textarea id="attendanceTags" placeholder="VD: Công trình A · Ca sáng"></textarea></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleTime" aria-label="Bật thời gian mẫu 2" checked><span></span></label><label for="attendanceToggleTime">Thời gian</label></div>
+      <div id="attendanceTimeFields" class="attendance-fields"><div class="attendance-pair"><label>Giờ<input id="attendanceTime" placeholder="15:07" inputmode="text"></label><label>Thứ<input id="attendanceWeekday" placeholder="Thứ Năm"></label></div><label>Ngày<input id="attendanceDate" placeholder="12 Tháng 11, 2026"></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleAddress" aria-label="Bật vị trí mẫu 2" checked><span></span></label><label for="attendanceToggleAddress">Vị trí</label></div>
+      <div id="attendanceAddressFields" class="attendance-fields"><label>Địa chỉ<textarea id="attendanceAddress" placeholder="Nhập địa chỉ điểm danh"></textarea></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleCoordinates" aria-label="Bật tọa độ mẫu 2"><span></span></label><label for="attendanceToggleCoordinates">Tọa độ</label></div>
+      <div id="attendanceCoordinatesFields" class="attendance-fields" hidden><div class="attendance-pair"><label>Vĩ độ<input id="attendanceLatitude" inputmode="decimal" placeholder="10.000000"></label><label>Kinh độ<input id="attendanceLongitude" inputmode="decimal" placeholder="105.000000"></label></div></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleMap" aria-label="Bật bản đồ mẫu 2"><span></span></label><label for="attendanceToggleMap">Bản đồ<small id="attendanceMapSummary">Chưa chọn ảnh bản đồ</small></label></div>
+      <div id="attendanceMapFields" class="attendance-fields" hidden><label>Ảnh bản đồ<input type="file" id="attendanceMapInput" accept="image/*"></label><p class="attendance-help">Chọn ảnh bản đồ của vị trí muốn hiển thị. Ảnh được đặt ở góc trên trái; giữ thông tin nguồn bản đồ trong ảnh.</p></div>
+      <details class="attendance-extra"><summary>Thành phần phụ của mẫu 2</summary>
+        <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleVertical" aria-label="Bật mã ảnh mẫu 2" checked><span></span></label><label for="attendanceToggleVertical">Mã ảnh</label></div>
+        <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleBrand" aria-label="Bật thương hiệu mẫu 2" checked><span></span></label><label for="attendanceToggleBrand">Thương hiệu</label></div>
+        <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleCommitment" aria-label="Bật dòng cam kết mẫu 2" checked><span></span></label><label for="attendanceToggleCommitment">Dòng cam kết</label></div>
+        <label class="attendance-color">Màu nhấn<input type="color" id="attendanceColor" value="#ffc533"></label>
+      </details>
+      <div class="attendance-actions"><button type="button" id="attendanceChooseTemplate" class="btn-secondary">Mẫu</button><button type="button" id="attendanceDone">Xong</button></div>
+      <p id="attendanceStatus" role="status" aria-live="polite"></p>
     </div>
   </div>
 
@@ -181,6 +202,7 @@
       <span class="hint">👆 Vuốt thanh ngang để thu phóng, hoặc vuốt trực tiếp trên ảnh để di chuyển chữ.</span>
     </div>
 
+    <div data-template-one-only>
     <button class="btnToggle" onclick="toggleAdvanced()">
       <span class="gear">⚙️</span> Bật/tắt thành phần phụ
     </button>
@@ -191,6 +213,7 @@
       <div class="toggle-row"><label class="title">Giờ & Ngày</label><label class="switch"><input type="checkbox" id="toggleTime" checked><span class="slider"></span></label></div>
       <div class="toggle-row"><label class="title">Địa chỉ</label><label class="switch"><input type="checkbox" id="toggleAddress" checked><span class="slider"></span></label></div>
       <div class="toggle-row"><label class="title">Họ tên</label><label class="switch"><input type="checkbox" id="toggleFullname" checked><span class="slider"></span></label></div>
+    </div>
     </div>
   </div>
 
@@ -556,15 +579,7 @@ let generatedData = {
 
 function captureGeneratedData(){
   if(getWMStyle() === "attendance"){
-    generatedData = {
-      time: document.getElementById("attendanceTime")?.value.trim() || "",
-      date: document.getElementById("attendanceDate")?.value.trim() || "",
-      weekday: document.getElementById("attendanceWeekday")?.value.trim() || "",
-      attendanceLabel: document.getElementById("attendanceLabel")?.value.trim() || "Điểm danh",
-      address: document.getElementById("attendanceAddress")?.value.trim() || "",
-      fullname: "",
-      extraNote: ""
-    };
+    generatedData = AttendanceTemplate.capture();
     return;
   }
 
@@ -598,7 +613,12 @@ function handleStyleChange(){
   document.querySelectorAll(".style-option").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.style === getWMStyle());
   });
-  resetGeneratedPreview();
+  if(window.AttendanceTemplate){
+    AttendanceTemplate.switchStyle(getWMStyle());
+    if(img.src) renderCanvas();
+  }else{
+    resetGeneratedPreview();
+  }
 }
 
 function showExtraNote(){
@@ -725,6 +745,7 @@ logoInput.onchange=e=>{
 img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); };
 
 function setNow(){
+  if(getWMStyle() === "attendance") return AttendanceTemplate.now();
   const d=new Date();
   const timeText = d.toLocaleTimeString("vi-VN",{hour:'2-digit',minute:'2-digit'});
   const day=String(d.getDate()).padStart(2,'0');
@@ -746,6 +767,7 @@ function setNow(){
 }
 
 function getGPS(){
+  if(getWMStyle() === "attendance") return AttendanceTemplate.gps();
   if(!navigator.geolocation){ alert("Thiết bị không hỗ trợ GPS"); return; }
   navigator.geolocation.getCurrentPosition(
     pos=>{
@@ -789,6 +811,7 @@ function loadReferenceClock(){
 }
 async function ensureWatermarkFont(){
   if(getWMStyle() !== 'attendance') await loadReferenceClock();
+  else await AttendanceTemplate.ready();
 }
 async function draw(){
   try { await ensureWatermarkFont(); }
@@ -851,21 +874,7 @@ function drawStyleV3(){
 }
 
 function drawStyleAttendance(){
-  const pad = fs(0.018);
-
-  if(isOn("toggleVertical")) drawAttendanceVerticalWatermark(pad);
-  if(isOn("toggleBrand")) drawAttendanceBrandMark(pad);
-
-  ctx.save();
-  const baseLeftX = pad;
-  const baseY = c.height - fs(0.245);
-
-  ctx.translate(baseLeftX + wmX, baseY + wmY);
-  ctx.scale(wmScale, wmScale);
-  ctx.translate(-baseLeftX, -baseY);
-
-  drawAttendanceContent(baseLeftX, baseY);
-  ctx.restore();
+  AttendanceTemplate.draw(ctx, c, generatedData, {x: wmX, y: wmY, scale: wmScale});
 }
 
 /* ==================================================
@@ -895,170 +904,6 @@ function drawBrandMark(pad){
   ctx.font = `${fs(0.018)}px Arial`; ctx.fillStyle = "rgba(255,255,255,0.5)";
   ctx.fillText("100% Chân thực", c.width - pad, yBrand + fs(0.03));
   ctx.textAlign = "left";
-}
-
-function formatAttendanceDate(){
-  const weekdayText = generatedData.weekday || "";
-  const dateText = String(generatedData.date || "").replace(/^(\d)(\s+Tháng)/i, "0$1$2");
-  return [weekdayText, dateText].filter(Boolean).join(", ");
-}
-
-function drawAttendanceVerticalWatermark(pad){
-  ctx.save();
-  ctx.translate(c.width - Math.max(10, fs(0.011)), c.height * 0.50);
-  ctx.rotate(-Math.PI/2);
-
-  const code = generateCode();
-  const text = `${code}  Timemark Verified`;
-  ctx.font = `${fs(0.019)}px Arial`;
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "rgba(255,255,255,0.82)";
-  setShadow(ctx, fs(0.004), fs(0.0015), "rgba(0,0,0,0.55)");
-
-  const w = ctx.measureText(text).width;
-  drawShield(ctx, -w / 2 - fs(0.018), 0, fs(0.017), "rgba(255,255,255,0.82)");
-  ctx.fillText(text, -w / 2, 0);
-  resetShadow(ctx);
-  ctx.restore();
-}
-
-function drawAttendanceBrandMark(pad){
-  const x = c.width - Math.max(22, fs(0.026));
-  const y = c.height - Math.max(48, fs(0.056));
-
-  ctx.save();
-  ctx.textAlign = "right";
-  setShadow(ctx, fs(0.004), fs(0.0015), "rgba(0,0,0,0.55)");
-
-  ctx.font = `600 ${fs(0.018)}px Arial`;
-  const subText = "100% Chân thực";
-  const subW = ctx.measureText(subText).width;
-  const brandRight = x;
-
-  ctx.font = `900 ${fs(0.029)}px Arial`;
-  const timeW = ctx.measureText("Time").width;
-  const markW = ctx.measureText("mark").width;
-  const brandW = timeW + markW;
-  const brandLeft = brandRight - subW + (subW - brandW) / 2;
-
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#FFC629";
-  ctx.fillText("Time", brandLeft, y);
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillText("mark", brandLeft + timeW, y);
-
-  ctx.font = `600 ${fs(0.018)}px Arial`;
-  ctx.textAlign = "right";
-  ctx.fillStyle = "rgba(255,255,255,0.86)";
-  ctx.fillText(subText, brandRight, y + fs(0.026));
-
-  resetShadow(ctx);
-  ctx.restore();
-}
-
-function drawAttendanceContent(leftX, y){
-  const badgeH = fs(0.095);
-  const labelW = fs(0.185);
-  const timeW = fs(0.175);
-  const logoW = fs(0.17);
-  const badgeW = labelW + timeW + logoW;
-  const radius = fs(0.006);
-
-  ctx.save();
-  ctx.fillStyle = "rgba(255,255,255,0.95)";
-  roundRect(ctx, leftX, y, badgeW, badgeH, radius);
-
-  ctx.fillStyle = "#FFC629";
-  roundRect(ctx, leftX + fs(0.006), y + fs(0.006), labelW - fs(0.012), badgeH - fs(0.012), radius);
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(leftX + labelW, y, timeW + fs(0.028), badgeH);
-  ctx.clip();
-  const stripeGap = fs(0.018);
-  ctx.strokeStyle = "rgba(2,68,130,0.08)";
-  ctx.lineWidth = fs(0.002);
-  for(let sx = leftX + labelW - badgeH; sx < leftX + labelW + timeW + badgeH; sx += stripeGap){
-    ctx.beginPath();
-    ctx.moveTo(sx, y + badgeH);
-    ctx.lineTo(sx + badgeH, y);
-    ctx.stroke();
-  }
-  ctx.restore();
-
-  ctx.fillStyle = "#005BAA";
-  ctx.beginPath();
-  ctx.moveTo(leftX + labelW + timeW + fs(0.022), y);
-  ctx.lineTo(leftX + badgeW, y);
-  ctx.lineTo(leftX + badgeW, y + badgeH);
-  ctx.lineTo(leftX + labelW + timeW - fs(0.004), y + badgeH);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.textBaseline = "middle";
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#07111f";
-  ctx.font = `900 ${fs(0.031)}px Arial`;
-  ctx.fillText(generatedData.attendanceLabel || "Điểm danh", leftX + labelW / 2, y + badgeH * 0.54);
-
-  ctx.fillStyle = "#003C96";
-  ctx.font = `900 ${fs(0.061)}px Arial`;
-  ctx.fillText(generatedData.time || "--:--", leftX + labelW + timeW * 0.50, y + badgeH * 0.57);
-
-  if(logo.src && isOn("toggleLogo")){
-    const logoBoxX = leftX + labelW + timeW + fs(0.028);
-    const logoBoxY = y + fs(0.013);
-    const logoBoxW = logoW - fs(0.038);
-    const logoBoxH = badgeH - fs(0.026);
-    const ratio = logo.width / logo.height;
-    let drawW = logoBoxW;
-    let drawH = drawW / ratio;
-    if(drawH > logoBoxH){
-      drawH = logoBoxH;
-      drawW = drawH * ratio;
-    }
-    drawRoundedImage(ctx, logo, logoBoxX + (logoBoxW - drawW) / 2, logoBoxY + (logoBoxH - drawH) / 2, drawW, drawH, fs(0.004));
-  }else{
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = `900 ${fs(0.019)}px Arial`;
-    ctx.fillText("TIMEMARK", leftX + labelW + timeW + logoW * 0.53, y + badgeH * 0.50);
-  }
-
-  const infoX = leftX + fs(0.024);
-  const infoY = y + badgeH + fs(0.038);
-  const barX = leftX + fs(0.002);
-  const barY = infoY - fs(0.008);
-  const dateFont = fs(0.028);
-  const addressFont = fs(0.028);
-  ctx.font = `500 ${addressFont}px Arial`;
-  const addressMaxWidth = leftX + badgeW - infoX;
-  const addressLines = wrapManualLines(generatedData.address || "", addressMaxWidth);
-  const addressLineH = fs(0.036);
-  const barH = fs(0.018) + dateFont + fs(0.022) + addressLineH * Math.max(addressLines.length, 1);
-
-  ctx.fillStyle = "#FFC629";
-  ctx.fillRect(barX, barY, fs(0.006), barH);
-
-  setShadow(ctx, fs(0.006), fs(0.002), "rgba(0,0,0,0.65)");
-  ctx.textAlign = "left";
-  ctx.textBaseline = "top";
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = `900 ${dateFont}px Arial`;
-  ctx.fillText(formatAttendanceDate(), infoX, infoY);
-
-  ctx.font = `500 ${addressFont}px Arial`;
-  const addressY = infoY + dateFont + fs(0.027);
-  drawTextLines(addressLines, infoX, addressY, addressLineH);
-
-  const commitY = addressY + addressLineH * Math.max(addressLines.length, 1) + fs(0.018);
-  ctx.fillStyle = "rgba(255,255,255,0.58)";
-  ctx.font = `500 ${fs(0.023)}px Arial`;
-  drawShield(ctx, infoX - fs(0.002), commitY + fs(0.014), fs(0.027), "rgba(255,255,255,0.58)");
-  ctx.fillText("Cam kết ngày giờ chân thực bởi Timemark", infoX + fs(0.026), commitY);
-  resetShadow(ctx);
-
-  ctx.restore();
 }
 
 function drawWatermarkLogo(leftX, y){
@@ -1296,8 +1141,9 @@ async function download(){
 window.onload=()=>{
   localStorage.removeItem("tm_notify_once");
   updateKeyExpiryLine(null);
+  window.AttendanceTemplate?.init();
   handleStyleChange();
-  ["time","date","weekday","address","fullname","extraNote","attendanceLabel","attendanceTime","attendanceDate","attendanceWeekday","attendanceAddress"].forEach(id=>{
+  ["time","date","weekday","address","fullname","extraNote"].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.addEventListener("input", resetGeneratedPreview);
   });
@@ -1356,5 +1202,6 @@ const fabWrap = document.querySelector(".tmFab");
   <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
 </audio>
 
+<script src="attendance-template.js?v=20261112"></script>
 </body>
 </html>

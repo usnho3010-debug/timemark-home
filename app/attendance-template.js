@@ -59,7 +59,7 @@
 
   function newPhotoCode() {
     const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    const bytes = new Uint8Array(14);
+    const bytes = new Uint8Array(12);
     crypto.getRandomValues(bytes);
     return Array.from(bytes, n => alphabet[n % alphabet.length]).join('');
   }

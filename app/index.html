@@ -102,29 +102,13 @@
   <!-- CARD 2: WATERMARK -->
   <div class="card app-card watermark-card">
     <h3 class="section-title">Cấu hình Watermark</h3>
-    <label>Chọn kiểu tạo ảnh</label>
-    <select id="wmStyle" class="style-select-native" onchange="handleStyleChange()" aria-label="Chọn kiểu tạo ảnh">
+    <label for="wmStyle">Chọn kiểu tạo ảnh</label>
+    <select id="wmStyle" class="style-select-list" onchange="handleStyleChange()" aria-label="Chọn kiểu tạo ảnh">
       <option value="v3">Kiểu tạo ảnh 1</option>
       <option value="attendance">Kiểu tạo ảnh 2</option>
       <option value="completion">Kiểu tạo ảnh 3</option>
     </select>
-    <div class="style-picker" role="group" aria-label="Chọn kiểu tạo ảnh">
-      <button type="button" class="style-option active" data-style="v3" onclick="selectWatermarkStyle('v3')">
-        <span class="style-badge">Nên dùng</span>
-        <strong>Kiểu tạo ảnh 1</strong>
-        <small>Chuẩn Timemark Premium, đầy đủ thông tin check-in.</small>
-      </button>
-      <button type="button" class="style-option" data-style="attendance" onclick="selectWatermarkStyle('attendance')">
-        <span class="style-badge muted">Mẫu mới</span>
-        <strong>Kiểu tạo ảnh 2</strong>
-        <small>Bố cục điểm danh giống mẫu, gọn và nổi bật.</small>
-      </button>
-      <button type="button" class="style-option" data-style="completion" onclick="selectWatermarkStyle('completion')">
-        <span class="style-badge muted">Mẫu mới</span>
-        <strong>Kiểu tạo ảnh 3</strong>
-        <small>Đã hoàn thành · Khung giờ xanh, công ty và nhân viên.</small>
-      </button>
-    </div>
+
   </div>
     
   <!-- CARD 1: UPLOAD -->

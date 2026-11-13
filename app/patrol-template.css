@@ -1,3 +1,4 @@
+@font-face{font-family:PatrolTime;src:url('reference-clock.ttf?v=20261016');font-weight:400;font-display:swap}
 @font-face{font-family:PatrolText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900;font-display:swap}
 @font-face{font-family:PatrolClock;src:url('attendance-assets/Oswald.ttf');font-weight:200 700;font-display:swap}
 /* Everything in this file is scoped to template 4 or its visibility hooks. */

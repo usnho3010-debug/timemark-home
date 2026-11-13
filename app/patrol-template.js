@@ -28,7 +28,7 @@
   async function ready() {
     if (!fontPromise) fontPromise = Promise.all([
       document.fonts.load('400 38px PatrolText'), document.fonts.load('700 44px PatrolText'),
-      document.fonts.load('400 110px PatrolClock'), document.fonts.load('600 44px PatrolClock')
+      document.fonts.load('400 110px PatrolTime'), document.fonts.load('600 44px PatrolClock')
     ]).catch(error => { fontPromise = null; throw error; });
     await fontPromise;
     while (pendingLogo) await pendingLogo;
@@ -151,7 +151,7 @@
         for(const line of title){text(line,headerX,y,44,700,accent,headerWidth,titleFamily,f.Art&&v.Art==='italic');y+=54;}
         for(const line of subtitle){text(line,headerX,y,38,400,'#fff',headerWidth);y+=46;}
         if(hasHeader){ctx.fillStyle=accent;ctx.fillRect(0,headerHeight,width,6);ctx.save();ctx.beginPath();ctx.rect(6,headerHeight+10,width-12,30);ctx.clip();text('>'.repeat(48),6,headerHeight+16,25,500,accent);ctx.restore();}
-        if(f.Time){const top=(hasHeader?headerHeight+42:14)+16;const time=v.Time||'--:--';font(110,400,'PatrolClock');const m=ctx.measureText(time);ctx.save();ctx.translate(14,top);ctx.scale(169/Math.max(m.width,1),80/Math.max(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent,1));ctx.fillStyle=accent;ctx.fillText(time,0,m.actualBoundingBoxAscent);ctx.restore();text([v.Weekday,v.Date].filter(Boolean).join(', '),208,top+65,26,400,'#fff',width-220);}
+        if(f.Time){const top=(hasHeader?headerHeight+42:14)+16;const time=v.Time||'--:--';font(110,400,'PatrolTime');const m=ctx.measureText(time);ctx.save();ctx.translate(14,top);ctx.scale(169/Math.max(m.width,1),80/Math.max(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent,1));ctx.fillStyle=accent;ctx.fillText(time,0,m.actualBoundingBoxAscent);ctx.restore();text([v.Weekday,v.Date].filter(Boolean).join(', '),208,top+65,26,400,'#fff',width-220);}
         y=firstRow;
         for(const lines of rows){ctx.fillStyle=accent;ctx.fillRect(17,y+5,11,23);for(const line of lines){text(line,47,y,38);y+=45;}y+=18;}
       } finally {ctx.restore();}

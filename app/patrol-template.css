@@ -1,0 +1,41 @@
+@font-face{font-family:PatrolText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900;font-display:swap}
+@font-face{font-family:PatrolClock;src:url('attendance-assets/Oswald.ttf');font-weight:200 700;font-display:swap}
+/* Everything in this file is scoped to template 4 or its visibility hooks. */
+#formPatrol [hidden] { display: none !important; }
+#formPatrol { --patrol-accent: #159ff2; --patrol-border: rgba(148,163,184,.25); }
+#formPatrol .patrol-heading { margin: 6px 0 16px; font-size: 20px; }
+#formPatrol .patrol-row { display: flex; align-items: center; gap: 12px; padding: 15px 0; border-top: 1px solid var(--patrol-border); }
+#formPatrol .patrol-row > label:last-child { flex: 1; min-width: 0; margin: 0; font-size: 16px; color: inherit; cursor: pointer; }
+#formPatrol .patrol-row small { display: block; margin-top: 3px; font-size: 12px; opacity: .7; }
+#formPatrol .patrol-switch { position: relative; display: inline-flex; width: 48px; height: 30px; flex: 0 0 48px; margin: 0; }
+#formPatrol .patrol-switch input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+#formPatrol .patrol-switch span { width: 48px; height: 30px; border-radius: 18px; background: #89919d; transition: background .15s; }
+#formPatrol .patrol-switch span::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: transform .15s; }
+#formPatrol .patrol-switch input:checked + span { background: #30c65a; }
+#formPatrol .patrol-switch input:checked + span::after { transform: translateX(18px); }
+#formPatrol .patrol-switch input:focus-visible + span { outline: 3px solid var(--patrol-accent); outline-offset: 3px; }
+#formPatrol .patrol-fields { margin: 0 0 15px 60px; display: grid; gap: 9px; }
+#formPatrol .patrol-fields label { margin: 0; }
+#formPatrol .patrol-fields input,
+#formPatrol .patrol-fields textarea,
+#formPatrol .patrol-fields select { min-width: 0; width: 100%; box-sizing: border-box; margin: 4px 0 0; font-size: 16px; }
+#formPatrol .patrol-fields input[type=file] { font-size: 13px; }
+#formPatrol .patrol-fields textarea { min-height: 80px; }
+#formPatrol .patrol-help { margin: 0; font-size: 12px; line-height: 1.5; opacity: .75; }
+#formPatrol .patrol-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+#formPatrol .patrol-extra { border-top: 1px solid var(--patrol-border); margin-top: 8px; padding-top: 12px; }
+#formPatrol .patrol-extra summary { padding: 7px 0; cursor: pointer; }
+#formPatrol .patrol-color { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#formPatrol .patrol-color input { width: 64px; height: 44px; padding: 4px; }
+#formPatrol .patrol-actions { display: flex; gap: 12px; margin-top: 16px; }
+#formPatrol .patrol-actions button { min-height: 48px; flex: 1; width: auto; margin: 0; }
+#formPatrol .patrol-actions button:last-child { flex: 2; background: #159ff2; color: #fff; border: 0; }
+#ptStatus { min-height: 20px; font-size: 13px; margin: 12px 0 0; }
+#ptStatus.is-error { color: #ef7070; }
+@media(max-width: 380px) {
+  #formPatrol .patrol-fields { margin-left: 0; }
+  #formPatrol .patrol-pair { grid-template-columns: 1fr; }
+}
+@media(prefers-reduced-motion: reduce) {
+  #formPatrol .patrol-switch span, #formPatrol .patrol-switch span::after { transition: none; }
+}

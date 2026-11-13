@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="../theme-shared.css?v=20261018">
 <link rel="stylesheet" href="responsive-ui.css?v=20261018">
 <link rel="stylesheet" href="attendance-template.css?v=20261112">
+<link rel="stylesheet" href="completion-app.css?v=20261113">
 <style>
 /* Keep menu and theme controls together, clear of the download action. */
 .tm-app-page .header-app{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding-right:14px;overflow:visible}
@@ -116,6 +117,7 @@
     <select id="wmStyle" class="style-select-native" onchange="handleStyleChange()" aria-label="Chọn kiểu tạo ảnh">
       <option value="v3">Kiểu tạo ảnh 1</option>
       <option value="attendance">Kiểu tạo ảnh 2</option>
+      <option value="completion">Kiểu tạo ảnh 3</option>
     </select>
     <div class="style-picker" role="group" aria-label="Chọn kiểu tạo ảnh">
       <button type="button" class="style-option active" data-style="v3" onclick="selectWatermarkStyle('v3')">
@@ -127,6 +129,11 @@
         <span class="style-badge muted">Mẫu mới</span>
         <strong>Kiểu tạo ảnh 2</strong>
         <small>Bố cục điểm danh giống mẫu, gọn và nổi bật.</small>
+      </button>
+      <button type="button" class="style-option" data-style="completion" onclick="selectWatermarkStyle('completion')">
+        <span class="style-badge muted">Mẫu mới</span>
+        <strong>Kiểu tạo ảnh 3</strong>
+        <small>Đã hoàn thành · Khung giờ xanh, công ty và nhân viên.</small>
       </button>
     </div>
   </div>
@@ -182,6 +189,18 @@
       </details>
       <div class="attendance-actions"><button type="button" id="attendanceChooseTemplate" class="btn-secondary">Mẫu</button><button type="button" id="attendanceDone">Xong</button></div>
       <p id="attendanceStatus" role="status" aria-live="polite"></p>
+    </div>
+    <div id="formCompletion" class="style-form">
+      <h4 class="completion-heading">Chỉnh sửa mẫu 3</h4>
+      <div id="cpFields"></div>
+      <details class="completion-extra"><summary>Thành phần phụ của mẫu 3</summary>
+        <div id="cpExtras"></div>
+        <label class="completion-color">Màu khung giờ<input id="cpColor" type="color" value="#00c933"></label>
+        <label class="completion-color">Màu đường dọc<input id="cpLineColor" type="color" value="#ffc400"></label>
+      </details>
+      <div id="cpCustom"></div><button type="button" id="cpAddCustom" class="btn-secondary">+ Thêm thông tin tùy chỉnh</button>
+      <div class="completion-actions"><button type="button" id="cpChooseTemplate" class="btn-secondary">Mẫu</button><button type="button" id="cpDone">Xong</button></div>
+      <p id="cpStatus" role="status" aria-live="polite"></p>
     </div>
   </div>
 
@@ -578,6 +597,10 @@ let generatedData = {
 };
 
 function captureGeneratedData(){
+  if(getWMStyle() === "completion"){
+    generatedData = CompletionTemplate.capture();
+    return;
+  }
   if(getWMStyle() === "attendance"){
     generatedData = AttendanceTemplate.capture();
     return;
@@ -607,14 +630,17 @@ function selectWatermarkStyle(style){
 }
 
 function handleStyleChange(){
+  const isCompletion = getWMStyle() === "completion";
+  document.getElementById("formCompletion")?.classList.toggle("active", isCompletion);
   const isAttendance = getWMStyle() === "attendance";
-  document.getElementById("formPremium")?.classList.toggle("active", !isAttendance);
+  document.getElementById("formPremium")?.classList.toggle("active", !isAttendance && !isCompletion);
   document.getElementById("formAttendance")?.classList.toggle("active", isAttendance);
   document.querySelectorAll(".style-option").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.style === getWMStyle());
   });
   if(window.AttendanceTemplate){
     AttendanceTemplate.switchStyle(getWMStyle());
+    window.CompletionTemplate?.activate(getWMStyle());
     if(img.src) renderCanvas();
   }else{
     resetGeneratedPreview();
@@ -745,6 +771,7 @@ logoInput.onchange=e=>{
 img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); };
 
 function setNow(){
+  if(getWMStyle() === "completion") return CompletionTemplate.now();
   if(getWMStyle() === "attendance") return AttendanceTemplate.now();
   const d=new Date();
   const timeText = d.toLocaleTimeString("vi-VN",{hour:'2-digit',minute:'2-digit'});
@@ -767,6 +794,7 @@ function setNow(){
 }
 
 function getGPS(){
+  if(getWMStyle() === "completion") return CompletionTemplate.gps();
   if(getWMStyle() === "attendance") return AttendanceTemplate.gps();
   if(!navigator.geolocation){ alert("Thiết bị không hỗ trợ GPS"); return; }
   navigator.geolocation.getCurrentPosition(
@@ -810,6 +838,7 @@ function loadReferenceClock(){
   return referenceClockPromise;
 }
 async function ensureWatermarkFont(){
+  if(getWMStyle() === "completion") return CompletionTemplate.ready();
   if(getWMStyle() !== 'attendance') await loadReferenceClock();
   else await AttendanceTemplate.ready();
 }
@@ -836,7 +865,8 @@ async function renderCanvas(){
   ctx.clearRect(0,0,c.width,c.height);
   ctx.drawImage(img,0,0);
   if(hasGenerated){
-    if(getWMStyle() === "attendance") drawStyleAttendance();
+    if(getWMStyle() === "completion") CompletionTemplate.draw(ctx, c, generatedData, {x: wmX, y: wmY, scale: wmScale});
+    else if(getWMStyle() === "attendance") drawStyleAttendance();
     else drawStyleV3();
   }
 }
@@ -1142,6 +1172,7 @@ window.onload=()=>{
   localStorage.removeItem("tm_notify_once");
   updateKeyExpiryLine(null);
   window.AttendanceTemplate?.init();
+  window.CompletionTemplate?.init();
   handleStyleChange();
   ["time","date","weekday","address","fullname","extraNote"].forEach(id=>{
     const el = document.getElementById(id);
@@ -1203,5 +1234,6 @@ const fabWrap = document.querySelector(".tmFab");
 </audio>
 
 <script src="attendance-template.js?v=20261112"></script>
+<script src="completion-app.js?v=20261113"></script>
 </body>
 </html>

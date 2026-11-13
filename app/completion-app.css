@@ -1,0 +1,43 @@
+@font-face{font-family:CompletionText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900;font-display:swap}
+@font-face{font-family:CompletionClock;src:url('attendance-assets/Oswald.ttf');font-weight:200 700;font-display:swap}
+/* Everything in this file is scoped to template 3 or its visibility hooks. */
+#formCompletion [hidden] { display: none !important; }
+#formCompletion { --completion-accent: #159ff2; --completion-border: rgba(148,163,184,.25); }
+#formCompletion .completion-heading { margin: 6px 0 16px; font-size: 20px; }
+#formCompletion .completion-row { display: flex; align-items: center; gap: 12px; padding: 15px 0; border-top: 1px solid var(--completion-border); }
+#formCompletion .completion-row > label:last-child { flex: 1; min-width: 0; margin: 0; font-size: 16px; color: inherit; cursor: pointer; }
+#formCompletion .completion-row small { display: block; margin-top: 3px; font-size: 12px; opacity: .7; }
+#formCompletion .completion-switch { position: relative; display: inline-flex; width: 48px; height: 30px; flex: 0 0 48px; margin: 0; }
+#formCompletion .completion-switch input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+#formCompletion .completion-switch span { width: 48px; height: 30px; border-radius: 18px; background: #89919d; transition: background .15s; }
+#formCompletion .completion-switch span::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: transform .15s; }
+#formCompletion .completion-switch input:checked + span { background: #30c65a; }
+#formCompletion .completion-switch input:checked + span::after { transform: translateX(18px); }
+#formCompletion .completion-switch input:focus-visible + span { outline: 3px solid var(--completion-accent); outline-offset: 3px; }
+#formCompletion .completion-fields { margin: 0 0 15px 60px; display: grid; gap: 9px; }
+#formCompletion .completion-fields label { margin: 0; }
+#formCompletion .completion-fields input,
+#formCompletion .completion-fields textarea,
+#formCompletion .completion-fields select { min-width: 0; width: 100%; box-sizing: border-box; margin: 4px 0 0; font-size: 16px; }
+#formCompletion .completion-fields input[type=file] { font-size: 13px; }
+#formCompletion .completion-fields textarea { min-height: 80px; }
+#formCompletion .completion-help { margin: 0; font-size: 12px; line-height: 1.5; opacity: .75; }
+#formCompletion .completion-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+#formCompletion .completion-extra { border-top: 1px solid var(--completion-border); margin-top: 8px; padding-top: 12px; }
+#formCompletion .completion-extra summary { padding: 7px 0; cursor: pointer; }
+#formCompletion .completion-color { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#formCompletion .completion-color input { width: 64px; height: 44px; padding: 4px; }
+#formCompletion .completion-actions { display: flex; gap: 12px; margin-top: 16px; }
+#formCompletion .completion-actions button { min-height: 48px; flex: 1; width: auto; margin: 0; }
+#formCompletion .completion-actions button:last-child { flex: 2; background: #159ff2; color: #fff; border: 0; }
+#cpStatus { min-height: 20px; font-size: 13px; margin: 12px 0 0; }
+#cpStatus.is-error { color: #ef7070; }
+@media(max-width: 380px) {
+  #formCompletion .completion-fields { margin-left: 0; }
+  #formCompletion .completion-pair { grid-template-columns: 1fr; }
+}
+@media(prefers-reduced-motion: reduce) {
+  #formCompletion .completion-switch span, #formCompletion .completion-switch span::after { transition: none; }
+}
+
+#formCompletion .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}#formCompletion .hint{font-size:12px;opacity:.75}#formCompletion .completion-custom{margin:12px 0}#formCompletion .completion-custom textarea{width:100%;box-sizing:border-box;font-size:16px}

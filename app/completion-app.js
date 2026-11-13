@@ -17,7 +17,7 @@ const definitions=[
  ['Employee','Tên nhân viên',false,'<label>Tên nhân viên<input id="cpEmployee" placeholder="Họ tên nhân viên"></label>'],
  ['EmployeeId','ID nhân viên',false,'<label>ID nhân viên<input id="cpEmployeeId" placeholder="Mã nhân viên"></label>'],
  ['Portrait','Ảnh thẻ',false,'<label>Ảnh nhân viên<input id="cpPortraitFile" type="file" accept="image/*"></label>'],
- ['Code','Mã ảnh',true,'<p class="hint">Mã trang trí 12 ký tự, giữ nguyên khi chỉnh thông tin. Không kết nối dịch vụ xác minh Timemark.</p>'],
+ ['Code','Mã ảnh',true,''],
  ['Note','Ghi chú',false,'<label>Nội dung ghi chú<textarea id="cpNote" placeholder="Ví dụ: Nhân viên Sale"></textarea></label>'],
  ['Brand','Thương hiệu Timemark',true,''],['Check','Dấu tích trong khung giờ',true,'']
 ];

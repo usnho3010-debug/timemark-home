@@ -920,29 +920,34 @@ function drawStyleAttendance(){
    CÁC HÀM HELPER VẼ TỪNG THÀNH PHẦN (GIỮ NGUYÊN LOGIC)
 =================================================== */
 function drawVerticalWatermark(pad){
+  const unit=Math.min(c.width,c.height)/1152;
+  // Keep the same identifier while dragging, zooming or exporting this image.
+  if(!generatedData.photoCode) generatedData.photoCode=generateCode(12);
   ctx.save();
-  ctx.translate(c.width - fs(0.015), c.height/2);
+  ctx.translate(c.width-17*unit,c.height*(889/1536));
   ctx.rotate(-Math.PI/2);
-  const code = generateCode();
-  const text = `${code}  Timemark Verified`;
-  ctx.font = `${fs(0.025)}px Arial`;
-  ctx.fillStyle = "rgba(255,255,255,1)";
-  ctx.textAlign = "left"; ctx.textBaseline = "middle";
-  const w = ctx.measureText(text).width;
-  drawShield(ctx, -w/2 - fs(0.02), 0, fs(0.022), "#FFFFFF");
-  ctx.fillText(text, -w/2, 0);
+  ctx.font=`400 ${28*unit}px Arial`;
+  ctx.fillStyle='#fff';ctx.textAlign='left';ctx.textBaseline='middle';
+  ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=1.5*unit;ctx.shadowOffsetX=unit;ctx.shadowOffsetY=unit;
+  drawShield(ctx,-17*unit,0,18*unit,'#fff');
+  ctx.fillText(`${generatedData.photoCode}  Timemark Verified`,0,0,466*unit);
   ctx.restore();
 }
 
 function drawBrandMark(pad){
-  let yBrand = c.height - pad;
-  ctx.textAlign = "right"; ctx.font = `bold ${fs(0.028)}px Arial`;
-  ctx.fillStyle = "#FFFFFF"; ctx.fillText("mark", c.width - pad, yBrand);
-  const wMark = ctx.measureText("mark").width;
-  ctx.fillStyle = "#FFC107"; ctx.fillText("Time", c.width - pad - wMark, yBrand);
-  ctx.font = `${fs(0.018)}px Arial`; ctx.fillStyle = "rgba(255,255,255,0.5)";
-  ctx.fillText("100% Chân thực", c.width - pad, yBrand + fs(0.03));
-  ctx.textAlign = "left";
+  const unit=Math.min(c.width,c.height)/1152;
+  const right=c.width-17*unit;
+  ctx.save();
+  ctx.textAlign='right';ctx.textBaseline='alphabetic';
+  ctx.shadowColor='rgba(0,0,0,.38)';ctx.shadowBlur=2*unit;ctx.shadowOffsetX=unit;ctx.shadowOffsetY=unit;
+  ctx.font=`700 ${36*unit}px Arial`;
+  ctx.fillStyle='#fff';ctx.fillText('mark',right,c.height-52*unit);
+  const markWidth=ctx.measureText('mark').width;
+  ctx.fillStyle='#ffc533';ctx.fillText('Time',right-markWidth,c.height-52*unit);
+  ctx.font=`400 ${25*unit}px TemplateOneText`;
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  ctx.fillText('100% Chân thực',right,c.height-21*unit);
+  ctx.restore();
 }
 
 function drawWatermarkLogo(leftX, y){

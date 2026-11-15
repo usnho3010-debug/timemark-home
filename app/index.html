@@ -899,11 +899,26 @@ function drawStyleV3(){
     if(isOn('toggleFullname')&&d.fullname)info.push(...wrap('Họ tên: '+d.fullname));
     if(isOn('toggleFullname')&&d.extraNote)info.push(...wrap(d.extraNote));
     const hasLogo=logo.src&&isOn('toggleLogo'),hasTime=isOn('toggleTime')&&d.time;
+    const wideLogo=hasLogo && logo.width>logo.height;
+    const logoWidth=wideLogo?Math.min(430,250*logo.width/logo.height):250;
+    const logoHeight=wideLogo?logoWidth*logo.height/logo.width:250;
+    const logoBlockHeight=hasLogo?logoHeight+24:0;
     const infoH=info.length?info.length*60+14:0;
-    const height=(hasLogo?274:0)+(hasTime?124:0)+(address.length?address.length*46+4:0)+(infoH?infoH+4:0);
+    const height=logoBlockHeight+(hasTime?124:0)+(address.length?address.length*46+4:0)+(infoH?infoH+4:0);
     ctx.scale(unit,unit);ctx.translate(28+wmX/unit,H-(info.length?36:18)+wmY/unit);ctx.scale(wmScale,wmScale);ctx.translate(0,-height);
     let y=0;
-    if(hasLogo){ctx.save();ctx.globalAlpha=.78;ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(6,y,250,250,34);ctx.fill();ctx.clip();const ratio=Math.min(250/logo.width,250/logo.height);ctx.drawImage(logo,6+(250-logo.width*ratio)/2,y+(250-logo.height*ratio)/2,logo.width*ratio,logo.height*ratio);ctx.restore();y+=274;}
+    if(hasLogo){
+      ctx.save();
+      if(wideLogo){
+        // Preserve horizontal artwork and transparency without a square backing.
+        ctx.drawImage(logo,6,y,logoWidth,logoHeight);
+      }else{
+        ctx.globalAlpha=.78;ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(6,y,250,250,34);ctx.fill();ctx.clip();
+        const ratio=Math.min(250/logo.width,250/logo.height);
+        ctx.drawImage(logo,6+(250-logo.width*ratio)/2,y+(250-logo.height*ratio)/2,logo.width*ratio,logo.height*ratio);
+      }
+      ctx.restore();y+=logoBlockHeight;
+    }
     const text=(value,x,top,size=38)=>{ctx.font='400 '+size+'px TemplateOneText';ctx.fillStyle='#fff';ctx.textBaseline='alphabetic';ctx.fillText(value,x,top+ctx.measureText(value).actualBoundingBoxAscent);};
     if(hasTime){ctx.font='400 100px TimemarkReferenceClock';const m=ctx.measureText(d.time);ctx.save();ctx.translate(0,y);ctx.scale(190/m.width,104/(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent));ctx.fillStyle='#fff';ctx.strokeStyle='#333';ctx.lineWidth=1.6;ctx.strokeText(d.time,0,m.actualBoundingBoxAscent);ctx.fillText(d.time,0,m.actualBoundingBoxAscent);ctx.restore();ctx.fillStyle='#ffc533';ctx.fillRect(222,y,5,104);text(d.date||'',249,y,38);text(d.weekday||'',249,y+72,38);y+=124;}
     for(const line of address){text(line,0,y);y+=46;}

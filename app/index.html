@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="completion-app.css?v=20261113">
 <link rel="stylesheet" href="patrol-template.css?v=20261113b">
 <style>
+@font-face{font-family:TemplateOneText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900}
 /* Keep menu and theme controls together, clear of the download action. */
 .tm-app-page .header-app{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding-right:14px;overflow:visible}
 .tm-app-page .header-app .brand-title{min-width:0;margin-bottom:0!important}
@@ -138,6 +139,7 @@
         <div><label>Ngày</label><input id="date" placeholder="10 Tháng 3, 2026"></div>
         <div><label>Thứ</label><input id="weekday" placeholder="Thứ Ba"></div>
         <div class="fullRow"><label>Địa chỉ</label><textarea id="address" placeholder="Nhập địa chỉ"></textarea></div>
+        <div class="fullRow"><label>Công ty</label><input id="company" placeholder="Nhập tên công ty"></div>
         <div class="fullRow"><label>Họ tên</label><textarea id="fullname" placeholder="Nhập Họ tên"></textarea></div>
         <div class="fullRow note-control">
           <button id="addNoteBtn" class="note-add-btn" type="button" onclick="showExtraNote()">+ Thêm ghi chú</button>
@@ -229,6 +231,7 @@
       <div class="toggle-row"><label class="title">Logo</label><label class="switch"><input type="checkbox" id="toggleLogo" checked><span class="slider"></span></label></div>
       <div class="toggle-row"><label class="title">Giờ & Ngày</label><label class="switch"><input type="checkbox" id="toggleTime" checked><span class="slider"></span></label></div>
       <div class="toggle-row"><label class="title">Địa chỉ</label><label class="switch"><input type="checkbox" id="toggleAddress" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Công ty</label><label class="switch"><input type="checkbox" id="toggleCompany" checked><span class="slider"></span></label></div>
       <div class="toggle-row"><label class="title">Họ tên</label><label class="switch"><input type="checkbox" id="toggleFullname" checked><span class="slider"></span></label></div>
     </div>
     </div>
@@ -614,6 +617,7 @@ function captureGeneratedData(){
     weekday: weekday.value.trim(),
     attendanceLabel: "Điểm danh",
     address: address.value.trim(),
+    company: document.getElementById("company").value.trim(),
     fullname: fullname.value.trim(),
     extraNote: document.getElementById("extraNote")?.value.trim() || ""
   };
@@ -847,6 +851,7 @@ function loadReferenceClock(){
 async function ensureWatermarkFont(){
   if(getWMStyle() === "patrol") return PatrolTemplate.ready();
   if(getWMStyle() === "completion") return CompletionTemplate.ready();
+  if(getWMStyle() === 'v3') await document.fonts.load('400 38px TemplateOneText');
   if(getWMStyle() !== 'attendance') await loadReferenceClock();
   else await AttendanceTemplate.ready();
 }
@@ -880,36 +885,31 @@ async function renderCanvas(){
   }
 }
 function drawStyleV3(){
-  const pad = fs(0.04);
-
-  /* =============================
-     THÀNH PHẦN CỐ ĐỊNH GÓC (Vertical & Brand)
-  ============================== */
-  if(isOn("toggleVertical")) drawVerticalWatermark(pad);
-  if(isOn("toggleBrand")) drawBrandMark(pad);
-
-  /* =============================
-     CONTENT BLOCK (Có thể kéo thả & Zoom)
-  ============================== */
+  if(isOn("toggleVertical")) drawVerticalWatermark(fs(0.04));
+  if(isOn("toggleBrand")) drawBrandMark(fs(0.04));
+  const unit=Math.min(c.width,c.height)/1152, W=c.width/unit,H=c.height/unit;
+  const d=generatedData, font=()=>{ctx.font='400 38px TemplateOneText';ctx.textBaseline='alphabetic';};
   ctx.save();
-  
-  let baseLeftX = pad;
-  let baseY = c.height - pad - fs(0.16);
-  
-  // Dịch chuyển và Zoom
-  ctx.translate(baseLeftX + wmX, baseY + wmY);
-  ctx.scale(wmScale, wmScale);
-  ctx.translate(-baseLeftX, -baseY);
-
-  let y = baseY;
-  let leftX = baseLeftX;
-
-  if(logo.src && isOn("toggleLogo")) y = drawWatermarkLogo(leftX, y);
-  if(isOn("toggleTime") && generatedData.time) y = drawWatermarkTime(leftX, y);
-  if(isOn("toggleAddress") && generatedData.address) y = drawWatermarkAddress(leftX, y);
-  if(isOn("toggleFullname")) y = drawWatermarkFullName(leftX, y);
-
-  ctx.restore(); // Kết thúc Block di chuyển
+  try {
+    font();
+    const wrap=value=>{const lines=[];for(const paragraph of String(value||'').split(/\n/)){let line='';for(const word of paragraph.split(/\s+/).filter(Boolean)){if(line&&ctx.measureText(line+' '+word).width>W*.66){lines.push(line);line=word;}else line+=(line?' ':'')+word;}if(line)lines.push(line);}return lines;};
+    const address=isOn('toggleAddress')?wrap(d.address):[];
+    const info=[];
+    if(isOn('toggleCompany')&&d.company)info.push(...wrap('Công ty: '+d.company));
+    if(isOn('toggleFullname')&&d.fullname)info.push(...wrap('Họ tên: '+d.fullname));
+    if(isOn('toggleFullname')&&d.extraNote)info.push(...wrap(d.extraNote));
+    const hasLogo=logo.src&&isOn('toggleLogo'),hasTime=isOn('toggleTime')&&d.time;
+    const infoH=info.length?info.length*78+14:0;
+    const height=(hasLogo?290:0)+(hasTime?136:0)+(address.length?address.length*46+12:0)+(infoH?infoH+8:0);
+    ctx.scale(unit,unit);ctx.translate(28+wmX/unit,H-(info.length?36:18)+wmY/unit);ctx.scale(wmScale,wmScale);ctx.translate(0,-height);
+    let y=0;
+    if(hasLogo){ctx.save();ctx.globalAlpha=.78;ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(6,y,250,250,34);ctx.fill();ctx.clip();const ratio=Math.min(250/logo.width,250/logo.height);ctx.drawImage(logo,6+(250-logo.width*ratio)/2,y+(250-logo.height*ratio)/2,logo.width*ratio,logo.height*ratio);ctx.restore();y+=290;}
+    const text=(value,x,top,size=38)=>{ctx.font='400 '+size+'px TemplateOneText';ctx.fillStyle='#fff';ctx.textBaseline='alphabetic';ctx.fillText(value,x,top+ctx.measureText(value).actualBoundingBoxAscent);};
+    if(hasTime){ctx.font='400 100px TimemarkReferenceClock';const m=ctx.measureText(d.time);ctx.save();ctx.translate(0,y);ctx.scale(190/m.width,104/(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent));ctx.fillStyle='#fff';ctx.strokeStyle='#333';ctx.lineWidth=1.6;ctx.strokeText(d.time,0,m.actualBoundingBoxAscent);ctx.fillText(d.time,0,m.actualBoundingBoxAscent);ctx.restore();ctx.fillStyle='#ffc533';ctx.fillRect(222,y,5,104);text(d.date||'',249,y,38);text(d.weekday||'',249,y+72,38);y+=136;}
+    for(const line of address){text(line,0,y);y+=46;}
+    if(address.length)y+=12;
+    if(info.length){y+=8;font();const width=Math.min(W-56,Math.max(...info.map(t=>ctx.measureText(t).width))+70);const grad=ctx.createLinearGradient(6,0,6+width,0);grad.addColorStop(0,'rgba(255,255,255,.28)');grad.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=grad;ctx.beginPath();ctx.roundRect(6,y,width,infoH,10);ctx.fill();for(let i=0;i<info.length;i++)text(info[i],22,y+28+i*78);}
+  } finally {ctx.restore();}
 }
 
 function drawStyleAttendance(){
@@ -1184,7 +1184,7 @@ window.onload=()=>{
   window.CompletionTemplate?.init();
   window.PatrolTemplate?.init();
   handleStyleChange();
-  ["time","date","weekday","address","fullname","extraNote"].forEach(id=>{
+  ["time","date","weekday","address","company","fullname","extraNote"].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.addEventListener("input", resetGeneratedPreview);
   });

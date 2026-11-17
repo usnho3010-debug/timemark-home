@@ -32,6 +32,12 @@
 <link rel="stylesheet" href="patrol-template.css?v=20261113b">
 <style>
 @font-face{font-family:TemplateOneText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900}
+.tm-app-page .template-one-logo-control{margin-bottom:16px}
+.tm-app-page .template-one-logo-control > label{margin-top:0}
+.tm-app-page .template-one-logo-buttons{display:flex;align-items:center;gap:8px}
+.tm-app-page .template-one-logo-buttons button{width:auto;min-width:44px;min-height:44px;margin:0;padding:8px 12px;touch-action:manipulation}
+.tm-app-page .template-one-logo-buttons output{min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.tm-app-page .template-one-logo-buttons button:disabled{opacity:.4;cursor:default}
 /* Keep menu and theme controls together, clear of the download action. */
 .tm-app-page .header-app{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;padding-right:14px;overflow:visible}
 .tm-app-page .header-app .brand-title{min-width:0;margin-bottom:0!important}
@@ -222,6 +228,15 @@
     </div>
 
     <div data-template-one-only>
+    <div class="template-one-logo-control">
+      <label id="templateOneLogoScaleLabel">Kích thước logo</label>
+      <div class="template-one-logo-buttons" role="group" aria-labelledby="templateOneLogoScaleLabel">
+        <button id="templateOneLogoSmaller" type="button" class="btn-secondary" onclick="adjustTemplateOneLogoScale(-10)" aria-label="Thu nhỏ logo mẫu 1">−</button>
+        <output id="templateOneLogoScaleDisplay" aria-live="polite">100%</output>
+        <button id="templateOneLogoLarger" type="button" class="btn-secondary" onclick="adjustTemplateOneLogoScale(10)" aria-label="Phóng to logo mẫu 1">+</button>
+        <button type="button" class="btn-secondary" onclick="updateTemplateOneLogoScale(100)">Đặt lại</button>
+      </div>
+    </div>
     <button class="btnToggle" onclick="toggleAdvanced()">
       <span class="gear">⚙️</span> Bật/tắt thành phần phụ
     </button>
@@ -583,6 +598,7 @@ function generateCode(len=12){
 let wmX = 0;
 let wmY = 0;
 let wmScale = 1;
+let templateOneLogoScale = 1;
 let isDraggingWM = false;
 let dragStartX = 0;
 let dragStartY = 0;
@@ -660,6 +676,22 @@ function showExtraNote(){
   document.getElementById("extraNoteWrap").classList.add("show");
   document.getElementById("addNoteBtn").style.display = "none";
   document.getElementById("extraNote").focus();
+}
+
+function adjustTemplateOneLogoScale(delta){
+  updateTemplateOneLogoScale(Math.round(templateOneLogoScale * 100) + delta);
+}
+
+function updateTemplateOneLogoScale(value){
+  if(getWMStyle() !== 'v3') return;
+  const number = Number(value);
+  if(!Number.isFinite(number)) return;
+  const percent = Math.min(300, Math.max(20, Math.round(number)));
+  templateOneLogoScale = percent / 100;
+  document.getElementById('templateOneLogoScaleDisplay').textContent = percent + '%';
+  document.getElementById('templateOneLogoSmaller').disabled = percent === 20;
+  document.getElementById('templateOneLogoLarger').disabled = percent === 300;
+  if(img.src && hasGenerated) renderCanvas();
 }
 
 function updateWmScale(val){
@@ -899,14 +931,14 @@ function drawStyleV3(){
     if(isOn('toggleFullname')&&d.fullname)info.push(...wrap('Họ tên: '+d.fullname));
     if(isOn('toggleFullname')&&d.extraNote)info.push(...wrap(d.extraNote));
     const hasLogo=logo.src&&isOn('toggleLogo'),hasTime=isOn('toggleTime')&&d.time;
-    // Restore the original logo helper, including its sizing, rounding and spacing.
-    const logoHeight=fs(0.085)/unit;
-    const logoBlockHeight=hasLogo?(fs(0.085)+fs(0.002)+fs(0.016))/unit:0;
+    // Scale only the logo; retain the original helper and fixed gap above the clock.
+    const logoHeight=fs(0.085)*templateOneLogoScale/unit;
+    const logoBlockHeight=hasLogo?(fs(0.085)*templateOneLogoScale+fs(0.002)+fs(0.016))/unit:0;
     const infoH=info.length?info.length*60+14:0;
     const height=logoBlockHeight+(hasTime?124:0)+(address.length?address.length*46+4:0)+(infoH?infoH+4:0);
     ctx.scale(unit,unit);ctx.translate(28+wmX/unit,H-(info.length?36:18)+wmY/unit);ctx.scale(wmScale,wmScale);ctx.translate(0,-height);
     let y=0;
-    if(hasLogo){ctx.save();ctx.scale(1/unit,1/unit);drawWatermarkLogo(0,(y+logoHeight)*unit+fs(0.002));ctx.restore();y+=logoBlockHeight;}
+    if(hasLogo){ctx.save();ctx.scale(templateOneLogoScale/unit,templateOneLogoScale/unit);drawWatermarkLogo(0,(y+logoHeight)*unit/templateOneLogoScale+fs(0.002));ctx.restore();y+=logoBlockHeight;}
     const text=(value,x,top,size=38)=>{ctx.font='400 '+size+'px TemplateOneText';ctx.fillStyle='#fff';ctx.textBaseline='alphabetic';ctx.fillText(value,x,top+ctx.measureText(value).actualBoundingBoxAscent);};
     if(hasTime){ctx.font='400 100px TimemarkReferenceClock';const m=ctx.measureText(d.time);ctx.save();ctx.translate(0,y);ctx.scale(190/m.width,104/(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent));ctx.fillStyle='#fff';ctx.strokeStyle='#333';ctx.lineWidth=1.6;ctx.strokeText(d.time,0,m.actualBoundingBoxAscent);ctx.fillText(d.time,0,m.actualBoundingBoxAscent);ctx.restore();ctx.fillStyle='#ffc533';ctx.fillRect(222,y,5,104);text(d.date||'',249,y,38);text(d.weekday||'',249,y+72,38);y+=124;}
     for(const line of address){text(line,0,y);y+=46;}

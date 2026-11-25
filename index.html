@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="robots" content="noindex,follow">
 <meta name="description" content="Tạo ảnh Timemark có giờ, ngày, GPS hoặc địa chỉ, logo và watermark. Xem trước, tùy chỉnh bố cục, tải ảnh PNG trên điện thoại và máy tính.">
 <meta name="keywords" content="mua key Timemark, tạo ảnh Timemark, ảnh check-in thời gian vị trí, watermark xác thực, app Timemark, mẫu ảnh điểm danh">
 <meta name="author" content="Timemark">
@@ -169,7 +169,16 @@
 .landing-notice .buttons {gap: 8px; margin-top: 16px}
 .landing-notice .buttons > * {flex: 1 1 auto; width: auto; min-height: 44px; padding: 10px; cursor: pointer}
 </style>
-</head>
+<style>
+.order-entry{display:inline-block;margin:16px 0 0;color:var(--tm-mint);font-size:.93rem;text-underline-offset:.25em}
+.order-feature.container{padding-block:22px;scroll-margin-top:80px}
+.order-feature-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,29%);align-items:stretch;border-radius:22px;overflow:hidden;border:1px solid var(--tm-line);background:#102230}
+.order-feature-inner>div{align-self:center;padding:clamp(20px,4vw,48px)}
+.order-feature-inner h2{margin:0 0 12px}.order-feature-inner p{max-width:55ch;margin:0 0 20px}
+.order-feature-inner img{width:100%;height:100%;max-height:320px;object-fit:cover;object-position:center 65%}
+.notice-box-service a{display:inline-flex;align-items:center;min-height:44px;color:var(--tm-mint);text-underline-offset:.2em}
+@media(max-width:600px){.order-feature-inner{grid-template-columns:1fr}.order-feature-inner img{height:135px;grid-row:1}.order-feature-inner .btnMain{width:100%}}
+</style></head>
 
 <body class="tm-marketing tm-home">
 <a class="skip-link" href="#main">Bỏ qua menu</a>
@@ -177,11 +186,12 @@
 <header class="site-header">
   <nav class="navbar" aria-label="Điều hướng chính">
     <a class="logo" href="/" aria-label="Timemark trang chủ"><span class="brand-rocket" aria-hidden="true">🚀</span><span class="brand-name">Timemark Premium</span></a>
-    <div class="desktop-links"><a href="#demo-title">Xem mẫu</a><a href="guide.html">Hướng dẫn</a><a href="app/buy.html">Mua key</a><a class="tm-nav-cta" href="app/">Mở app ↗</a></div><button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Mở menu" aria-controls="menu">☰</button>
+    <div class="desktop-links"><a href="#dat-anh">Đặt ảnh lẻ</a><a href="#demo-title">Xem mẫu</a><a href="guide.html">Hướng dẫn</a><a href="app/buy.html">Mua key</a><a class="tm-nav-cta" href="app/">Mở app ↗</a></div><button class="menu-toggle" type="button" onclick="toggleMenu()" aria-label="Mở menu" aria-controls="menu">☰</button>
   </nav>
 
   <div class="menu" id="menu">
     <button class="menu-close" type="button" onclick="toggleMenu()" aria-label="Đóng menu">✕</button>
+    <a href="app/order-test.html">Đặt ảnh theo mẫu</a>
     <a href="guide-page.html">Giới thiệu</a>
     <a href="guide.html">Hướng dẫn</a>
     <a href="terms.html">Điều khoản</a>
@@ -209,6 +219,7 @@
           <a class="btnSub" href="app/"><small>Đã có key</small><strong>Mở app tạo ảnh</strong></a>
         </div>
 
+        <a class="order-entry" href="#dat-anh">Muốn đặt một ảnh? Xem dịch vụ đặt ảnh lẻ <span aria-hidden="true">↗</span></a>
         <div class="hero-points" aria-label="Lợi ích nổi bật">
           <span>GPS hoặc nhập địa chỉ</span>
           <span>Tùy chỉnh giờ và ngày</span>
@@ -246,6 +257,15 @@
   </section>
 
 
+  <section class="order-feature container" id="dat-anh" aria-labelledby="order-heading">
+    <div class="order-feature-inner">
+      <div><h2 id="order-heading">Đặt ảnh Timemark theo mẫu</h2>
+        <p>Chọn một trong bốn mẫu, tải ảnh và điền thông tin. Bạn có thể xem trước bố cục rồi theo dõi đơn đến khi ảnh có mã và sẵn sàng tải về.</p>
+        <a class="btnMain" href="app/order-test.html">Thử đặt một ảnh <span aria-hidden="true">→</span></a>
+      </div>
+      <img src="images/demo2.jpg" width="1152" height="1536" loading="lazy" alt="Mẫu ảnh điểm danh với giờ và địa chỉ ở góc ảnh">
+    </div>
+  </section>
   <section class="trust-strip" aria-label="Lý do người dùng chọn Timemark">
     <div><b>Tùy chỉnh linh hoạt</b><span>Không gian, thời gian và thông tin trên ảnh</span></div>
     <div><b>Mẫu sát ứng dụng</b><span>V3 và Điểm danh như trong app Timemark</span></div>
@@ -444,6 +464,7 @@ setTimeout(()=>{
   <div class="notice-box notice-box-service">
     <h3>Dịch vụ chỉnh ảnh</h3>
     <p id="notice-service">Bên em có nhận chỉnh ảnh với cam kết xác thực 100%. Anh chị có nhu cầu vui lòng liên hệ qua Zalo.</p>
+    <a href="app/order-test.html">Thử đặt ảnh trực tiếp trên web →</a>
   </div>
   <div class="buttons">
     <form method="dialog" style="display: contents"><button class="btnSub" style="min-height: 44px; cursor: pointer" autofocus>Đóng</button></form>

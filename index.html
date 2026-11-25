@@ -143,6 +143,11 @@
   box-shadow: 0 16px 64px #020617aa;
   z-index: 9999;
 }
+.landing-notice::backdrop {
+  background: rgba(2, 6, 23, .62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
 .landing-notice h2 {font-size: 1.3rem; margin: 0 0 12px}
 .landing-notice .notice-box {
   padding: 12px 14px;
@@ -449,13 +454,15 @@ setTimeout(()=>{
 <script>
 (() => {
   const notice = document.getElementById("landing-notice");
-  if (typeof notice.show !== "function") return;
-  notice.show();
-  document.addEventListener("pointerdown", event => {
-    if (notice.open && !notice.contains(event.target)) notice.close();
-  });
-  document.addEventListener("keydown", event => {
-    if (notice.open && event.key === "Escape") notice.close();
+  if (typeof notice.showModal !== "function") return;
+  notice.showModal();
+  notice.addEventListener("click", event => {
+    if (event.target !== notice) return;
+    const box = notice.getBoundingClientRect();
+    if (event.clientX < box.left || event.clientX > box.right ||
+        event.clientY < box.top || event.clientY > box.bottom) {
+      notice.close();
+    }
   });
   notice.querySelector("a").addEventListener("click", () => notice.close());
 })();

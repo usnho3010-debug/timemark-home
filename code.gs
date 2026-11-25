@@ -201,6 +201,7 @@ function doPost(e) {
     const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
     const data = parsePostData(e);
 
+    if (data.action === "issueWalletKey") return json(issueWalletKey(data, sheet));
     if (data.action === "checkLock") {
       return json({ status: "ok", lock: getConfigValue("systemLock", false) === true });
     }
@@ -1166,4 +1167,25 @@ function escapeEmailHtml(value) {
       "'": "&#39;"
     }[char];
   });
+}
+
+function issueWalletKey(data, sheet) {
+  const secret=PropertiesService.getScriptProperties().getProperty("WALLET_KEY_SECRET");
+  if (!secret || data.secret !== secret || !/^[a-f0-9-]{36}$/.test(data.id)) return {status:"denied"};
+  const id="WALLET-"+data.id;
+  const lock=LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const existing=sheet.getDataRange().getValues().find(row=>row[COL.ORDER_ID-1]===id);
+    if(existing) return existing[COL.KEY-1] ? {key:existing[COL.KEY-1]} : {status:"unavailable"};
+    const plan=normalizePlan(data.plan);
+    const cfg=getPlanConfig(plan);
+    if(!cfg || Number(cfg.amount)!==Number(data.amount) || !isPlanSellable(sheet,cfg,plan)) {
+      sheet.appendRow(["","",0,"",false,"",new Date(),data.email,"",plan,data.amount,id,false,"","","WALLET_REJECTED"]);
+      return {status:"unavailable"};
+    }
+    const key=generateUniqueTMKey(sheet);
+    sheet.appendRow([key,"",cfg.days,"",true,cfg.level,new Date(),data.email,"",plan,data.amount,id,true,id,new Date(),"WALLET"]);
+    return {key:key};
+  } finally {lock.releaseLock();}
 }

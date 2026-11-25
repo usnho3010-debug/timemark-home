@@ -29,7 +29,7 @@ header.order-intro{background:transparent;padding:24px 0 20px;margin:0;text-alig
 #orders form{display:flex;gap:8px;flex-wrap:wrap}#orders input:not([type=checkbox]){min-width:0;font-size:16px}
 #orders img{border-radius:8px}
 @media(max-width:680px){main{width:calc(100% - 24px)}#editor{grid-template-columns:minmax(0,1fr)}.order-actions button{flex:1;padding-inline:8px}.order-intro p{font-size:15px}#orders form>*{width:100%}}
-</style></head><body class="tm-app-page"><main><nav class="order-nav" aria-label="Điều hướng dịch vụ"><a href="../index.html">← Trang chủ Timemark</a><a href="#orders">Đơn của tôi ↓</a></nav>
+</style></head><body class="tm-app-page"><main><nav class="order-nav" aria-label="Điều hướng dịch vụ"><a href="../index.html">← Trang chủ Timemark</a><a href="../tai-khoan.html">Tài khoản và số dư</a></nav>
 <header class="order-intro"><h1>Đặt ảnh theo mẫu</h1><p>Chọn mẫu, thêm thông tin rồi xem trước ảnh của bạn. Khi đơn được cấp mã, bạn có thể tải ảnh tại <a href="#orders">Đơn của tôi</a>.</p><small>Bản thử nghiệm · Đơn lưu trên trình duyệt này</small></header><section id="editor"><!-- CARD 2: WATERMARK -->
   <div class="card app-card watermark-card">
     <h2 class="section-title">Chọn mẫu ảnh</h2>
@@ -1385,14 +1385,19 @@ window.CompletionTemplate=Object.freeze({init,ready,capture,activate,draw,now,gp
 const el = id => document.getElementById(id);
 const message = value => { el('msg').textContent = value; };
 function markTest(canvas, context) {
-  const unit = Math.min(canvas.width, canvas.height) / 600;
+  const side = Math.min(canvas.width, canvas.height);
   context.save();
-  context.scale(unit, unit);
-  context.font = 'bold 14px system-ui';
-  context.fillStyle = '#101828';
-  context.fillRect(7, 7, 111, 25);
-  context.fillStyle = '#fff';
-  context.fillText('ẢNH CHẠY THỬ', 12, 25);
+  context.translate(canvas.width/2,canvas.height/2);
+  context.rotate(-Math.PI/8);
+  context.font = '600 '+Math.max(12,side*.035)+'px system-ui';
+  context.textAlign = 'center';
+  context.fillStyle = 'rgba(255,255,255,.58)';
+  context.shadowColor = '#243645';
+  context.shadowBlur = 2;
+  const span = Math.hypot(canvas.width, canvas.height);
+  for(let y=-span; y<span; y+=Math.max(60,side*.27)){
+    for(let x=-span; x<span; x+=Math.max(140,side*.52)) context.fillText('TIMEMARK · XEM THỬ',x,y);
+  }
   context.restore();
 }
 const dbReady = new Promise((resolve, reject) => {
@@ -1435,7 +1440,7 @@ async function submitOrder() {
         input.type === 'file' ? input.files[0]?.name || '' : input.value
     }));
     const order = {id:crypto.randomUUID(), created:Date.now(), style:getWMStyle(), template:el('wmStyle').selectedOptions[0].text,
-      original, fields, base:await png(c), state:'waiting'};
+      sourceName:original.name, fields, base:await png(c), state:'waiting'};
     await transaction('readwrite', store => store.add(order));
     message('Đã lưu đơn. Mở hộp thư xử lý để trả mã cho đơn này.');
     await listOrders();
@@ -1507,6 +1512,7 @@ async function listOrders() {
       node.textContent=text || ''; card.append(node); return node;
     }
     add('h3','Đơn '+order.id.slice(0,8)+' · '+order.template);
+    add('p','Ngày đặt · '+new Date(order.created).toLocaleString('vi-VN'));
     add('p',order.state==='done' ? 'Hoàn thành · '+order.code : 'Chờ cấp mã ảnh');
     const url=URL.createObjectURL(order.result || order.base); objectURLs.push(url);
     const thumb=add('img');thumb.alt='Ảnh của đơn '+order.id.slice(0,8);thumb.src=url;
@@ -1532,8 +1538,16 @@ el('imageInput').onchange = event => {
   const file=event.target.files[0];hasGenerated=false;
   if(!file) return;
   const url=URL.createObjectURL(file);
-  img.src=url;
-  currentImage=img.decode().then(()=>{c.width=img.width;c.height=img.height;ctx.drawImage(img,0,0);}).finally(()=>URL.revokeObjectURL(url));
+  const source=new Image(); source.src=url;
+  currentImage=source.decode().then(async ()=>{
+    if(el('imageInput').files[0]!==file)return;
+    const ratio=Math.min(1,960/Math.max(source.width,source.height));
+    const small=document.createElement('canvas');
+    small.width=Math.max(1,Math.round(source.width*ratio)); small.height=Math.max(1,Math.round(source.height*ratio));
+    small.getContext('2d').drawImage(source,0,0,small.width,small.height);
+    img.src=small.toDataURL('image/jpeg',.82); await img.decode();
+    c.width=img.width;c.height=img.height;ctx.drawImage(img,0,0);
+  }).finally(()=>URL.revokeObjectURL(url));
   currentImage.catch(()=>message('Không đọc được ảnh. Vui lòng chọn JPEG hoặc PNG.'));
 };
 AttendanceTemplate.init();CompletionTemplate.init();PatrolTemplate.init();handleStyleChange();

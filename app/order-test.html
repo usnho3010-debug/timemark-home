@@ -1,0 +1,1502 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Thử đặt ảnh · Timemark</title>
+<link rel="stylesheet" href="theme-app.css?v=20261018">
+<link rel="stylesheet" href="../theme-shared.css?v=20261018">
+<link rel="stylesheet" href="responsive-ui.css?v=20261018">
+<link rel="stylesheet" href="attendance-template.css?v=20261112">
+<link rel="stylesheet" href="completion-app.css?v=20261113">
+<link rel="stylesheet" href="patrol-template.css?v=20261113b">
+<style>@font-face{font-family:TemplateOneText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900}
+body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{width:min(100% - 24px,720px);margin:20px auto 60px}header,.desk{padding:18px;background:#101e32;border-radius:16px;margin:12px 0}.desk input,.desk button,.desk a,header button{font:inherit;padding:10px;border-radius:10px}.desk a,.desk button,header button{display:inline-block;background:#8ae8db;color:#09272c;border:0;cursor:pointer}.desk img{max-width:100%;max-height:240px;display:block;margin:8px 0}.desk article{padding:16px 0;border-top:1px solid #435568}.desk input{max-width:100%;color:#101828;background:white}.style-form:not(.active),[hidden]{display:none!important}.style-form.active{display:block}#c{max-width:100%}.desk p{overflow-wrap:anywhere}.card{margin-bottom:14px}</style></head><body class="tm-app-page"><main><header><h1>Thử đặt ảnh</h1><p>Đơn thử lưu trên trình duyệt này. Hộp thư mô phỏng bước trả mã qua Telegram.</p><button type="button" onclick="document.getElementById('orders').scrollIntoView()">Đơn thử và hộp thư</button></header><section id="editor"><!-- CARD 2: WATERMARK -->
+  <div class="card app-card watermark-card">
+    <h3 class="section-title">Cấu hình Watermark</h3>
+    <label for="wmStyle">Chọn kiểu tạo ảnh</label>
+    <select id="wmStyle" class="style-select-list" onchange="handleStyleChange()" aria-label="Chọn kiểu tạo ảnh">
+      <option value="v3">Kiểu tạo ảnh 1</option>
+      <option value="attendance">Kiểu tạo ảnh 2</option>
+      <option value="completion">Kiểu tạo ảnh 3</option>
+      <option value="patrol">Kiểu tạo ảnh 4 — Tuần tra</option>
+    </select>
+
+  </div>
+    
+  <!-- CARD 1: UPLOAD -->
+  <div class="card app-card upload-card">
+    <h3 class="section-title">Nguồn ảnh</h3>
+    <label>Ảnh check-in (Bắt buộc)</label>
+    <input type="file" id="imageInput" accept="image/*">
+    <div data-template-one-only>
+    <label>Logo thương hiệu (Tùy chọn)</label>
+    <input type="file" id="logoInput" accept="image/*">
+    </div>
+  </div>
+
+  <!-- CARD 3: THÔNG TIN CHECK-IN -->
+  <div class="card app-card form-card">
+    <h3 class="section-title">Thông tin Check-in</h3>
+    <div class="quick-tool-row">
+      <button onclick="setNow()" class="btn-secondary">Lấy giờ thực tế</button>
+      <button onclick="getGPS()" class="btn-secondary">Lấy vị trí GPS</button>
+    </div>
+
+    <div id="formPremium" class="style-form active">
+      <div class="infoGrid">
+        <div><label>Giờ</label><input id="time" placeholder="VD: 13:50"></div>
+        <div><label>Ngày</label><input id="date" placeholder="10 Tháng 3, 2026"></div>
+        <div><label>Thứ</label><input id="weekday" placeholder="Thứ Ba"></div>
+        <div class="fullRow"><label>Địa chỉ</label><textarea id="address" placeholder="Nhập địa chỉ"></textarea></div>
+        <div class="fullRow"><label>Công ty</label><input id="company" placeholder="Nhập tên công ty"></div>
+        <div class="fullRow"><label>Họ tên</label><textarea id="fullname" placeholder="Nhập Họ tên"></textarea></div>
+        <div class="fullRow note-control">
+          <button id="addNoteBtn" class="note-add-btn" type="button" onclick="showExtraNote()">+ Thêm ghi chú</button>
+          <div id="extraNoteWrap" class="extra-note-wrap">
+            <label>Ghi chú thêm</label>
+            <textarea id="extraNote" placeholder="VD: Chức vụ: Giám đốc"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="formAttendance" class="style-form">
+      <h4 class="attendance-heading">Chỉnh sửa mẫu 2</h4>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleLogo" aria-label="Bật logo mẫu 2"><span></span></label><label for="attendanceToggleLogo">Logo<small id="attendanceLogoSummary">Chưa chọn logo</small></label></div>
+      <div id="attendanceLogoFields" class="attendance-fields" hidden><label>Ảnh logo<input type="file" id="attendanceLogoInput" accept="image/*"></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleTitle" aria-label="Bật tiêu đề mẫu 2" checked><span></span></label><label for="attendanceToggleTitle">Tiêu đề</label></div>
+      <div id="attendanceTitleFields" class="attendance-fields"><label>Nội dung tiêu đề<input id="attendanceLabel" value="Điểm danh" maxlength="80"></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleArt" aria-label="Bật kiểu chữ nghệ thuật mẫu 2"><span></span></label><label for="attendanceToggleArt">Kiểu chữ nghệ thuật</label></div>
+      <div id="attendanceArtFields" class="attendance-fields" hidden><label>Kiểu chữ tiêu đề<select id="attendanceArtStyle"><option value="gothic">Chữ cao, đậm</option><option value="italic">Chữ nghiêng</option></select></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleTags" aria-label="Bật thẻ mẫu 2"><span></span></label><label for="attendanceToggleTags">Thẻ</label></div>
+      <div id="attendanceTagsFields" class="attendance-fields" hidden><label>Nội dung thẻ<textarea id="attendanceTags" placeholder="VD: Công trình A · Ca sáng"></textarea></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleTime" aria-label="Bật thời gian mẫu 2" checked><span></span></label><label for="attendanceToggleTime">Thời gian</label></div>
+      <div id="attendanceTimeFields" class="attendance-fields"><div class="attendance-pair"><label>Giờ<input id="attendanceTime" placeholder="15:07" inputmode="text"></label><label>Thứ<input id="attendanceWeekday" placeholder="Thứ Năm"></label></div><label>Ngày<input id="attendanceDate" placeholder="12 Tháng 11, 2026"></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleAddress" aria-label="Bật vị trí mẫu 2" checked><span></span></label><label for="attendanceToggleAddress">Vị trí</label></div>
+      <div id="attendanceAddressFields" class="attendance-fields"><label>Địa chỉ<textarea id="attendanceAddress" placeholder="Nhập địa chỉ điểm danh"></textarea></label></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleCoordinates" aria-label="Bật tọa độ mẫu 2"><span></span></label><label for="attendanceToggleCoordinates">Tọa độ</label></div>
+      <div id="attendanceCoordinatesFields" class="attendance-fields" hidden><div class="attendance-pair"><label>Vĩ độ<input id="attendanceLatitude" inputmode="decimal" placeholder="10.000000"></label><label>Kinh độ<input id="attendanceLongitude" inputmode="decimal" placeholder="105.000000"></label></div></div>
+      <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleMap" aria-label="Bật bản đồ mẫu 2"><span></span></label><label for="attendanceToggleMap">Bản đồ<small id="attendanceMapSummary">Chưa chọn ảnh bản đồ</small></label></div>
+      <div id="attendanceMapFields" class="attendance-fields" hidden><label>Ảnh bản đồ<input type="file" id="attendanceMapInput" accept="image/*"></label><p class="attendance-help">Chọn ảnh bản đồ của vị trí muốn hiển thị. Ảnh được đặt ở góc trên trái; giữ thông tin nguồn bản đồ trong ảnh.</p></div>
+      <details class="attendance-extra"><summary>Thành phần phụ của mẫu 2</summary>
+        <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleVertical" aria-label="Bật mã ảnh mẫu 2" checked><span></span></label><label for="attendanceToggleVertical">Mã ảnh</label></div>
+        <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleBrand" aria-label="Bật thương hiệu mẫu 2" checked><span></span></label><label for="attendanceToggleBrand">Thương hiệu</label></div>
+        <div class="attendance-row"><label class="attendance-switch"><input type="checkbox" id="attendanceToggleCommitment" aria-label="Bật dòng cam kết mẫu 2" checked><span></span></label><label for="attendanceToggleCommitment">Dòng cam kết</label></div>
+        <label class="attendance-color">Màu nhấn<input type="color" id="attendanceColor" value="#ffc533"></label>
+      </details>
+      <div class="attendance-actions"><button type="button" id="attendanceChooseTemplate" class="btn-secondary">Mẫu</button><button type="button" id="attendanceDone">Xong</button></div>
+      <p id="attendanceStatus" role="status" aria-live="polite"></p>
+    </div>
+    <div id="formCompletion" class="style-form">
+      <h4 class="completion-heading">Chỉnh sửa mẫu 3</h4>
+      <div id="cpFields"></div>
+      <details class="completion-extra"><summary>Thành phần phụ của mẫu 3</summary>
+        <div id="cpExtras"></div>
+        <label class="completion-color">Màu khung giờ<input id="cpColor" type="color" value="#00c933"></label>
+        <label class="completion-color">Màu đường dọc<input id="cpLineColor" type="color" value="#ffc400"></label>
+      </details>
+      <div id="cpCustom"></div><button type="button" id="cpAddCustom" class="btn-secondary">+ Thêm thông tin tùy chỉnh</button>
+      <div class="completion-actions"><button type="button" id="cpChooseTemplate" class="btn-secondary">Mẫu</button><button type="button" id="cpDone">Xong</button></div>
+      <p id="cpStatus" role="status" aria-live="polite"></p>
+    </div>
+    <div id="formPatrol" class="style-form">
+      <h4 class="patrol-heading">Chỉnh sửa mẫu 4 — Tuần tra</h4>
+      <div id="ptFields"></div>
+      <details class="patrol-extra"><summary>Thành phần phụ của mẫu 4</summary>
+        <div id="ptExtras"></div>
+        <label class="patrol-color">Màu nhấn<input id="ptColor" type="color" value="#fff36a"></label>
+        <label class="patrol-color">Màu nền khung<input id="ptBackground" type="color" value="#295000"></label>
+        <label>Độ đậm nền khung<input id="ptOpacity" type="range" min="0" max="100" value="70"></label>
+      </details>
+      <div class="patrol-actions"><button type="button" id="ptChooseTemplate" class="btn-secondary">Mẫu</button><button type="button" id="ptDone">Xong</button></div>
+      <p id="ptStatus" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- CARD 4: PREVIEW -->
+  <div class="card app-card preview-card">
+    <h3 class="section-title">Xem trước</h3>
+    <div class="canvas-wrap">
+      <canvas id="c" style="touch-action: none;"></canvas>
+    </div>
+  </div>
+
+  <!-- CARD 5: TÙY CHỈNH -->
+  <div class="card app-card settings-card">
+    <h3 class="section-title">Tùy chỉnh hiển thị</h3>
+    <div class="scale-control" style="margin-top: 0; margin-bottom: 16px; background: transparent; padding: 0; border: none;">
+      <label>🔍 Kích thước thông tin: <span id="scaleDisplay">100</span>%</label>
+      <input type="range" id="wmScaleSlider" min="50" max="180" value="100" oninput="updateWmScale(this.value)">
+      <span class="hint">👆 Vuốt thanh ngang để thu phóng, hoặc vuốt trực tiếp trên ảnh để di chuyển chữ.</span>
+    </div>
+
+    <div data-template-one-only>
+    <div class="template-one-logo-control">
+      <label id="templateOneLogoScaleLabel">Kích thước logo</label>
+      <div class="template-one-logo-buttons" role="group" aria-labelledby="templateOneLogoScaleLabel">
+        <button id="templateOneLogoSmaller" type="button" class="btn-secondary" onclick="adjustTemplateOneLogoScale(-10)" aria-label="Thu nhỏ logo mẫu 1">−</button>
+        <output id="templateOneLogoScaleDisplay" aria-live="polite">100%</output>
+        <button id="templateOneLogoLarger" type="button" class="btn-secondary" onclick="adjustTemplateOneLogoScale(10)" aria-label="Phóng to logo mẫu 1">+</button>
+        <button type="button" class="btn-secondary" onclick="updateTemplateOneLogoScale(100)">Đặt lại</button>
+      </div>
+    </div>
+    <button class="btnToggle" onclick="toggleAdvanced()">
+      <span class="gear">⚙️</span> Bật/tắt thành phần phụ
+    </button>
+    <div id="advancedPanel">
+      <div class="toggle-row"><label class="title">Mã ảnh</label><label class="switch"><input type="checkbox" id="toggleVertical" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Thương hiệu</label><label class="switch"><input type="checkbox" id="toggleBrand" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Logo</label><label class="switch"><input type="checkbox" id="toggleLogo" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Giờ & Ngày</label><label class="switch"><input type="checkbox" id="toggleTime" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Địa chỉ</label><label class="switch"><input type="checkbox" id="toggleAddress" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Công ty</label><label class="switch"><input type="checkbox" id="toggleCompany" checked><span class="slider"></span></label></div>
+      <div class="toggle-row"><label class="title">Họ tên</label><label class="switch"><input type="checkbox" id="toggleFullname" checked><span class="slider"></span></label></div>
+    </div>
+    </div>
+  </div>
+
+  
+<div class="desk"><button id="preview">Xem trước</button> <button id="submitOrder">Mua ảnh thử</button></div></section>
+<section class="desk" id="orders"><h2>Đơn thử</h2><label><input id="operator" type="checkbox"> Mở hộp thư xử lý (giả lập Telegram)</label><p role="status" id="msg"></p><div id="list"></div></section></main><script>
+function toggleAdvanced(){
+  const panel = document.getElementById("advancedPanel");
+  const btn = document.querySelector(".btnToggle");
+  panel.classList.toggle("open");
+  btn.classList.toggle("active");
+}
+
+function getWMStyle(){ return document.getElementById("wmStyle")?.value || "v3"; }
+
+const c=document.getElementById("c");
+const ctx=c.getContext("2d");
+
+function isOn(id){ const el=document.getElementById(id); return el?el.checked:true; }
+let img=new Image(); let logo=new Image();
+function fs(p){ return Math.round(Math.min(c.width,c.height)*p); }
+
+function generateCode(len=12){
+  const s="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  return Array.from({length:len},()=>s[Math.random()*s.length|0]).join("");
+}
+
+/* ===== DRAG & DROP STATE ===== */
+let wmX = 0;
+let wmY = 0;
+let wmScale = 1;
+let templateOneLogoScale = 1;
+let isDraggingWM = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let hasGenerated = false;
+let generatedData = {
+  time: "",
+  date: "",
+  weekday: "",
+  attendanceLabel: "",
+  address: "",
+  fullname: "",
+  extraNote: ""
+};
+
+function captureGeneratedData(){
+  if(getWMStyle() === "patrol"){
+    generatedData = PatrolTemplate.capture();
+    return;
+  }
+  if(getWMStyle() === "completion"){
+    generatedData = CompletionTemplate.capture();
+    return;
+  }
+  if(getWMStyle() === "attendance"){
+    generatedData = AttendanceTemplate.capture();
+    return;
+  }
+
+  generatedData = {
+    time: time.value.trim(),
+    date: date.value.trim(),
+    weekday: weekday.value.trim(),
+    attendanceLabel: "Điểm danh",
+    address: address.value.trim(),
+    company: document.getElementById("company").value.trim(),
+    fullname: fullname.value.trim(),
+    extraNote: document.getElementById("extraNote")?.value.trim() || ""
+  };
+}
+
+function resetGeneratedPreview(){
+  hasGenerated = false;
+  if(img.src) renderCanvas();
+}
+
+function selectWatermarkStyle(style){
+  const el = document.getElementById("wmStyle");
+  if(!el) return;
+  el.value = style;
+  handleStyleChange();
+}
+
+function handleStyleChange(){
+  const isPatrol = getWMStyle() === "patrol";
+  document.getElementById("formPatrol")?.classList.toggle("active", isPatrol);
+  const isCompletion = getWMStyle() === "completion";
+  document.getElementById("formCompletion")?.classList.toggle("active", isCompletion);
+  const isAttendance = getWMStyle() === "attendance";
+  document.getElementById("formPremium")?.classList.toggle("active", !isAttendance && !isCompletion && !isPatrol);
+  document.getElementById("formAttendance")?.classList.toggle("active", isAttendance);
+  document.querySelectorAll(".style-option").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.style === getWMStyle());
+  });
+  if(window.AttendanceTemplate){
+    AttendanceTemplate.switchStyle(getWMStyle());
+    window.CompletionTemplate?.activate(getWMStyle());
+    window.PatrolTemplate?.activate(getWMStyle());
+    if(img.src) renderCanvas();
+  }else{
+    resetGeneratedPreview();
+  }
+}
+
+function showExtraNote(){
+  document.getElementById("extraNoteWrap").classList.add("show");
+  document.getElementById("addNoteBtn").style.display = "none";
+  document.getElementById("extraNote").focus();
+}
+
+function adjustTemplateOneLogoScale(delta){
+  updateTemplateOneLogoScale(Math.round(templateOneLogoScale * 100) + delta);
+}
+
+function updateTemplateOneLogoScale(value){
+  if(getWMStyle() !== 'v3') return;
+  const number = Number(value);
+  if(!Number.isFinite(number)) return;
+  const percent = Math.min(300, Math.max(20, Math.round(number)));
+  templateOneLogoScale = percent / 100;
+  document.getElementById('templateOneLogoScaleDisplay').textContent = percent + '%';
+  document.getElementById('templateOneLogoSmaller').disabled = percent === 20;
+  document.getElementById('templateOneLogoLarger').disabled = percent === 300;
+  if(img.src && hasGenerated) renderCanvas();
+}
+
+function updateWmScale(val){
+  document.getElementById("scaleDisplay").innerText = val;
+  wmScale = parseInt(val) / 100;
+  if(img.src) renderCanvas();
+}
+
+c.addEventListener("pointerdown", (e) => {
+  if(!img.src || !hasGenerated) return;
+  isDraggingWM = true;
+  const rect = c.getBoundingClientRect();
+  const scaleX = c.width / rect.width;
+  const scaleY = c.height / rect.height;
+  const cx = (e.clientX - rect.left) * scaleX;
+  const cy = (e.clientY - rect.top) * scaleY;
+  dragStartX = cx - wmX;
+  dragStartY = cy - wmY;
+  c.style.cursor = "grabbing";
+});
+
+window.addEventListener("pointermove", (e) => {
+  if(!isDraggingWM) return;
+  e.preventDefault(); 
+  const rect = c.getBoundingClientRect();
+  const scaleX = c.width / rect.width;
+  const scaleY = c.height / rect.height;
+  const cx = (e.clientX - rect.left) * scaleX;
+  const cy = (e.clientY - rect.top) * scaleY;
+  wmX = cx - dragStartX;
+  wmY = cy - dragStartY;
+  renderCanvas();
+}, { passive: false });
+
+window.addEventListener("pointerup", () => {
+  isDraggingWM = false;
+  c.style.cursor = "default";
+});
+
+/* MÀI GÓC & VẼ SHIELD */
+function drawRoundedImage(ctx,img,x,y,w,h,r){
+  ctx.save(); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath(); ctx.clip(); ctx.drawImage(img,x,y,w,h); ctx.restore();
+}
+
+function drawShield(ctx,x,y,size,color){
+  ctx.save(); ctx.translate(x,y); ctx.strokeStyle=color; ctx.lineWidth=size*0.08;
+  ctx.lineCap="round"; ctx.lineJoin="round";
+  ctx.beginPath(); ctx.moveTo(0,-size*0.45); ctx.lineTo(size*0.38,-size*0.25); ctx.lineTo(size*0.30,size*0.22);
+  ctx.quadraticCurveTo(0,size*0.45,-size*0.30,size*0.22); ctx.lineTo(-size*0.38,-size*0.25); ctx.closePath(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-size*0.14,size*0.02); ctx.lineTo(-size*0.02,size*0.14); ctx.lineTo(size*0.18,-size*0.10); ctx.stroke();
+  ctx.restore();
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath(); ctx.fill();
+}
+
+/* SHADOW HELPER TẠO BÓNG MỜ ĐEN */
+function setShadow(ctx, blur, offset, color="rgba(0,0,0,0.8)"){
+  ctx.shadowColor = color;
+  ctx.shadowBlur = blur;
+  ctx.shadowOffsetX = offset;
+  ctx.shadowOffsetY = offset;
+}
+function resetShadow(ctx){
+  ctx.shadowColor = "transparent";
+}
+
+function wrapManualLines(text, maxWidth){
+  return String(text || "").split(/\r?\n/).flatMap(part => {
+    const words = part.trim().split(/\s+/).filter(Boolean);
+    if(!words.length) return [""];
+
+    const lines = [];
+    let line = "";
+    words.forEach(word => {
+      const testLine = line ? `${line} ${word}` : word;
+      if(ctx.measureText(testLine).width > maxWidth && line){
+        lines.push(line);
+        line = word;
+      }else{
+        line = testLine;
+      }
+    });
+    lines.push(line);
+    return lines;
+  });
+}
+
+function drawTextLines(lines, leftX, startY, lineHeight){
+  let y = startY;
+  lines.forEach(line => {
+    if(line) ctx.fillText(line, leftX, y);
+    y += lineHeight;
+  });
+  return y;
+}
+
+imageInput.onchange=e=>{
+  hasGenerated = false;
+  const r=new FileReader();
+  r.onload=()=>img.src=r.result;
+  r.readAsDataURL(e.target.files[0]);
+};
+logoInput.onchange=e=>{
+  hasGenerated = false;
+  const r=new FileReader();
+  r.onload=()=>{ logo.src=r.result; renderCanvas(); };
+  r.readAsDataURL(e.target.files[0]);
+};
+
+img.onload=()=>{ c.width=img.width; c.height=img.height; ctx.drawImage(img,0,0); };
+
+function setNow(){
+  if(getWMStyle() === "patrol") return PatrolTemplate.now();
+  if(getWMStyle() === "completion") return CompletionTemplate.now();
+  if(getWMStyle() === "attendance") return AttendanceTemplate.now();
+  const d=new Date();
+  const timeText = d.toLocaleTimeString("vi-VN",{hour:'2-digit',minute:'2-digit'});
+  const day=String(d.getDate()).padStart(2,'0');
+  const month=d.getMonth()+1;
+  const year=d.getFullYear();
+  const dateText = `${day} Tháng ${month}, ${year}`;
+  const weekdayText = d.toLocaleDateString("vi-VN",{weekday:'long'});
+
+  if(getWMStyle() === "attendance"){
+    document.getElementById("attendanceTime").value = timeText;
+    document.getElementById("attendanceDate").value = dateText;
+    document.getElementById("attendanceWeekday").value = weekdayText;
+  }else{
+    time.value = timeText;
+    date.value = dateText;
+    weekday.value = weekdayText;
+  }
+  resetGeneratedPreview();
+}
+
+function getGPS(){
+  if(getWMStyle() === "patrol") return PatrolTemplate.gps();
+  if(getWMStyle() === "completion") return CompletionTemplate.gps();
+  if(getWMStyle() === "attendance") return AttendanceTemplate.gps();
+  if(!navigator.geolocation){ alert("Thiết bị không hỗ trợ GPS"); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const lat = pos.coords.latitude.toFixed(6); const lng = pos.coords.longitude.toFixed(6);
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`, { headers:{ "Accept":"application/json" } })
+      .then(r=>r.json())
+      .then(data=>{
+        if(data.address){
+          const a = data.address;
+          const xa = a.village || a.suburb || a.hamlet || a.town || "";
+          const huyen = a.county || a.district || a.city || "";
+          const tinh = a.state || a.region || "";
+          const addressText = [ xa ? `X. ${xa}` : "", huyen ? `H. ${huyen}` : "", tinh ].filter(Boolean).join(", ");
+          if(getWMStyle() === "attendance") document.getElementById("attendanceAddress").value = addressText;
+          else address.value = addressText;
+        }else{
+          const fallbackAddress = `${lat}, ${lng}`;
+          if(getWMStyle() === "attendance") document.getElementById("attendanceAddress").value = fallbackAddress;
+          else address.value = fallbackAddress;
+        }
+        resetGeneratedPreview();
+      }).catch(err=>{
+        const fallbackAddress = `${lat}, ${lng}`;
+        if(getWMStyle() === "attendance") document.getElementById("attendanceAddress").value = fallbackAddress;
+        else address.value = fallbackAddress;
+        resetGeneratedPreview();
+      });
+    },
+    err=>{ alert("Không lấy được GPS: " + err.message); },
+    { enableHighAccuracy:true, timeout:15000, maximumAge:0 }
+  );
+}
+
+let referenceClockPromise;
+function loadReferenceClock(){
+  if(!referenceClockPromise){
+    const face = new FontFace('TimemarkReferenceClock', 'url(./reference-clock.ttf?v=20261016)');
+    referenceClockPromise = face.load().then(font => { document.fonts.add(font); return font; }).catch(error => { referenceClockPromise = null; throw error; });
+  }
+  return referenceClockPromise;
+}
+async function ensureWatermarkFont(){
+  if(getWMStyle() === "patrol") return PatrolTemplate.ready();
+  if(getWMStyle() === "completion") return CompletionTemplate.ready();
+  if(getWMStyle() === 'v3') await document.fonts.load('400 38px TemplateOneText');
+  if(getWMStyle() !== 'attendance') await loadReferenceClock();
+  else await AttendanceTemplate.ready();
+}
+async function renderCanvas(){
+  if(!img.src) return;
+  try { await ensureWatermarkFont(); } catch(error){ return; }
+  await document.fonts.ready;
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.drawImage(img,0,0);
+  if(hasGenerated){
+    if(getWMStyle() === "patrol") PatrolTemplate.draw(ctx, c, generatedData, {x: wmX, y: wmY, scale: wmScale});
+    else if(getWMStyle() === "completion") CompletionTemplate.draw(ctx, c, generatedData, {x: wmX, y: wmY, scale: wmScale});
+    else if(getWMStyle() === "attendance") drawStyleAttendance();
+    else drawStyleV3();
+    markTest(c,ctx);
+  }
+}
+function drawStyleV3(){
+  if(isOn("toggleVertical")) drawVerticalWatermark(fs(0.04));
+  if(isOn("toggleBrand")) drawBrandMark(fs(0.04));
+  const unit=Math.min(c.width,c.height)/1152, W=c.width/unit,H=c.height/unit;
+  const d=generatedData, font=()=>{ctx.font='400 38px TemplateOneText';ctx.textBaseline='alphabetic';};
+  ctx.save();
+  try {
+    font();
+    const wrap=value=>{const lines=[];for(const paragraph of String(value||'').split(/\n/)){let line='';for(const word of paragraph.split(/\s+/).filter(Boolean)){if(line&&ctx.measureText(line+' '+word).width>W*.66){lines.push(line);line=word;}else line+=(line?' ':'')+word;}if(line)lines.push(line);}return lines;};
+    const address=isOn('toggleAddress')?wrap(d.address):[];
+    const info=[];
+    if(isOn('toggleCompany')&&d.company)info.push(...wrap('Công ty: '+d.company));
+    if(isOn('toggleFullname')&&d.fullname)info.push(...wrap('Họ tên: '+d.fullname));
+    if(isOn('toggleFullname')&&d.extraNote)info.push(...wrap(d.extraNote));
+    const hasLogo=logo.src&&isOn('toggleLogo'),hasTime=isOn('toggleTime')&&d.time;
+    // Scale only the logo; retain the original helper and fixed gap above the clock.
+    const logoHeight=fs(0.085)*templateOneLogoScale/unit;
+    const logoBlockHeight=hasLogo?(fs(0.085)*templateOneLogoScale+fs(0.002)+fs(0.016))/unit:0;
+    const infoH=info.length?info.length*60+14:0;
+    const height=logoBlockHeight+(hasTime?124:0)+(address.length?address.length*46+4:0)+(infoH?infoH+4:0);
+    ctx.scale(unit,unit);ctx.translate(28+wmX/unit,H-(info.length?36:18)+wmY/unit);ctx.scale(wmScale,wmScale);ctx.translate(0,-height);
+    let y=0;
+    if(hasLogo){ctx.save();ctx.scale(templateOneLogoScale/unit,templateOneLogoScale/unit);drawWatermarkLogo(0,(y+logoHeight)*unit/templateOneLogoScale+fs(0.002));ctx.restore();y+=logoBlockHeight;}
+    const text=(value,x,top,size=38)=>{ctx.font='400 '+size+'px TemplateOneText';ctx.fillStyle='#fff';ctx.textBaseline='alphabetic';ctx.fillText(value,x,top+ctx.measureText(value).actualBoundingBoxAscent);};
+    if(hasTime){ctx.font='400 100px TimemarkReferenceClock';const m=ctx.measureText(d.time);ctx.save();ctx.translate(0,y);ctx.scale(190/m.width,104/(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent));ctx.fillStyle='#fff';ctx.strokeStyle='#333';ctx.lineWidth=1.6;ctx.strokeText(d.time,0,m.actualBoundingBoxAscent);ctx.fillText(d.time,0,m.actualBoundingBoxAscent);ctx.restore();ctx.fillStyle='#ffc533';ctx.fillRect(222,y,5,104);text(d.date||'',249,y,38);text(d.weekday||'',249,y+72,38);y+=124;}
+    for(const line of address){text(line,0,y);y+=46;}
+    if(address.length)y+=4;
+    if(info.length){y+=4;font();const width=Math.min(W-56,Math.max(...info.map(t=>ctx.measureText(t).width))+70);const grad=ctx.createLinearGradient(6,0,6+width,0);grad.addColorStop(0,'rgba(255,255,255,.28)');grad.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=grad;ctx.beginPath();ctx.roundRect(6,y,width,infoH,10);ctx.fill();for(let i=0;i<info.length;i++)text(info[i],22,y+16+i*60);}
+  } finally {ctx.restore();}
+}
+
+function drawStyleAttendance(){
+  AttendanceTemplate.draw(ctx, c, generatedData, {x: wmX, y: wmY, scale: wmScale});
+}
+
+/* ==================================================
+   CÁC HÀM HELPER VẼ TỪNG THÀNH PHẦN (GIỮ NGUYÊN LOGIC)
+=================================================== */
+function drawVerticalWatermark(pad){
+  const unit=Math.min(c.width,c.height)/1152;
+  // Keep the same identifier while dragging, zooming or exporting this image.
+  if (!generatedData.photoCode) return;
+  ctx.save();
+  ctx.translate(c.width-17*unit,c.height*(889/1536));
+  ctx.rotate(-Math.PI/2);
+  ctx.font=`400 ${28*unit}px Arial`;
+  ctx.fillStyle='#fff';ctx.textAlign='left';ctx.textBaseline='middle';
+  ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=1.5*unit;ctx.shadowOffsetX=unit;ctx.shadowOffsetY=unit;
+  drawShield(ctx,-17*unit,0,18*unit,'#fff');
+  ctx.fillText(`${generatedData.photoCode}  Timemark Verified`,0,0,466*unit);
+  ctx.restore();
+}
+
+function drawBrandMark(pad){
+  const unit=Math.min(c.width,c.height)/1152;
+  const right=c.width-17*unit;
+  ctx.save();
+  ctx.textAlign='right';ctx.textBaseline='alphabetic';
+  ctx.shadowColor='rgba(0,0,0,.38)';ctx.shadowBlur=2*unit;ctx.shadowOffsetX=unit;ctx.shadowOffsetY=unit;
+  ctx.font=`700 ${36*unit}px Arial`;
+  ctx.fillStyle='#fff';ctx.fillText('mark',right,c.height-52*unit);
+  const markWidth=ctx.measureText('mark').width;
+  ctx.fillStyle='#ffc533';ctx.fillText('Time',right-markWidth,c.height-52*unit);
+  ctx.font=`400 ${25*unit}px TemplateOneText`;
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  ctx.fillText('100% Chân thực',right,c.height-21*unit);
+  ctx.restore();
+}
+
+function drawWatermarkLogo(leftX, y){
+  const lh = fs(0.085);
+  const ratio = logo.width/logo.height;
+  ctx.fillStyle = "#ffffff";
+  roundRect(ctx, leftX, y - lh - fs(0.002), lh * ratio, lh, fs(0.012));
+  drawRoundedImage(ctx, logo, leftX, y - lh - fs(0.002), lh * ratio, lh, fs(0.012));
+  return y + fs(0.016); // Trả về y mới (giảm 20% khoảng cách)
+}
+
+function drawWatermarkTime(leftX, y){
+  const timeHeight = fs(0.045) * 1.95 * 0.9;
+  const fontSize = timeHeight * 0.80 / 1.03;
+  ctx.font = `400 ${fontSize}px "TimemarkReferenceClock"`;
+  ctx.fillStyle = "#FFFFFF";
+  ctx.textBaseline = "alphabetic";
+  const baseYTime = y + timeHeight * 0.82;
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,.65)';
+  ctx.shadowBlur = fontSize * 0.02;
+  ctx.shadowOffsetY = fontSize * 0.01;
+  ctx.lineWidth = fontSize * 0.016;
+  ctx.strokeStyle = '#333';
+  ctx.strokeText(generatedData.time, leftX, baseYTime);
+  ctx.fillText(generatedData.time, leftX, baseYTime);
+  ctx.restore();
+  const timeMetrics = ctx.measureText(generatedData.time);
+  const timeW = timeMetrics.actualBoundingBoxRight ?? timeMetrics.width;
+  const lineX = leftX + timeW + fontSize * 0.32;
+
+  ctx.strokeStyle = "#FFC107";
+  ctx.lineWidth = fs(0.004);
+  
+  // 📏 Căn chỉnh thanh kẻ dọc bằng với độ cao của Giờ
+  const lineTop = y + timeHeight * 0.02; // Bám theo chiều cao Giờ sau khi giảm 10%
+  const lineHeight = timeHeight * 0.80; // Giữ logic căn hiện tại theo chiều cao Giờ
+  ctx.beginPath(); ctx.moveTo(lineX, lineTop); ctx.lineTo(lineX, lineTop + lineHeight); ctx.stroke();
+
+  const rightX = lineX + fontSize * 0.28;
+  const dateFont = fs(0.04) * 0.765 * 0.72; // Giảm thêm 10%
+  ctx.font = `${dateFont}px Arial`;
+  
+  setShadow(ctx, fs(0.008), fs(0.002));
+  
+  ctx.textBaseline = "top"; // Căn Ngày theo mép trên thanh dọc
+  ctx.fillText(generatedData.date, rightX, lineTop);
+  
+  ctx.textBaseline = "alphabetic"; // Căn Thứ theo mép dưới thanh dọc (bằng baseline Giờ)
+  ctx.fillText(generatedData.weekday, rightX, lineTop + lineHeight);
+  
+  resetShadow(ctx);
+
+  return y + timeHeight + fs(0.016); // Giảm 20% khoảng cách
+}
+
+function drawWatermarkAddress(leftX, y){
+  const addressFont = fs(0.028) * 0.85; // Giảm 15%
+  ctx.font = `${addressFont}px Arial`;
+  ctx.fillStyle = "rgba(255,255,255,1)";
+  setShadow(ctx, fs(0.008), fs(0.002));
+
+  const maxTextWidth = c.width * 0.5; 
+  const lineHeight = fs(0.031);
+  const startY = y + fs(0.004);
+  const lines = wrapManualLines(generatedData.address, maxTextWidth);
+  const nextY = drawTextLines(lines, leftX, startY, lineHeight);
+
+  resetShadow(ctx);
+  
+  return nextY + fs(0.012);
+}
+
+function drawWatermarkFullName(leftX, y){
+  const nameVal = generatedData.fullname;
+  const noteVal = generatedData.extraNote;
+  if(!nameVal && !noteVal) return y;
+
+  const nameFont = fs(0.028) * 0.85; // Giảm 15%
+  ctx.font = `${nameFont}px Arial`;
+  const maxTextWidth = c.width * 0.5;
+  const lines = [];
+
+  if(nameVal){
+    lines.push(...wrapManualLines(nameVal, maxTextWidth).map((line, index) => index === 0 ? "Họ tên: " + line : line));
+  }
+
+  if(noteVal){
+    lines.push(...wrapManualLines(noteVal, maxTextWidth));
+  }
+
+  const textW = Math.max(...lines.map(line => ctx.measureText(line).width));
+  const boxPad = fs(0.017); // Giảm padding tương ứng
+  const lineHeight = fs(0.031);
+  const boxTopPad = fs(0.012);
+  const boxBottomPad = fs(0.012);
+  const boxHeight = lineHeight * lines.length + boxTopPad + boxBottomPad;
+
+  // Đặt tọa độ nền bắt đầu đúng từ mép trái (leftX) để thẳng hàng tuyệt đối với các thông tin trên
+  const boxX = leftX;
+  const boxY = y - boxTopPad - fs(0.022);
+  const boxW = textW + boxPad * 4; // Kéo dài thêm dải màu ra sau một chút để hiệu ứng mờ dần đẹp hơn
+
+  // Tạo gradient mờ dần từ trái (0.25) sang phải (0)
+  const grad = ctx.createLinearGradient(boxX, 0, boxX + boxW, 0);
+  grad.addColorStop(0, "rgba(255,255,255,0.25)");
+  grad.addColorStop(1, "rgba(255,255,255,0)");
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(boxX, boxY, boxW, boxHeight); // Dùng fillRect thay vì roundRect để bỏ bo góc
+
+  ctx.fillStyle = "#FFFFFF";
+  setShadow(ctx, fs(0.008), fs(0.002));
+  const nextY = drawTextLines(lines, leftX, y, lineHeight);
+  resetShadow(ctx);
+
+  return nextY + fs(0.012);
+}
+
+
+/* Template 2 owns its inputs, assets, switches and drawing. Template 1 is not used here. */
+(() => {
+  'use strict';
+  const scriptURL = new URL('.', document.baseURI);
+  const byId = id => document.getElementById(id);
+  const value = id => (byId(id)?.value || '').trim();
+  const checked = id => !!byId(id)?.checked;
+  let logoImage = null;
+  let mapImage = null;
+  let fontsReady;
+  let activeStyle = null;
+  let imageRevision = null;
+  let gpsRequest = 0;
+  const snapshots = new Map();
+  const pendingAssets = new Map();
+  const assetRevisions = new Map();
+  const flags = ['Logo', 'Title', 'Art', 'Tags', 'Time', 'Address', 'Coordinates', 'Map', 'Vertical', 'Brand', 'Commitment'];
+
+  async function ready() {
+    if (!fontsReady) {
+      fontsReady = Promise.all([
+        ['AttendanceText', 'RobotoCondensed.ttf'], ['AttendanceClock', 'Oswald.ttf']
+      ].map(async ([family, file]) => {
+        const font = new FontFace(family, `url("${new URL('attendance-assets/' + file, scriptURL)}")`, {weight: '100 900'});
+        document.fonts.add(await font.load());
+      })).catch(error => { fontsReady = null; throw error; });
+    }
+    await fontsReady;
+    await Promise.all(pendingAssets.values());
+  }
+
+  function status(text, error = false) {
+    const el = byId('attendanceStatus');
+    el.textContent = text;
+    el.classList.toggle('is-error', error);
+  }
+
+  function syncControls() {
+    for (const name of flags) {
+      const panel = byId('attendance' + name + 'Fields');
+      if (panel) panel.hidden = !checked('attendanceToggle' + name);
+    }
+    byId('attendanceLogoSummary').textContent = logoImage ? 'Đã thêm' : 'Chưa chọn logo';
+    byId('attendanceMapSummary').textContent = mapImage ? 'Đã thêm' : 'Chưa chọn ảnh bản đồ';
+  }
+
+  function changed() {
+    syncControls();
+    if (getWMStyle() !== 'attendance') {
+      const saved = snapshots.get('attendance');
+      if (saved?.hasGenerated) saved.data = capture(saved.data.photoCode);
+      return;
+    }
+    if (hasGenerated) {
+      generatedData = capture(generatedData.photoCode);
+      renderCanvas();
+    }
+  }
+
+  function newPhotoCode() {
+    const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const bytes = new Uint8Array(12);
+    crypto.getRandomValues(bytes);
+    return Array.from(bytes, n => alphabet[n % alphabet.length]).join('');
+  }
+
+  function capture(photoCode) {
+    const switches = {};
+    for (const name of flags) switches[name.toLowerCase()] = checked('attendanceToggle' + name);
+    return {
+      time: value('attendanceTime'), date: value('attendanceDate'), weekday: value('attendanceWeekday'),
+      attendanceLabel: value('attendanceLabel') || 'Điểm danh', address: value('attendanceAddress'),
+      tags: value('attendanceTags'), latitude: value('attendanceLatitude'), longitude: value('attendanceLongitude'),
+      artStyle: value('attendanceArtStyle'), accent: value('attendanceColor') || '#ffc533',
+      switches, photoCode: photoCode || '', fullname: '', extraNote: ''
+    };
+  }
+
+  function saveHostState() {
+    return {x: wmX, y: wmY, scale: wmScale, hasGenerated, data: generatedData};
+  }
+
+  function switchStyle(nextStyle) {
+    if (imageRevision !== img.src) {
+      snapshots.clear();
+      imageRevision = img.src;
+    }
+    if (activeStyle) snapshots.set(activeStyle, saveHostState());
+    if (activeStyle && activeStyle !== nextStyle) {
+      const saved = snapshots.get(nextStyle);
+      wmX = saved?.x || 0; wmY = saved?.y || 0; wmScale = saved?.scale || 1;
+      hasGenerated = !!saved?.hasGenerated;
+      generatedData = saved?.data || {};
+      byId('wmScaleSlider').value = Math.round(wmScale * 100);
+      byId('scaleDisplay').textContent = Math.round(wmScale * 100);
+      isDraggingWM = false;
+    }
+    activeStyle = nextStyle;
+    const attendance = nextStyle === 'attendance';
+    document.querySelectorAll('[data-template-one-only]').forEach(el => { el.hidden = attendance; });
+    document.body.classList.toggle('attendance-active', attendance);
+    syncControls();
+  }
+
+  async function readAsset(kind, file) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { status('Vui lòng chọn một tệp ảnh.', true); return; }
+    const revision = (assetRevisions.get(kind) || 0) + 1;
+    assetRevisions.set(kind, revision);
+    const job = (async () => {
+      const url = URL.createObjectURL(file);
+      try {
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+        if (assetRevisions.get(kind) !== revision) return;
+        if (kind === 'logo') logoImage = image; else mapImage = image;
+        byId(kind === 'logo' ? 'attendanceToggleLogo' : 'attendanceToggleMap').checked = true;
+        status(kind === 'logo' ? 'Đã thêm logo cho mẫu 2.' : 'Đã thêm bản đồ cho mẫu 2.');
+      } catch (_) {
+        status('Không đọc được ảnh. Vui lòng thử ảnh PNG hoặc JPEG.', true);
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    })();
+    pendingAssets.set(kind, job);
+    await job;
+    if (pendingAssets.get(kind) === job) pendingAssets.delete(kind);
+    changed();
+  }
+
+  function now() {
+    const d = new Date();
+    byId('attendanceTime').value = d.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+    byId('attendanceDate').value = `${d.getDate()} Tháng ${d.getMonth() + 1}, ${d.getFullYear()}`;
+    const weekday = d.toLocaleDateString('vi-VN', {weekday: 'long'});
+    byId('attendanceWeekday').value = weekday.replace(/(^|\s)\S/g, c => c.toLocaleUpperCase('vi-VN'));
+    changed();
+  }
+
+  function gps() {
+    if (!navigator.geolocation) { status('Thiết bị không hỗ trợ GPS.', true); return; }
+    const request = ++gpsRequest;
+    const oldAddress = value('attendanceAddress');
+    status('Đang lấy vị trí cho mẫu 2…');
+    navigator.geolocation.getCurrentPosition(async position => {
+      if (request !== gpsRequest) return;
+      const lat = position.coords.latitude.toFixed(6);
+      const lng = position.coords.longitude.toFixed(6);
+      byId('attendanceLatitude').value = lat;
+      byId('attendanceLongitude').value = lng;
+      changed();
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=vi`, {headers: {Accept: 'application/json'}});
+        if (!response.ok) throw new Error('geocode');
+        const result = await response.json();
+        if (request !== gpsRequest) return;
+        // Do not overwrite an address the user edited while GPS was loading.
+        if (value('attendanceAddress') === oldAddress) byId('attendanceAddress').value = result.display_name || `${lat}, ${lng}`;
+        status('Đã lấy tọa độ và địa chỉ cho mẫu 2.');
+      } catch (_) {
+        if (request !== gpsRequest) return;
+        if (!value('attendanceAddress')) byId('attendanceAddress').value = `${lat}, ${lng}`;
+        status('Đã lấy tọa độ; chưa lấy được tên địa chỉ.');
+      }
+      changed();
+    }, error => {
+      if (request === gpsRequest) status('Không lấy được GPS: ' + error.message, true);
+    }, {enableHighAccuracy: true, timeout: 15000, maximumAge: 0});
+  }
+
+  function roundedPath(ctx, x, y, w, h, radius) {
+    const r = Math.min(radius, w / 2, h / 2);
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+
+  function text(ctx, content, x, top, font, color, maxWidth = Infinity) {
+    ctx.font = font; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    const m = ctx.measureText(content);
+    const left = m.actualBoundingBoxLeft || 0;
+    const right = m.actualBoundingBoxRight || m.width;
+    const sx = Math.min(1, maxWidth / Math.max(1, left + right));
+    ctx.save(); ctx.translate(x, top); ctx.scale(sx, 1); ctx.fillStyle = color;
+    ctx.fillText(content, left, m.actualBoundingBoxAscent || parseFloat(font)); ctx.restore();
+  }
+
+  function wrap(ctx, content, maxWidth) {
+    const lines = [];
+    for (const paragraph of String(content).split(/\r?\n/)) {
+      let line = '';
+      for (const word of paragraph.trim().split(/\s+/).filter(Boolean)) {
+        const test = line ? line + ' ' + word : word;
+        if (ctx.measureText(test).width <= maxWidth) { line = test; continue; }
+        if (line) { lines.push(line); line = ''; }
+        // Long URLs/words also stay inside the photo.
+        for (const character of word) {
+          if (line && ctx.measureText(line + character).width > maxWidth) { lines.push(line); line = ''; }
+          line += character;
+        }
+      }
+      lines.push(line);
+    }
+    return lines;
+  }
+
+  function shield(ctx, x, y, size, color) {
+    ctx.save(); ctx.translate(x, y); ctx.strokeStyle = color; ctx.lineWidth = size * .075;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(0, -size * .45); ctx.lineTo(size * .37, -size * .28);
+    ctx.lineTo(size * .34, size * .13); ctx.quadraticCurveTo(size * .30, size * .35, 0, size * .49);
+    ctx.quadraticCurveTo(-size * .30, size * .35, -size * .34, size * .13);
+    ctx.lineTo(-size * .37, -size * .28); ctx.closePath(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-size * .16, size * .02); ctx.lineTo(-size * .03, size * .15);
+    ctx.lineTo(size * .19, -size * .13); ctx.stroke(); ctx.restore();
+  }
+
+  function pattern(ctx, x, y, w, h) {
+    ctx.save(); roundedPath(ctx, x, y, w, h, 28); ctx.clip();
+    ctx.fillStyle = '#fff'; ctx.fillRect(x, y, w, h);
+    for (let family = 0; family < 2; family++) {
+      ctx.strokeStyle = family ? 'rgba(163,119,181,.14)' : 'rgba(85,164,204,.24)';
+      ctx.lineWidth = 2;
+      for (let offset = -w; offset <= w * 2; offset += 23) {
+        ctx.beginPath();
+        for (let t = 0; t <= 1.001; t += .025) {
+          const px = x + offset + (family ? -1 : 1) * (h * t + h * .9 * Math.sin(t * Math.PI));
+          const py = y + h * t;
+          if (t === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  function badge(ctx, data, left, bottom, availableWidth) {
+    const f = data.switches;
+    const withLogo = f.logo && logoImage;
+    if (!f.title && !f.time && !withLogo) return 0;
+    const h = withLogo ? 314 : 212;
+    const y = bottom - h;
+    const titleFont = f.art && data.artStyle === 'gothic' ? '600 122px AttendanceClock' : `${f.art && data.artStyle === 'italic' ? 'italic ' : ''}700 122px AttendanceText`;
+    ctx.font = titleFont;
+    const titleSpan = f.title ? Math.max(180, Math.min(920, ctx.measureText(data.attendanceLabel).width + 94)) : 0;
+    const timeSpan = f.time ? (withLogo ? 542 : 462) : 0;
+    const logoSpan = withLogo ? 510 : 0;
+    const width = Math.max(90, titleSpan + timeSpan + logoSpan + (!f.title ? 22 : 0));
+    const fit = Math.min(1, availableWidth / width);
+    ctx.save(); ctx.translate(left, bottom); ctx.scale(fit, fit); ctx.translate(-left, -bottom);
+    pattern(ctx, left, y, width, h);
+    if (f.title) {
+      ctx.fillStyle = data.accent; roundedPath(ctx, left + 22, y + 22, titleSpan - 42, h - 44, 14); ctx.fill();
+      text(ctx, data.attendanceLabel, left + 44, y + (h - 101) / 2 - 9, titleFont, '#050505', titleSpan - 80);
+    }
+    if (f.time) {
+      const content = data.time || '--:--';
+      const targetHeight = withLogo ? 165 : 139;
+      ctx.font = '500 200px AttendanceClock';
+      const m = ctx.measureText(content);
+      const glyphHeight = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+      const sy = targetHeight / glyphHeight;
+      const targetWidth = Math.min(timeSpan - 65, (withLogo ? 444 : 366) * content.length / 5);
+      const sx = targetWidth / Math.max(1, m.actualBoundingBoxLeft + m.actualBoundingBoxRight);
+      const x = left + titleSpan + (f.title ? 16 : 22);
+      const top = y + (h - targetHeight) / 2;
+      ctx.save(); ctx.translate(x, top); ctx.scale(sx, sy);
+      const gradient = ctx.createLinearGradient(0, 0, 0, glyphHeight);
+      gradient.addColorStop(0, '#064daa'); gradient.addColorStop(.4, '#023b88'); gradient.addColorStop(1, '#00000b');
+      ctx.fillStyle = gradient; ctx.textBaseline = 'alphabetic'; ctx.fillText(content, m.actualBoundingBoxLeft, m.actualBoundingBoxAscent); ctx.restore();
+    }
+    if (withLogo) {
+      const x = left + width - logoSpan;
+      ctx.save(); roundedPath(ctx, left, y, width, h, 28); ctx.clip();
+      ctx.beginPath(); ctx.moveTo(x + 46, y); ctx.lineTo(left + width, y); ctx.lineTo(left + width, bottom); ctx.lineTo(x, bottom); ctx.closePath(); ctx.clip();
+      ctx.fillStyle = '#fff'; ctx.fillRect(x, y, logoSpan, h);
+      const scale = Math.min((logoSpan - 30) / logoImage.naturalWidth, (h - 12) / logoImage.naturalHeight);
+      const iw = logoImage.naturalWidth * scale, ih = logoImage.naturalHeight * scale;
+      ctx.drawImage(logoImage, x + 18 + (logoSpan - 30 - iw) / 2, y + (h - ih) / 2, iw, ih); ctx.restore();
+      ctx.strokeStyle = 'rgba(120,135,147,.45)'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(x + 46, y + 3); ctx.lineTo(x, bottom - 3); ctx.stroke();
+    }
+    ctx.restore();
+    return h * fit;
+  }
+
+  function draw(ctx, canvas, data, transform) {
+    if (!data?.switches) return;
+    const s = Math.min(canvas.width, canvas.height) / 3024;
+    const w = canvas.width / s, h = canvas.height / s;
+    const f = data.switches;
+    ctx.save(); ctx.scale(s, s); ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+    if (f.map && mapImage) {
+      const x = 73, y = 73, size = 775;
+      ctx.fillStyle = '#fff'; roundedPath(ctx, x, y, size, size, 32); ctx.fill();
+      ctx.save(); roundedPath(ctx, x + 14, y + 14, size - 28, size - 28, 18); ctx.clip();
+      const ratio = Math.max((size - 28) / mapImage.naturalWidth, (size - 28) / mapImage.naturalHeight);
+      const iw = mapImage.naturalWidth * ratio, ih = mapImage.naturalHeight * ratio;
+      ctx.drawImage(mapImage, x + (size - iw) / 2, y + (size - ih) / 2, iw, ih); ctx.restore();
+    }
+    if (f.vertical && data.photoCode) {
+      ctx.save(); ctx.translate(w - 43, h * .435); ctx.rotate(-Math.PI / 2);
+      ctx.font = '400 77px AttendanceText'; const codeText = data.photoCode + '  Timemark Verified';
+      const length = ctx.measureText(codeText).width;
+      ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,.5)'; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1;
+      shield(ctx, -length / 2 - 42, 0, 39, 'rgba(255,255,255,.9)'); ctx.fillText(codeText, -length / 2, 0); ctx.restore();
+    }
+    if (f.brand) {
+      ctx.save(); ctx.font = '600 92px Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      const tw = ctx.measureText('Time').width, mw = ctx.measureText('mark').width;
+      const x = w - 44 - tw - mw;
+      ctx.fillStyle = data.accent; ctx.fillText('Time', x, h - 138);
+      ctx.fillStyle = '#fff'; ctx.fillText('mark', x + tw, h - 138);
+      text(ctx, '100% Chân thực', x, h - 104, '400 66px AttendanceText', 'rgba(255,255,255,.82)', tw + mw); ctx.restore();
+    }
+
+    const rows = [];
+    const maxWidth = Math.min(2060, w - 180);
+    if (f.time) {
+      const dateText = [data.weekday, data.date].filter(Boolean).join(', ');
+      if (dateText) rows.push({lines: [dateText], font: '700 100px AttendanceText', lineHeight: 120, after: 54});
+    }
+    if (f.address && data.address) {
+      ctx.font = '400 100px AttendanceText';
+      rows.push({lines: wrap(ctx, data.address, maxWidth), font: ctx.font, lineHeight: 120, after: 0});
+    }
+    if (f.tags && data.tags) {
+      ctx.font = '500 90px AttendanceText';
+      rows.push({lines: wrap(ctx, data.tags, maxWidth), font: ctx.font, lineHeight: 110, after: 0});
+    }
+    if (f.coordinates && (data.latitude || data.longitude)) {
+      ctx.font = '400 85px AttendanceText';
+      rows.push({lines: wrap(ctx, [data.latitude, data.longitude].filter(Boolean).join(', '), maxWidth), font: ctx.font, lineHeight: 105, after: 0});
+    }
+    const infoHeight = rows.length ? rows.reduce((n, row) => n + row.lines.length * row.lineHeight + row.after, 0) - 8 : 0;
+    const commitmentTop = h - 158;
+    const infoBottom = f.commitment ? commitmentTop - 52 : h - 80;
+    const infoTop = infoBottom - infoHeight;
+    const headerBottom = infoTop - (rows.length ? 66 : 0);
+    const headerHeight = f.logo && logoImage ? 314 : 212;
+    // Fit long content upward without clipping the bottom. User transform remains template-local.
+    const blockHeight = h - 60 - (headerBottom - headerHeight);
+    const fit = Math.min(1, (h - 100) / Math.max(1, blockHeight));
+    const scale = transform.scale * fit;
+    ctx.save(); ctx.translate(44 + transform.x / s, h - 60 + transform.y / s);
+    ctx.scale(scale, scale); ctx.translate(-44, -(h - 60));
+    badge(ctx, data, 44, headerBottom, w - 88);
+    if (rows.length) {
+      ctx.fillStyle = data.accent; roundedPath(ctx, 44, infoTop, 22, infoHeight, 3); ctx.fill();
+      let y = infoTop + 12;
+      for (const row of rows) {
+        for (const line of row.lines) {
+          text(ctx, line, 128, y, row.font, '#fff', w - 172);
+          y += row.lineHeight;
+        }
+        y += row.after;
+      }
+    }
+    if (f.commitment) {
+      shield(ctx, 116, commitmentTop + 42, 100, 'rgba(255,255,255,.55)');
+      text(ctx, 'Cam kết ngày giờ chân thực bởi Timemark', 192, commitmentTop, '400 88px AttendanceText', 'rgba(255,255,255,.55)', w - 260);
+    }
+    ctx.restore(); ctx.restore();
+  }
+
+  function init() {
+    const root = byId('formAttendance');
+    root.addEventListener('input', event => { if (event.target.type !== 'file') changed(); });
+    root.addEventListener('change', event => { if (event.target.type !== 'file') changed(); });
+    byId('attendanceLogoInput').addEventListener('change', e => readAsset('logo', e.target.files[0]));
+    byId('attendanceMapInput').addEventListener('change', e => readAsset('map', e.target.files[0]));
+    byId('attendanceDone').addEventListener('click', () => document.querySelector('.preview-card').scrollIntoView({behavior: 'smooth', block: 'start'}));
+    byId('attendanceChooseTemplate').addEventListener('click', () => document.querySelector('.watermark-card').scrollIntoView({behavior: 'smooth', block: 'start'}));
+    syncControls();
+  }
+
+  window.AttendanceTemplate = Object.freeze({ready, capture, switchStyle, now, gps, draw, init});
+})();
+
+/* Template 3 integration. Its inputs, assets and renderer are independent of templates 1/2. */
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const definitions=[
+ ['Logo','Logo',false,'<label>Ảnh logo<input id="cpLogoFile" type="file" accept="image/*"></label>'],
+ ['Company','Công ty',false,'<label>Tên công ty<input id="cpCompany" placeholder="Tên công ty"></label>'],
+ ['Card','Danh thiếp',false,'<label>Thông tin danh thiếp<textarea id="cpCard" placeholder="Điện thoại, email hoặc thông tin liên hệ"></textarea></label>'],
+ ['Art','Kiểu chữ nghệ thuật',false,'<label>Kiểu chữ tiêu đề<select id="cpArt"><option value="bold">Chữ đậm</option><option value="italic">Chữ nghiêng</option></select></label>'],
+ ['Tags','Thẻ',false,'<label>Nội dung thẻ<input id="cpTags" placeholder="Công trình A · Ca sáng"></label>'],
+ ['Title','Tiêu đề',true,'<label>Nội dung tiêu đề<input id="cpTitle" value="Đã hoàn thành"></label>'],
+ ['Time','Thời gian',true,'<div class="pair"><label>Giờ<input id="cpTime" placeholder="06:44"></label><label>Thứ<input id="cpWeekday" placeholder="Thứ Sáu"></label></div><label>Ngày<input id="cpDate" placeholder="13 Tháng 11, 2026"></label>'],
+ ['Location','Vị trí',true,'<label>Địa chỉ<textarea id="cpLocation" placeholder="Nhập địa chỉ"></textarea></label>'],
+ ['Coordinates','Tọa độ',false,'<div class="pair"><label>Vĩ độ<input id="cpLatitude" inputmode="decimal"></label><label>Kinh độ<input id="cpLongitude" inputmode="decimal"></label></div>'],
+ ['Altitude','Độ cao',false,'<label>Độ cao (m)<input id="cpAltitude" inputmode="decimal" placeholder="Nhập độ cao"></label>'],
+ ['Direction','Phương hướng',false,'<label>Phương hướng<input id="cpDirection" placeholder="Ví dụ: Đông Bắc 45°"></label>'],
+ ['Employee','Tên nhân viên',false,'<label>Tên nhân viên<input id="cpEmployee" placeholder="Họ tên nhân viên"></label>'],
+ ['EmployeeId','ID nhân viên',false,'<label>ID nhân viên<input id="cpEmployeeId" placeholder="Mã nhân viên"></label>'],
+ ['Portrait','Ảnh thẻ',false,'<label>Ảnh nhân viên<input id="cpPortraitFile" type="file" accept="image/*"></label>'],
+ ['Code','Mã ảnh',true,''],
+ ['Note','Ghi chú',false,'<label>Nội dung ghi chú<textarea id="cpNote" placeholder="Ví dụ: Nhân viên Sale"></textarea></label>'],
+ ['Brand','Thương hiệu Timemark',true,''],['Check','Dấu tích trong khung giờ',true,'']
+];
+
+let ctx, drawingData=null;
+const state={logo:null,portrait:null,x:0,y:0,scale:1,code:''};
+const pending=new Map(), versions={}; let initialized=false, fontPromise;
+const val=key=>drawingData ? (drawingData.values[key]||'') : ($('cp'+key)?.value.trim()||'');
+const on=key=>drawingData ? !!drawingData.flags[key] : !!$('cpToggle'+key)?.checked;
+function newCode(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';return Array.from(crypto.getRandomValues(new Uint8Array(12)),n=>a[n%a.length]).join('');}
+function status(message){$('cpStatus').textContent=message;}
+function controls(){for(const [key] of definitions)$('cpPanel'+key).hidden=!on(key);}
+async function ready(){
+ if(!fontPromise)fontPromise=Promise.all([document.fonts.load('400 100px CompletionText'),document.fonts.load('700 128px CompletionText'),document.fonts.load('300 220px CompletionClock')]).catch(e=>{fontPromise=null;throw e;});
+ await fontPromise; await Promise.all(pending.values());
+}
+function capture(photoCode){
+ const values={},flags={};
+ document.querySelectorAll('#formCompletion input:not([type=file]):not([type=checkbox]), #formCompletion textarea, #formCompletion select').forEach(el=>{if(el.id.startsWith('cp'))values[el.id.slice(2)]=el.value.trim();});
+ for(const [key] of definitions)flags[key]=on(key);
+ return {values,flags,photoCode:photoCode || '',logo:state.logo,portrait:state.portrait,custom:Array.from(document.querySelectorAll('#cpCustom textarea'),el=>el.value.trim())};
+}
+function changed(){controls();if(getWMStyle()==='completion'&&hasGenerated){generatedData=capture(generatedData.photoCode);renderCanvas();}}
+function activate(style){
+ const active=style==='completion';document.body.classList.toggle('completion-active',active);
+ if(active){document.querySelectorAll('[data-template-one-only]').forEach(el=>{el.hidden=true;});if(hasGenerated)generatedData=capture(generatedData.photoCode);}
+}
+async function readAsset(kind,file){
+ if(!file)return;const revision=(versions[kind]||0)+1;versions[kind]=revision;status('Đang đọc ảnh…');
+ const job=(async()=>{const url=URL.createObjectURL(file);try{const image=new Image();image.src=url;await image.decode();if(versions[kind]!==revision)return;state[kind]=image;$('cpToggle'+(kind==='logo'?'Logo':'Portrait')).checked=true;status('Đã tải ảnh cho mẫu 3.');}catch{status('Không đọc được ảnh. Hãy chọn JPG hoặc PNG.');}finally{URL.revokeObjectURL(url);}})();
+ pending.set(kind,job);await job;if(pending.get(kind)===job)pending.delete(kind);changed();
+}
+function now(){const d=new Date();$('cpTime').value=[d.getHours(),d.getMinutes()].map(x=>String(x).padStart(2,'0')).join(':');$('cpWeekday').value=['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'][d.getDay()];$('cpDate').value=d.getDate()+' Tháng '+(d.getMonth()+1)+', '+d.getFullYear();changed();}
+function gps(){
+ if(!navigator.geolocation){status('Thiết bị không hỗ trợ GPS.');return;}status('Đang lấy vị trí cho mẫu 3…');
+ navigator.geolocation.getCurrentPosition(p=>{$('cpLatitude').value=p.coords.latitude.toFixed(6);$('cpLongitude').value=p.coords.longitude.toFixed(6);if(p.coords.altitude!=null)$('cpAltitude').value=Math.round(p.coords.altitude);if(p.coords.heading!=null)$('cpDirection').value=Math.round(p.coords.heading)+'°';$('cpToggleCoordinates').checked=true;changed();status('Đã lấy tọa độ. Nhập tên địa chỉ trong ô Vị trí.');},()=>status('Chưa lấy được GPS. Bạn vẫn có thể nhập vị trí thủ công.'),{timeout:12000});
+}
+function rr(x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
+function font(size,weight=400,family='CompletionText',italic=false){ctx.font=`${italic?'italic ':''}${weight} ${size}px ${family}`;ctx.textBaseline='alphabetic';}
+function ink(text,x,y,size,weight=400,color='#fff',maxWidth,italic=false,family='CompletionText'){
+ font(size,weight,family,italic);ctx.fillStyle=color;const m=ctx.measureText(text);ctx.fillText(text,x,y+m.actualBoundingBoxAscent,maxWidth);
+}
+function wrap(text,maxWidth,size=100,weight=400){
+ font(size,weight);const out=[];
+ for(const paragraph of String(text).split(/\n/)){
+  let line='';for(const word of paragraph.split(/\s+/).filter(Boolean)){
+   if(ctx.measureText(word).width>maxWidth){if(line){out.push(line);line='';}for(const ch of word){if(ctx.measureText(line+ch).width>maxWidth){out.push(line);line='';}line+=ch;}continue;}
+   const next=line?line+' '+word:word;if(line&&ctx.measureText(next).width>maxWidth){out.push(line);line=word;}else line=next;
+  }if(line)out.push(line);
+ }return out;
+}
+function shield(x,y,size){ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.strokeStyle='#fff';ctx.lineWidth=.075;ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(0,-.45);ctx.lineTo(.38,-.25);ctx.lineTo(.30,.22);ctx.quadraticCurveTo(0,.45,-.30,.22);ctx.lineTo(-.38,-.25);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.moveTo(-.14,.02);ctx.lineTo(-.02,.14);ctx.lineTo(.18,-.10);ctx.stroke();ctx.restore();}
+function imageBox(image,x,y,w,h,cover=false,r=10){
+ ctx.save();ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.clip();const factor=(cover?Math.max:Math.min)(w/image.width,h/image.height);const iw=image.width*factor,ih=image.height*factor;ctx.drawImage(image,x+(w-iw)/2,y+(h-ih)/2,iw,ih);ctx.restore();
+}
+function draw(context,canvas,data,transform){
+ if(!data?.flags)return;
+ ctx=context;drawingData=data;
+ const state={...transform,code:data.photoCode,logo:data.logo,portrait:data.portrait};
+ const w=canvas.width,h=canvas.height;
+ ctx.save();ctx.textAlign='left';ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+ const unit=Math.min(w,h)/3024,W=w/unit,H=h/unit;ctx.save();ctx.scale(unit,unit);
+ if(on('Code') && data.photoCode){ctx.save();ctx.translate(W-20,H*.595);ctx.rotate(-Math.PI/2);font(77);ctx.fillStyle='#fff';shield(0,-27,42);ctx.fillText(state.code+'  Timemark Verified',52,0);ctx.restore();}
+ if(on('Brand')){font(98,700);const a=ctx.measureText('Time').width,b=ctx.measureText('mark').width;const x=W-44-a-b;ink('Time',x,H-205,98,700,'#ffc533');ink('mark',x+a,H-205,98,700);ink('100% Chân thực',x,H-96,60,400,'#eee',a+b);}
+ const bodyWidth=Math.min(1750,W-210);const rows=[];
+ function row(text,size=100,weight=400,gap=70){if(text){const lines=wrap(text,bodyWidth,size,weight);rows.push({lines,size,weight,gap,height:lines.length*size*1.22});}}
+ if(on('Title'))row(val('Title'),128,700,85);
+ if(on('Time'))row([val('Weekday'),val('Date')].filter(Boolean).join(', '),100,400,65);
+ if(on('Location'))row(val('Location'),100,400,65);
+ if(on('Coordinates'))row([val('Latitude'),val('Longitude')].filter(Boolean).join(', '),86,400,40);
+ if(on('Altitude')&&val('Altitude'))row('Độ cao: '+val('Altitude')+' m',86,400,40);
+ if(on('Direction'))row(val('Direction'),86,400,40);
+ if(on('Tags'))row(val('Tags'),86,500,40);
+ if(on('Card'))row(val('Card'),86,400,40);
+ for(const text of data.custom)row(text,90,400,40);
+ const employee=[];if(on('Employee')&&val('Employee'))employee.push(val('Employee'));if(on('EmployeeId')&&val('EmployeeId'))employee.push('ID: '+val('EmployeeId'));if(on('Note')&&val('Note'))employee.push('Ghi chú: '+val('Note'));
+ const hasPortrait=on('Portrait')&&state.portrait;const noteWidth=Math.min(1440,bodyWidth);const textWidth=noteWidth-90-(hasPortrait?290:0);
+ const noteLines=employee.map(t=>wrap(t,textWidth,100));const noteHeight=Math.max(hasPortrait?320:0,noteLines.reduce((sum,lines)=>sum+lines.length*122+64,0)+(noteLines.length?40:0));
+ let total=rows.reduce((sum,r)=>sum+r.height+r.gap,0)+(noteHeight?noteHeight:0);if(!noteHeight&&rows.length)total-=rows[rows.length-1].gap;
+ const logo=on('Logo')&&state.logo,company=on('Company')&&val('Company');const clock=on('Time');const check=on('Check');
+ const hasBadge=logo||company||clock||check;const badgeW=(logo?350:0)+(clock?500:0)+(check?260:0)||760;const badgeH=company?382:276;const badgeGap=90;
+ const height=total+(hasBadge?badgeH+badgeGap+(logo?75:0):0);
+ const fit=Math.min(1,(H-180)/Math.max(height*state.scale,1),(W-100)/(Math.max(bodyWidth+80,badgeW)*state.scale));
+ const scale=state.scale*fit;ctx.save();ctx.translate(60+state.x/unit,H-90+state.y/unit);ctx.scale(scale,scale);ctx.translate(0,-total);
+ if(hasBadge){const by=-badgeH-badgeGap;rr(0,by,badgeW,badgeH,30,val('Color'));let left=75;
+  if(logo){rr(56,by-75,292,292,18,'#fff');imageBox(state.logo,56,by-75,292,292,false,18);left=420;}
+  if(clock){font(220,300,'CompletionClock');const t=val('Time')||'--:--',m=ctx.measureText(t),targetW=380,targetH=165;ctx.save();ctx.translate(left,by+52);ctx.scale(targetW/Math.max(m.width,1),targetH/Math.max(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent,1));ctx.fillStyle='#fff';ctx.fillText(t,0,m.actualBoundingBoxAscent);ctx.restore();}
+  if(check){const cx=badgeW-145,cy=by+137;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cx,cy,80,0,Math.PI*2);ctx.fill();ctx.strokeStyle=val('Color');ctx.lineWidth=14;ctx.lineCap='square';ctx.lineJoin='miter';ctx.beginPath();ctx.moveTo(cx-33,cy);ctx.lineTo(cx-7,cy+27);ctx.lineTo(cx+40,cy-27);ctx.stroke();}
+  if(company)ink(company,75,by+278,70,400,'#fff',badgeW-140);
+ }
+ if(total>0)rr(0,0,14,total,0,val('LineColor'));
+ let y=0;for(const r of rows){for(const line of r.lines){ink(line,74,y,r.size,r.weight,'#fff',bodyWidth,on('Art')&&val('Art')==='italic'&&r.weight===700);y+=r.size*1.22;}y+=r.gap;}
+ if(noteHeight){const g=ctx.createLinearGradient(74,0,74+noteWidth,0);g.addColorStop(0,'rgba(180,180,180,.42)');g.addColorStop(1,'rgba(80,80,80,0)');rr(74,y,noteWidth,noteHeight,24,g);if(hasPortrait)imageBox(state.portrait,100,y+30,250,noteHeight-60,true,16);let ny=y+42;for(const lines of noteLines){for(const line of lines){ink(line,hasPortrait?380:119,ny,100);ny+=122;}ny+=64;}}
+ ctx.restore();ctx.restore();ctx.restore(); drawingData=null;
+}
+
+function init(){
+ if(initialized)return;initialized=true;
+ for(const [key,label,on,html] of definitions){
+  const group=document.createElement('div');group.innerHTML=`<div class="completion-row"><label class="completion-switch"><input id="cpToggle${key}" type="checkbox" aria-label="Bật ${label} mẫu 3" ${on?'checked':''}><span></span></label><label for="cpToggle${key}">${label}</label></div><div class="completion-fields" id="cpPanel${key}" ${on?'':'hidden'}>${html}</div>`;
+  $(['Brand','Check'].includes(key)?'cpExtras':'cpFields').append(group);
+ }
+ const root=$('formCompletion');root.addEventListener('input',e=>{if(e.target.type!=='file')changed();});root.addEventListener('change',e=>{if(e.target.type!=='file')changed();});
+ $('cpLogoFile').addEventListener('change',e=>readAsset('logo',e.target.files[0]));$('cpPortraitFile').addEventListener('change',e=>readAsset('portrait',e.target.files[0]));
+ $('cpAddCustom').onclick=()=>{const row=document.createElement('div');row.className='completion-custom';const label=document.createElement('label');label.textContent='Thông tin bổ sung';const input=document.createElement('textarea');label.append(input);const remove=document.createElement('button');remove.type='button';remove.textContent='Xóa dòng';remove.onclick=()=>{row.remove();changed();};row.append(label,remove);$('cpCustom').append(row);input.focus();};
+ $('cpChooseTemplate').onclick=()=>document.querySelector('.watermark-card').scrollIntoView({behavior:'smooth',block:'start'});
+ $('cpDone').onclick=()=>document.querySelector('.preview-card').scrollIntoView({behavior:'smooth',block:'start'});
+ controls();
+}
+window.CompletionTemplate=Object.freeze({init,ready,capture,activate,draw,now,gps});
+})();
+
+/* Template 4: independent fields, assets, flags and canvas renderer. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const value = key => ($('pt' + key)?.value || '').trim();
+  const enabled = key => !!$('ptToggle' + key)?.checked;
+  const definitions = [
+    ['Logo', 'Logo', false, '<label>Ảnh logo<input id="ptLogoFile" type="file" accept="image/*"></label>'],
+    ['Title', 'Tiêu đề', true, '<label>Tiêu đề<input id="ptTitle" value="Tuần tra"></label>'],
+    ['Subtitle', 'Tiêu đề phụ', true, '<label>Tiêu đề phụ<input id="ptSubtitle" value="Hồ sơ công việc"></label>'],
+    ['Work', 'Nội dung công việc', false, '<label>Nội dung công việc<textarea id="ptWork" placeholder="Ví dụ: Trực ca đêm"></textarea></label>'],
+    ['Employee', 'Nhân Viên Trực', false, '<label>Nhân Viên Trực<input id="ptEmployee" placeholder="Nhập họ tên"></label>'],
+    ['Art', 'Kiểu chữ nghệ thuật', false, '<label>Kiểu chữ tiêu đề<select id="ptArt"><option value="condensed">Chữ cao, đậm</option><option value="italic">Chữ nghiêng</option></select></label>'],
+    ['Card', 'Danh thiếp', false, '<label>Thông tin liên hệ<textarea id="ptCard" placeholder="Điện thoại, email…"></textarea></label>'],
+    ['Tags', 'Thẻ', false, '<label>Nội dung thẻ<input id="ptTags" placeholder="Ví dụ: Ca đêm · Khu A"></label>'],
+    ['Time', 'Thời gian', true, '<div class="patrol-pair"><label>Giờ<input id="ptTime" placeholder="16:28"></label><label>Thứ<input id="ptWeekday" placeholder="Thứ Sáu"></label></div><label>Ngày<input id="ptDate" placeholder="13 Tháng 11, 2026"></label>'],
+    ['Location', 'Vị trí', true, '<label>Địa chỉ<textarea id="ptLocation" placeholder="Nhập địa chỉ"></textarea></label>'],
+    ['Code', 'Mã ảnh', true, ''],
+    ['Brand', 'Thương hiệu', true, '']
+  ];
+  let logo = null, pendingLogo = null, logoRevision = 0, fontPromise, initialized = false, gpsRevision = 0;
+  function status(text) { $('ptStatus').textContent = text; }
+  function controls() { for (const [key] of definitions) $('ptPanel' + key).hidden = !enabled(key); }
+  function newCode() {
+    const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    return Array.from(crypto.getRandomValues(new Uint8Array(12)), n => alphabet[n % alphabet.length]).join('');
+  }
+  async function ready() {
+    if (!fontPromise) fontPromise = Promise.all([
+      document.fonts.load('400 38px PatrolText'), document.fonts.load('700 44px PatrolText'),
+      document.fonts.load('400 110px PatrolTime'), document.fonts.load('600 44px PatrolClock')
+    ]).catch(error => { fontPromise = null; throw error; });
+    await fontPromise;
+    while (pendingLogo) await pendingLogo;
+  }
+  function capture(photoCode) {
+    const values = {}, flags = {};
+    for (const [key] of definitions) flags[key] = enabled(key);
+    for (const key of ['Title','Subtitle','Work','Employee','Art','Card','Tags','Time','Weekday','Date','Location','Color','Background','Opacity']) values[key] = value(key);
+    return {values, flags, logo, photoCode: photoCode || ''};
+  }
+  function changed() {
+    controls();
+    if (getWMStyle() === 'patrol' && hasGenerated) { generatedData = capture(generatedData.photoCode); renderCanvas(); }
+  }
+  function activate(style) {
+    const active = style === 'patrol';
+    document.body.classList.toggle('patrol-active', active);
+    if (active) {
+      document.querySelectorAll('[data-template-one-only]').forEach(el => { el.hidden = true; });
+      if (hasGenerated) generatedData = capture(generatedData.photoCode);
+    }
+  }
+  async function readLogo(file) {
+    if (!file) return;
+    const revision = ++logoRevision;
+    status('Đang đọc logo…');
+    const job = (async () => {
+      const url = URL.createObjectURL(file);
+      try {
+        const image = new Image(); image.src = url; await image.decode();
+        if (revision !== logoRevision) return;
+        logo = image; $('ptToggleLogo').checked = true; status('Đã thêm logo cho mẫu 4.');
+      } catch { if (revision === logoRevision) status('Không đọc được ảnh. Hãy chọn JPG hoặc PNG.'); }
+      finally { URL.revokeObjectURL(url); }
+    })();
+    pendingLogo = job; await job;
+    if (pendingLogo === job) pendingLogo = null;
+    changed();
+  }
+  function now() {
+    const d = new Date();
+    $('ptTime').value = [d.getHours(), d.getMinutes()].map(n => String(n).padStart(2,'0')).join(':');
+    $('ptWeekday').value = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'][d.getDay()];
+    $('ptDate').value = `${d.getDate()} Tháng ${d.getMonth()+1}, ${d.getFullYear()}`; changed();
+  }
+  function gps() {
+    if (!navigator.geolocation) { status('Thiết bị không hỗ trợ GPS.'); return; }
+    const revision = ++gpsRevision, oldAddress = value('Location');
+    status('Đang lấy vị trí cho mẫu 4…');
+    navigator.geolocation.getCurrentPosition(async p => {
+      if (revision !== gpsRevision) return;
+      const coordinates = `${p.coords.latitude.toFixed(6)}, ${p.coords.longitude.toFixed(6)}`;
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${p.coords.latitude}&lon=${p.coords.longitude}&accept-language=vi`, {headers:{Accept:'application/json'}});
+        if (!response.ok) throw Error('geocode');
+        const result = await response.json(); if (revision !== gpsRevision) return;
+        if (value('Location') === oldAddress) $('ptLocation').value = result.display_name || coordinates;
+        status('Đã lấy vị trí cho mẫu 4.');
+      } catch {
+        if (revision !== gpsRevision) return;
+        if (value('Location') === oldAddress && !oldAddress) $('ptLocation').value = coordinates;
+        status('Đã lấy tọa độ; chưa lấy được tên địa chỉ. Bạn có thể nhập địa chỉ thủ công.');
+      }
+      changed();
+    }, () => { if (revision === gpsRevision) status('Chưa lấy được GPS. Bạn có thể nhập địa chỉ thủ công.'); }, {enableHighAccuracy:true,timeout:15000,maximumAge:0});
+  }
+
+  function draw(ctx, canvas, data, transform) {
+    if (!data?.flags || !canvas.width || !canvas.height) return;
+    const f = data.flags, v = data.values, unit = Math.min(canvas.width, canvas.height) / 1152;
+    const W = canvas.width/unit, H = canvas.height/unit, width = 524, accent = v.Color || '#fff36a';
+    const font = (size, weight=400, family='PatrolText', italic=false) => { ctx.font = `${italic?'italic ':''}${weight} ${size}px ${family}`; ctx.textBaseline='alphabetic'; };
+    const text = (content,x,top,size,weight=400,color='#fff',maxWidth,family='PatrolText',italic=false) => {
+      font(size,weight,family,italic);ctx.fillStyle=color;const m=ctx.measureText(content);
+      ctx.fillText(content,x,top+m.actualBoundingBoxAscent,maxWidth);
+    };
+    function wrap(content,maxWidth,size=38,weight=400,family='PatrolText') {
+      font(size,weight,family); const lines=[];
+      for(const paragraph of String(content).split(/\r?\n/)) {
+        let line='';
+        for(const word of paragraph.split(/\s+/).filter(Boolean)) {
+          if(ctx.measureText(line ? line+' '+word : word).width<=maxWidth){line=line ? line+' '+word : word;continue;}
+          if(line){lines.push(line);line='';}
+          for(const char of word){if(line && ctx.measureText(line+char).width>maxWidth){lines.push(line);line='';}line+=char;}
+        }
+        if(line)lines.push(line);
+      }
+      return lines;
+    }
+    function shield(x,y,size){ctx.save();ctx.translate(x,y);ctx.scale(size,size);ctx.strokeStyle='#fff';ctx.lineWidth=.08;ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(0,-.45);ctx.lineTo(.38,-.25);ctx.lineTo(.3,.22);ctx.quadraticCurveTo(0,.45,-.3,.22);ctx.lineTo(-.38,-.25);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.moveTo(-.14,.02);ctx.lineTo(-.02,.14);ctx.lineTo(.18,-.1);ctx.stroke();ctx.restore();}
+    ctx.save();
+    try {
+      ctx.scale(unit,unit);ctx.textAlign='left';ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+      if(f.Code && data.photoCode){ctx.save();ctx.translate(W-8,H*.595);ctx.rotate(-Math.PI/2);font(29);ctx.fillStyle='#fff';shield(0,-10,16);ctx.fillText(data.photoCode+'  Timemark Verified',20,0);ctx.restore();}
+      if(f.Brand){font(36,600,'Arial');const a=ctx.measureText('Time').width,b=ctx.measureText('mark').width,x=W-17-a-b;text('Time',x,H-80,36,600,'#ffc533',undefined,'Arial');text('mark',x+a,H-80,36,600,'#fff',undefined,'Arial');text('100% Chân thực',x,H-40,25,400,'#eee',a+b);}
+      const withLogo = f.Logo && data.logo;
+      const headerX = withLogo ? 140 : 18, headerWidth = width-headerX-18;
+      const titleFamily=f.Art && v.Art==='condensed' ? 'PatrolClock':'PatrolText';
+      const title = f.Title ? wrap(v.Title||'',headerWidth,44,700,titleFamily) : [];
+      const subtitle = f.Subtitle ? wrap(v.Subtitle||'',headerWidth,38) : [];
+      const hasHeader = withLogo || title.length || subtitle.length;
+      const headerHeight = hasHeader ? Math.max(130,20+title.length*54+subtitle.length*46+14) : 0;
+      const rows=[];
+      function row(content){if(content){const lines=wrap(content,width-84,38);if(lines.length)rows.push(lines);}}
+      if(f.Work && v.Work)row('Nội dung công việc: '+v.Work);
+      if(f.Employee && v.Employee)row('Nhân Viên Trực: '+v.Employee);
+      if(f.Location)row(v.Location);
+      if(f.Card)row(v.Card);
+      if(f.Tags)row(v.Tags);
+      const firstRow = (hasHeader ? headerHeight+42 : 14)+(f.Time ? 136 : 0);
+      const height = firstRow + rows.reduce((n,lines)=>n+lines.length*45+18,0) + (rows.length ? 10 : 14);
+      if(!hasHeader && !f.Time && !rows.length)return;
+      const fit=Math.min(1,(H-32)/height,(W-32)/width), scale=(transform.scale||1)*fit;
+      ctx.save();
+      try {
+        ctx.translate(16+(transform.x||0)/unit,H-16+(transform.y||0)/unit);ctx.scale(scale,scale);ctx.translate(0,-height);
+        ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,Number(v.Opacity ?? 70)/100));ctx.fillStyle=v.Background||'#295000';ctx.beginPath();ctx.roundRect(0,0,width,height,12);ctx.fill();ctx.restore();
+        if(withLogo){ctx.save();ctx.beginPath();ctx.roundRect(6,4,122,122,5);ctx.clip();const ratio=Math.min(122/data.logo.width,122/data.logo.height);ctx.drawImage(data.logo,6+(122-data.logo.width*ratio)/2,4+(122-data.logo.height*ratio)/2,data.logo.width*ratio,data.logo.height*ratio);ctx.restore();}
+        let y=20;
+        for(const line of title){text(line,headerX,y,44,700,accent,headerWidth,titleFamily,f.Art&&v.Art==='italic');y+=54;}
+        for(const line of subtitle){text(line,headerX,y,38,400,'#fff',headerWidth);y+=46;}
+        if(hasHeader){ctx.fillStyle=accent;ctx.fillRect(0,headerHeight,width,6);ctx.save();ctx.beginPath();ctx.rect(6,headerHeight+10,width-12,30);ctx.clip();text('>'.repeat(48),6,headerHeight+16,25,500,accent);ctx.restore();}
+        if(f.Time){const top=(hasHeader?headerHeight+42:14)+16;const time=v.Time||'--:--';font(110,400,'PatrolTime');const m=ctx.measureText(time);ctx.save();ctx.translate(14,top);ctx.scale(169/Math.max(m.width,1),80/Math.max(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent,1));ctx.fillStyle=accent;ctx.fillText(time,0,m.actualBoundingBoxAscent);ctx.restore();text([v.Weekday,v.Date].filter(Boolean).join(', '),208,top+65,26,400,'#fff',width-220);}
+        y=firstRow;
+        for(const lines of rows){ctx.fillStyle=accent;ctx.fillRect(17,y+5,11,23);for(const line of lines){text(line,47,y,38);y+=45;}y+=18;}
+      } finally {ctx.restore();}
+    } finally {ctx.restore();}
+  }
+  function init() {
+    if(initialized)return;initialized=true;
+    for(const [key,label,on,html]of definitions){const group=document.createElement('div');group.innerHTML=`<div class="patrol-row"><label class="patrol-switch"><input id="ptToggle${key}" type="checkbox" aria-label="Bật ${label} mẫu 4" ${on?'checked':''}><span></span></label><label for="ptToggle${key}">${label}</label></div><div class="patrol-fields" id="ptPanel${key}" ${on?'':'hidden'}>${html}</div>`;$(key==='Code'||key==='Brand'?'ptExtras':'ptFields').append(group);}
+    const root=$('formPatrol');root.addEventListener('input',e=>{if(e.target.type!=='file')changed();});root.addEventListener('change',e=>{if(e.target.type!=='file')changed();});
+    $('ptLogoFile').addEventListener('change',e=>readLogo(e.target.files[0]));
+    $('ptChooseTemplate').onclick=()=>document.querySelector('.watermark-card').scrollIntoView({behavior:'smooth',block:'start'});
+    $('ptDone').onclick=()=>document.querySelector('.preview-card').scrollIntoView({behavior:'smooth',block:'start'});
+    controls();
+  }
+  window.PatrolTemplate=Object.freeze({init,ready,capture,activate,draw,now,gps});
+})();
+
+
+const el = id => document.getElementById(id);
+const message = value => { el('msg').textContent = value; };
+function markTest(canvas, context) {
+  const unit = Math.min(canvas.width, canvas.height) / 600;
+  context.save();
+  context.scale(unit, unit);
+  context.font = 'bold 14px system-ui';
+  context.fillStyle = '#101828';
+  context.fillRect(7, 7, 111, 25);
+  context.fillStyle = '#fff';
+  context.fillText('ẢNH CHẠY THỬ', 12, 25);
+  context.restore();
+}
+const dbReady = new Promise((resolve, reject) => {
+  const req = indexedDB.open('timemark-photo-order-demo-v1', 1);
+  req.onupgradeneeded = () => req.result.createObjectStore('orders', {keyPath:'id'});
+  req.onsuccess = () => resolve(req.result);
+  req.onerror = () => reject(req.error);
+});
+async function transaction(mode, action) {
+  const db = await dbReady;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction('orders', mode);
+    const req = action(tx.objectStore('orders'));
+    tx.oncomplete = () => resolve(req.result);
+    tx.onabort = () => reject(tx.error || Error('Đơn đã thay đổi. Hãy kiểm tra lại.'));
+    tx.onerror = () => reject(tx.error);
+  });
+}
+function png(canvas) {
+  return new Promise((resolve,reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(Error('Xuất ảnh thất bại.')), 'image/png'));
+}
+async function prepare() {
+  const file = el('imageInput').files[0];
+  if (!file) throw Error('Vui lòng chọn ảnh trước.');
+  await currentImage;
+  await ensureWatermarkFont();
+  await document.fonts.ready;
+  captureGeneratedData();
+  hasGenerated = true;
+  await renderCanvas();
+  return file;
+}
+async function submitOrder() {
+  const editor = el('editor');
+  editor.inert = true;
+  try {
+    const original = await prepare();
+    const fields = [...editor.querySelectorAll('input,select,textarea')].map(input => ({
+      name:input.id || input.name, value:input.type === 'checkbox' ? input.checked :
+        input.type === 'file' ? input.files[0]?.name || '' : input.value
+    }));
+    const order = {id:crypto.randomUUID(), created:Date.now(), template:el('wmStyle').selectedOptions[0].text,
+      original, fields, base:await png(c), state:'waiting'};
+    await transaction('readwrite', store => store.add(order));
+    message('Đã lưu đơn. Mở hộp thư xử lý để trả mã cho đơn này.');
+    await listOrders();
+    el('orders').scrollIntoView();
+  } finally { editor.inert = false; }
+}
+async function finish(order, raw) {
+  const code = raw.trim();
+  if (!/^[a-z0-9]{14}$/i.test(code)) throw Error('Mã cần đúng 14 chữ cái hoặc chữ số.');
+  const image = new Image();
+  const url = URL.createObjectURL(order.base);
+  let result;
+  try {
+    image.src = url;
+    await image.decode();
+    const out = document.createElement('canvas');
+    out.width=image.width; out.height=image.height;
+    const pen=out.getContext('2d');
+    pen.drawImage(image,0,0);
+    const unit=Math.min(out.width,out.height)/1152;
+    pen.translate(out.width-18*unit,out.height*.595);
+    pen.rotate(-Math.PI/2);
+    pen.fillStyle='white'; pen.shadowColor='#000'; pen.shadowBlur=3*unit;
+    pen.font='bold '+(28*unit)+'px Arial';
+    pen.fillText(code,0,0);
+    result = await png(out);
+  } finally { URL.revokeObjectURL(url); }
+  await transaction('readwrite', store => {
+    const req = store.get(order.id);
+    req.onsuccess = () => {
+      const current = req.result;
+      if(current?.state !== 'waiting') {store.transaction.abort();return;}
+      store.put({...current,code,result,state:'done'});
+    };
+    return req;
+  });
+  message('Đã lưu ảnh hoàn chỉnh cho đơn '+order.id.slice(0,8)+'.');
+}
+let objectURLs = [];
+let revision = 0;
+async function listOrders() {
+  const rev = ++revision;
+  const orders = await transaction('readonly', store => store.getAll());
+  if(rev !== revision) return;
+  objectURLs.forEach(url=>URL.revokeObjectURL(url)); objectURLs=[];
+  const list = el('list');
+  list.replaceChildren();
+  if (!orders.length) list.textContent='Chưa có đơn thử.';
+  for (const order of orders.sort((a,b)=>b.created-a.created)) {
+    const card = document.createElement('article');
+    function add(tag, text) {
+      const node = document.createElement(tag);
+      node.textContent=text || ''; card.append(node); return node;
+    }
+    add('h3','Đơn '+order.id.slice(0,8)+' · '+order.template);
+    add('p',order.state==='done' ? 'Hoàn thành · '+order.code : 'Chờ cấp mã ảnh');
+    const url=URL.createObjectURL(order.result || order.base); objectURLs.push(url);
+    const thumb=add('img');thumb.alt='Ảnh của đơn '+order.id.slice(0,8);thumb.src=url;
+    if(order.state==='done'){
+      const link=add('a','Tải ảnh PNG');link.href=url;link.download='Don-'+order.id+'.png';
+    } else if(el('operator').checked){
+      const form=add('form');
+      const input=document.createElement('input');
+      input.placeholder='Mã ảnh 14 ký tự'; input.setAttribute('aria-label','Mã cho đơn '+order.id.slice(0,8));
+      input.required=true;input.autocomplete='off';input.spellcheck=false;
+      const send=document.createElement('button');send.textContent='Gửi mã cho đơn này';form.append(input,send);
+      form.onsubmit=async event=>{
+        event.preventDefault();send.disabled=true;
+        try {await finish(order,input.value);await listOrders();}
+        catch(error){message(error.message);send.disabled=false;}
+      };
+    }
+    list.append(card);
+  }
+}
+let currentImage=Promise.resolve();
+el('imageInput').onchange = event => {
+  const file=event.target.files[0];hasGenerated=false;
+  if(!file) return;
+  const url=URL.createObjectURL(file);
+  img.src=url;
+  currentImage=img.decode().then(()=>{c.width=img.width;c.height=img.height;ctx.drawImage(img,0,0);}).finally(()=>URL.revokeObjectURL(url));
+  currentImage.catch(()=>message('Không đọc được ảnh. Vui lòng chọn JPEG hoặc PNG.'));
+};
+AttendanceTemplate.init();CompletionTemplate.init();PatrolTemplate.init();handleStyleChange();
+el('preview').onclick=()=>prepare().then(()=>c.scrollIntoView({block:'center'})).catch(error=>alert(error.message));
+el('submitOrder').onclick=()=>submitOrder().catch(error=>alert(error.message));
+el('operator').onchange=()=>listOrders().catch(error=>message(error.message));
+window.addEventListener('focus',()=>listOrders().catch(error=>message(error.message)));
+listOrders().catch(()=>message('Trình duyệt chưa cho phép lưu đơn thử.'));
+</script></body></html>

@@ -144,7 +144,23 @@
   z-index: 9999;
 }
 .landing-notice h2 {font-size: 1.3rem; margin: 0 0 12px}
-.landing-notice p {font-size: .94rem; line-height: 1.55; margin: 0 0 12px}
+.landing-notice .notice-box {
+  padding: 12px 14px;
+  border: 1px solid var(--tm-line);
+  border-radius: 12px;
+  background: #172135;
+}
+.landing-notice .notice-box + .notice-box {margin-top: 10px}
+.landing-notice .notice-box h3 {font-size: 1rem; margin: 0 0 4px}
+.landing-notice .notice-box p {font-size: .94rem; line-height: 1.5; margin: 0}
+.landing-notice .notice-box-service {border-color: #368c84; background: #103034}
+.landing-notice .notice-box-service h3 {color: var(--tm-mint)}
+@media (prefers-reduced-motion: no-preference) {
+  .landing-notice[open] .notice-box-service {animation: notice-service-glow 2s ease-in-out 2}
+  @keyframes notice-service-glow {
+    50% {border-color: #5eead4; box-shadow: 0 0 10px #5eead433}
+  }
+}
 .landing-notice .buttons {gap: 8px; margin-top: 16px}
 .landing-notice .buttons > * {flex: 1 1 auto; width: auto; min-height: 44px; padding: 10px; cursor: pointer}
 </style>
@@ -416,8 +432,14 @@ setTimeout(()=>{
 
 <dialog class="landing-notice" id="landing-notice" aria-labelledby="notice-title" aria-describedby="notice-details notice-service">
   <h2 id="notice-title">Thông báo về xác thực ảnh</h2>
-  <p id="notice-details">Do hệ thống xác thực đã cập nhật, ảnh tạo trên web hiện không còn được đảm bảo xác thực 100%. Anh chị vui lòng cân nhắc quy định của công ty trước khi sử dụng. Đội ngũ chúng tôi không chịu trách nhiệm về việc sử dụng ảnh.</p>
-  <p id="notice-service">Bên em có nhận chỉnh ảnh với cam kết xác thực 100%. Anh chị có nhu cầu vui lòng liên hệ qua Zalo.</p>
+  <div class="notice-box">
+    <h3>Lưu ý khi dùng ảnh trên web</h3>
+    <p id="notice-details">Do hệ thống xác thực đã cập nhật, ảnh tạo trên web hiện không còn được đảm bảo xác thực 100%. Anh chị vui lòng cân nhắc quy định của công ty trước khi sử dụng. Đội ngũ chúng tôi không chịu trách nhiệm về việc sử dụng ảnh.</p>
+  </div>
+  <div class="notice-box notice-box-service">
+    <h3>Dịch vụ chỉnh ảnh</h3>
+    <p id="notice-service">Bên em có nhận chỉnh ảnh với cam kết xác thực 100%. Anh chị có nhu cầu vui lòng liên hệ qua Zalo.</p>
+  </div>
   <div class="buttons">
     <form method="dialog" style="display: contents"><button class="btnSub" style="min-height: 44px; cursor: pointer" autofocus>Đóng</button></form>
     <a class="btnMain" href="https://zalo.me/0559027234" target="_blank" rel="noopener">Liên hệ Zalo</a>

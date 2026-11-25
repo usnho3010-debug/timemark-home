@@ -483,7 +483,7 @@ async function renderCanvas(){
   }
 }
 function drawStyleV3(){
-  if(isOn("toggleVertical")) drawVerticalWatermark(fs(0.04));
+  if(isOn("toggleVertical")) drawVerticalWatermark(ctx, c, generatedData.photoCode);
   if(isOn("toggleBrand")) drawBrandMark(fs(0.04));
   const unit=Math.min(c.width,c.height)/1152, W=c.width/unit,H=c.height/unit;
   const d=generatedData, font=()=>{ctx.font='400 38px TemplateOneText';ctx.textBaseline='alphabetic';};
@@ -520,10 +520,10 @@ function drawStyleAttendance(){
 /* ==================================================
    CÁC HÀM HELPER VẼ TỪNG THÀNH PHẦN (GIỮ NGUYÊN LOGIC)
 =================================================== */
-function drawVerticalWatermark(pad){
+function drawVerticalWatermark(ctx, c, photoCode){
   const unit=Math.min(c.width,c.height)/1152;
   // Keep the same identifier while dragging, zooming or exporting this image.
-  if (!generatedData.photoCode) return;
+  if (!photoCode) return;
   ctx.save();
   ctx.translate(c.width-17*unit,c.height*(889/1536));
   ctx.rotate(-Math.PI/2);
@@ -531,7 +531,7 @@ function drawVerticalWatermark(pad){
   ctx.fillStyle='#fff';ctx.textAlign='left';ctx.textBaseline='middle';
   ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=1.5*unit;ctx.shadowOffsetX=unit;ctx.shadowOffsetY=unit;
   drawShield(ctx,-17*unit,0,18*unit,'#fff');
-  ctx.fillText(`${generatedData.photoCode}  Timemark Verified`,0,0,466*unit);
+  ctx.fillText(`${photoCode}  Timemark Verified`,0,0,466*unit);
   ctx.restore();
 }
 
@@ -979,6 +979,7 @@ function drawWatermarkFullName(leftX, y){
       ctx.shadowColor = 'rgba(0,0,0,.5)'; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1;
       shield(ctx, -length / 2 - 42, 0, 39, 'rgba(255,255,255,.9)'); ctx.fillText(codeText, -length / 2, 0); ctx.restore();
     }
+    if (transform.codeOnly) { ctx.restore(); return; }
     if (f.brand) {
       ctx.save(); ctx.font = '600 92px Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
       const tw = ctx.measureText('Time').width, mw = ctx.measureText('mark').width;
@@ -1134,6 +1135,7 @@ function draw(context,canvas,data,transform){
  ctx.save();ctx.textAlign='left';ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
  const unit=Math.min(w,h)/3024,W=w/unit,H=h/unit;ctx.save();ctx.scale(unit,unit);
  if(on('Code') && data.photoCode){ctx.save();ctx.translate(W-20,H*.595);ctx.rotate(-Math.PI/2);font(77);ctx.fillStyle='#fff';shield(0,-27,42);ctx.fillText(state.code+'  Timemark Verified',52,0);ctx.restore();}
+ if(transform.codeOnly){ctx.restore();ctx.restore();drawingData=null;return;}
  if(on('Brand')){font(98,700);const a=ctx.measureText('Time').width,b=ctx.measureText('mark').width;const x=W-44-a-b;ink('Time',x,H-205,98,700,'#ffc533');ink('mark',x+a,H-205,98,700);ink('100% Chân thực',x,H-96,60,400,'#eee',a+b);}
  const bodyWidth=Math.min(1750,W-210);const rows=[];
  function row(text,size=100,weight=400,gap=70){if(text){const lines=wrap(text,bodyWidth,size,weight);rows.push({lines,size,weight,gap,height:lines.length*size*1.22});}}
@@ -1308,6 +1310,7 @@ window.CompletionTemplate=Object.freeze({init,ready,capture,activate,draw,now,gp
     try {
       ctx.scale(unit,unit);ctx.textAlign='left';ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=ctx.shadowOffsetY=0;
       if(f.Code && data.photoCode){ctx.save();ctx.translate(W-8,H*.595);ctx.rotate(-Math.PI/2);font(29);ctx.fillStyle='#fff';shield(0,-10,16);ctx.fillText(data.photoCode+'  Timemark Verified',20,0);ctx.restore();}
+      if(transform.codeOnly) return;
       if(f.Brand){font(36,600,'Arial');const a=ctx.measureText('Time').width,b=ctx.measureText('mark').width,x=W-17-a-b;text('Time',x,H-80,36,600,'#ffc533',undefined,'Arial');text('mark',x+a,H-80,36,600,'#fff',undefined,'Arial');text('100% Chân thực',x,H-40,25,400,'#eee',a+b);}
       const withLogo = f.Logo && data.logo;
       const headerX = withLogo ? 140 : 18, headerWidth = width-headerX-18;
@@ -1407,13 +1410,34 @@ async function submitOrder() {
       name:input.id || input.name, value:input.type === 'checkbox' ? input.checked :
         input.type === 'file' ? input.files[0]?.name || '' : input.value
     }));
-    const order = {id:crypto.randomUUID(), created:Date.now(), template:el('wmStyle').selectedOptions[0].text,
+    const order = {id:crypto.randomUUID(), created:Date.now(), style:getWMStyle(), template:el('wmStyle').selectedOptions[0].text,
       original, fields, base:await png(c), state:'waiting'};
     await transaction('readwrite', store => store.add(order));
     message('Đã lưu đơn. Mở hộp thư xử lý để trả mã cho đơn này.');
     await listOrders();
     el('orders').scrollIntoView();
   } finally { editor.inert = false; }
+}
+async function drawOrderCode(pen, canvas, order, code) {
+  const style = order.style || order.fields.find(field => field.name === 'wmStyle')?.value;
+  const templates = {
+    v3: ['toggleVertical', null],
+    attendance: ['attendanceToggleVertical', AttendanceTemplate],
+    completion: ['cpToggleCode', CompletionTemplate],
+    patrol: ['ptToggleCode', PatrolTemplate]
+  };
+  const entry = templates[style];
+  if (!entry) throw Error('Không xác định được mẫu của đơn.');
+  const [toggle, renderer] = entry;
+  if (order.fields.find(field => field.name === toggle)?.value === false) return;
+  if (!renderer) {
+    drawVerticalWatermark(pen, canvas, code);
+    return;
+  }
+  await renderer.ready();
+  renderer.draw(pen, canvas, {
+    photoCode: code, flags: {Code: true}, switches: {vertical: true}, values: {}
+  }, {codeOnly: true});
 }
 async function finish(order, raw) {
   const code = raw.trim();
@@ -1428,12 +1452,7 @@ async function finish(order, raw) {
     out.width=image.width; out.height=image.height;
     const pen=out.getContext('2d');
     pen.drawImage(image,0,0);
-    const unit=Math.min(out.width,out.height)/1152;
-    pen.translate(out.width-18*unit,out.height*.595);
-    pen.rotate(-Math.PI/2);
-    pen.fillStyle='white'; pen.shadowColor='#000'; pen.shadowBlur=3*unit;
-    pen.font='bold '+(28*unit)+'px Arial';
-    pen.fillText(code,0,0);
+    await drawOrderCode(pen, out, order, code);
     result = await png(out);
   } finally { URL.revokeObjectURL(url); }
   await transaction('readwrite', store => {

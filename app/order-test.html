@@ -1,4 +1,5 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Thử đặt ảnh · Timemark</title>
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>Đặt ảnh Timemark theo mẫu · Bản thử nghiệm</title>
+<meta name="description" content="Chọn một trong bốn mẫu Timemark, tải ảnh, nhập thông tin và xem trước. Theo dõi đơn thử và tải ảnh PNG khi mã ảnh đã được cấp.">
 <link rel="stylesheet" href="theme-app.css?v=20261018">
 <link rel="stylesheet" href="../theme-shared.css?v=20261018">
 <link rel="stylesheet" href="responsive-ui.css?v=20261018">
@@ -6,9 +7,32 @@
 <link rel="stylesheet" href="completion-app.css?v=20261113">
 <link rel="stylesheet" href="patrol-template.css?v=20261113b">
 <style>@font-face{font-family:TemplateOneText;src:url('attendance-assets/RobotoCondensed.ttf');font-weight:100 900}
-body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{width:min(100% - 24px,720px);margin:20px auto 60px}header,.desk{padding:18px;background:#101e32;border-radius:16px;margin:12px 0}.desk input,.desk button,.desk a,header button{font:inherit;padding:10px;border-radius:10px}.desk a,.desk button,header button{display:inline-block;background:#8ae8db;color:#09272c;border:0;cursor:pointer}.desk img{max-width:100%;max-height:240px;display:block;margin:8px 0}.desk article{padding:16px 0;border-top:1px solid #435568}.desk input{max-width:100%;color:#101828;background:white}.style-form:not(.active),[hidden]{display:none!important}.style-form.active{display:block}#c{max-width:100%}.desk p{overflow-wrap:anywhere}.card{margin-bottom:14px}</style></head><body class="tm-app-page"><main><header><h1>Thử đặt ảnh</h1><p>Đơn thử lưu trên trình duyệt này. Hộp thư mô phỏng bước trả mã qua Telegram.</p><button type="button" onclick="document.getElementById('orders').scrollIntoView()">Đơn thử và hộp thư</button></header><section id="editor"><!-- CARD 2: WATERMARK -->
+body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{width:min(100% - 24px,720px);margin:20px auto 60px}header,.desk{padding:18px;background:#101e32;border-radius:16px;margin:12px 0}.desk input,.desk button,.desk a,header button{font:inherit;padding:10px;border-radius:10px}.desk a,.desk button,header button{display:inline-block;background:#8ae8db;color:#09272c;border:0;cursor:pointer}.desk img{max-width:100%;max-height:240px;display:block;margin:8px 0}.desk article{padding:16px 0;border-top:1px solid #435568}.desk input{max-width:100%;color:#101828;background:white}.style-form:not(.active),[hidden]{display:none!important}.style-form.active{display:block}#c{max-width:100%}.desk p{overflow-wrap:anywhere}.card{margin-bottom:14px}</style><style>
+body.tm-app-page{background:#08111d;color:#e7eff5;font-family:Inter,system-ui,sans-serif}
+main{max-width:1040px;width:calc(100% - 32px);margin:0 auto 64px}
+.order-nav{display:flex;gap:12px;align-items:center;justify-content:space-between;border-bottom:1px solid #253549}
+.order-nav a,.order-intro a{color:#8ae8db;text-underline-offset:3px}
+.order-nav a{display:inline-flex;align-items:center;min-height:48px;text-decoration:none;font-size:14px;font-weight:600}
+header.order-intro{background:transparent;padding:24px 0 20px;margin:0;text-align:left}
+.order-intro h1{font:700 clamp(32px,5vw,52px)/1.12 Inter,system-ui,sans-serif;letter-spacing:-.045em;color:#f0f7fb;margin:0 0 10px}
+.order-intro p{max-width:64ch;margin:0 0 10px;color:#c1cfdb}.order-intro small{color:#8ae8db}
+#editor{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+#editor>*{min-width:0;margin:0}
+#editor .card,#orders{padding:clamp(16px,2.5vw,26px);border:1px solid #2a3d50;border-radius:16px;background:#101d2b;color:#e7eff5}
+#editor .section-title,#orders h2{margin:0 0 14px;font-size:20px;line-height:1.3;color:#f0f7fb;text-align:left}
+#editor .form-card,#editor .order-actions{grid-column:1/-1}
+#editor select,#editor textarea,#editor input:not([type=checkbox]):not([type=range]){max-width:100%;font-size:16px}
+.order-actions{display:flex;justify-content:flex-end;gap:10px;background:transparent;padding:0}
+.order-actions button,#orders button,#orders article a{width:auto;min-height:44px;margin:0;padding:10px 18px;font-weight:650}
+#preview{background:#16283a;color:#d7edfa;border:1px solid #38526a}#submitOrder{background:#8ae8db;color:#082326}
+#orders{margin-top:24px;scroll-margin-top:16px}#orders label{display:flex;align-items:center;gap:10px;min-height:44px}#orders input[type=checkbox]{width:18px;height:18px}
+#orders form{display:flex;gap:8px;flex-wrap:wrap}#orders input:not([type=checkbox]){min-width:0;font-size:16px}
+#orders img{border-radius:8px}
+@media(max-width:680px){main{width:calc(100% - 24px)}#editor{grid-template-columns:minmax(0,1fr)}.order-actions button{flex:1;padding-inline:8px}.order-intro p{font-size:15px}#orders form>*{width:100%}}
+</style></head><body class="tm-app-page"><main><nav class="order-nav" aria-label="Điều hướng dịch vụ"><a href="../index.html">← Trang chủ Timemark</a><a href="#orders">Đơn của tôi ↓</a></nav>
+<header class="order-intro"><h1>Đặt ảnh theo mẫu</h1><p>Chọn mẫu, thêm thông tin rồi xem trước ảnh của bạn. Khi đơn được cấp mã, bạn có thể tải ảnh tại <a href="#orders">Đơn của tôi</a>.</p><small>Bản thử nghiệm · Đơn lưu trên trình duyệt này</small></header><section id="editor"><!-- CARD 2: WATERMARK -->
   <div class="card app-card watermark-card">
-    <h3 class="section-title">Cấu hình Watermark</h3>
+    <h2 class="section-title">Chọn mẫu ảnh</h2>
     <label for="wmStyle">Chọn kiểu tạo ảnh</label>
     <select id="wmStyle" class="style-select-list" onchange="handleStyleChange()" aria-label="Chọn kiểu tạo ảnh">
       <option value="v3">Kiểu tạo ảnh 1</option>
@@ -21,7 +45,7 @@ body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{widt
     
   <!-- CARD 1: UPLOAD -->
   <div class="card app-card upload-card">
-    <h3 class="section-title">Nguồn ảnh</h3>
+    <h2 class="section-title">Tải ảnh lên</h2>
     <label>Ảnh check-in (Bắt buộc)</label>
     <input type="file" id="imageInput" accept="image/*">
     <div data-template-one-only>
@@ -32,7 +56,7 @@ body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{widt
 
   <!-- CARD 3: THÔNG TIN CHECK-IN -->
   <div class="card app-card form-card">
-    <h3 class="section-title">Thông tin Check-in</h3>
+    <h2 class="section-title">Thông tin Check-in</h2>
     <div class="quick-tool-row">
       <button onclick="setNow()" class="btn-secondary">Lấy giờ thực tế</button>
       <button onclick="getGPS()" class="btn-secondary">Lấy vị trí GPS</button>
@@ -111,7 +135,7 @@ body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{widt
 
   <!-- CARD 4: PREVIEW -->
   <div class="card app-card preview-card">
-    <h3 class="section-title">Xem trước</h3>
+    <h2 class="section-title">Xem trước</h2>
     <div class="canvas-wrap">
       <canvas id="c" style="touch-action: none;"></canvas>
     </div>
@@ -119,7 +143,7 @@ body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{widt
 
   <!-- CARD 5: TÙY CHỈNH -->
   <div class="card app-card settings-card">
-    <h3 class="section-title">Tùy chỉnh hiển thị</h3>
+    <h2 class="section-title">Tùy chỉnh hiển thị</h2>
     <div class="scale-control" style="margin-top: 0; margin-bottom: 16px; background: transparent; padding: 0; border: none;">
       <label>🔍 Kích thước thông tin: <span id="scaleDisplay">100</span>%</label>
       <input type="range" id="wmScaleSlider" min="50" max="180" value="100" oninput="updateWmScale(this.value)">
@@ -152,8 +176,8 @@ body{margin:0;background:#081121;color:#edf5fc;font:16px/1.5 system-ui}main{widt
   </div>
 
   
-<div class="desk"><button id="preview">Xem trước</button> <button id="submitOrder">Mua ảnh thử</button></div></section>
-<section class="desk" id="orders"><h2>Đơn thử</h2><label><input id="operator" type="checkbox"> Mở hộp thư xử lý (giả lập Telegram)</label><p role="status" id="msg"></p><div id="list"></div></section></main><script>
+<div class="desk order-actions"><button id="preview">Xem trước</button> <button id="submitOrder">Gửi đơn thử →</button></div></section>
+<section class="desk" id="orders"><h2>Đơn của tôi</h2><label><input id="operator" type="checkbox"> Mở hộp thư xử lý (giả lập Telegram)</label><p role="status" id="msg"></p><div id="list"></div></section></main><script>
 function toggleAdvanced(){
   const panel = document.getElementById("advancedPanel");
   const btn = document.querySelector(".btnToggle");
